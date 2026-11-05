@@ -1,0 +1,29 @@
+name: probe pause.pid message timing
+
+on:
+  push:
+
+permissions: {}
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: timed install step
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          image="$RUNNER_TEMP/podman"
+          gh release download --repo pkgforge-dev/distrobox-AppImage \
+            --pattern "*anylinux-$(uname -m).AppImage" \
+            --output "$image"
+          chmod +x "$image"
+          echo "$(date +%T.%N) before-install version"
+          podman --version
+          echo "$(date +%T.%N) sudo install"
+          sudo install -m 755 "$image" /usr/bin/podman
+          echo "$(date +%T.%N) after-install version"
+          podman --version
+          echo "$(date +%T.%N) info"
+          podman info > /dev/null
+          echo "$(date +%T.%N) done"
