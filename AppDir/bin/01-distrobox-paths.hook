@@ -39,8 +39,12 @@ if [ -n "$pause_pid_file" ] && [ -r "$pause_pid_file" ]; then
 	case "$pause_pid" in
 	'' | *[!0-9]*) pause_pid= ;;
 	esac
-	if [ -n "$pause_pid" ] && [ -r /proc/"$pause_pid"/mountinfo ] \
-		&& ! grep -qF " $APPDIR " /proc/"$pause_pid"/mountinfo; then
+	# a recycled PID must never be killed: podman's pause process is the
+	# process whose environ carries _PODMAN_PAUSE=1 (rootless_linux.c)
+	if [ -n "$pause_pid" ] && [ -r /proc/"$pause_pid"/environ ] \
+		&& tr '\0' '\n' < /proc/"$pause_pid"/environ | grep -qx '_PODMAN_PAUSE=1' \
+		&& [ -r /proc/"$pause_pid"/mountinfo ] \
+		&& ! grep -qF " $(printf '%s' "$APPDIR" | sed 's/\\/\\134/g; s/ /\\040/g; s/	/\\011/g') " /proc/"$pause_pid"/mountinfo; then
 		running=
 		for ns in /proc/[0-9]*/ns/mnt; do
 			pid=${ns#/proc/}
