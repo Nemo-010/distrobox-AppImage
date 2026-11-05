@@ -116,8 +116,13 @@ jobs:
           chmod +x "$image"
           echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
           echo "DISABLE_AUTO_UPDATES=1" >> "$GITHUB_ENV"
-          # the first rootless run on a machine fails once while podman sets up
-          # its pause process: get that out of the way here, not in a test
+          # Ubuntu puts any process that creates an unprivileged user namespace
+          # into the unprivileged_userns AppArmor profile, whose exception only
+          # covers /usr/bin/podman. Podman anywhere else, such as this AppImage,
+          # then cannot re-exec /proc/self/exe, which it does on its first
+          # rootless run. The runner is disposable, so lift the restriction and
+          # keep a retry for anything that cannot.
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0 || true
           "$image" info > /dev/null 2>&1 || "$image" info > /dev/null
           "$image" --version
 
