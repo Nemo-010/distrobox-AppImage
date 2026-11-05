@@ -1,0 +1,25 @@
+#!/bin/bash
+
+print_version_json() {
+  local version="4.0.0"
+  printf '{"Client":{"Version": "%s"}}\n' "$version"
+}
+
+main() {
+  if [[ "$1" == "version" && "$2" == "-f" && "$3" == "json" ]]; then
+    print_version_json
+  elif [[ "$1" == "build" && "$7" == *"cli_test.tar.gz" ]]; then
+    tarpath=$(echo "$7" | awk -F ':' '{print $2}')
+    echo "Exporting image to a tarball (JK JUST A MOCK!)"
+    echo "${tarpath}"
+    touch $tarpath
+  elif [[ "$1" == "image" && "$2" == "scp" ]]; then
+    echo "Copying image $3 to $4"
+  elif [[ "$1" == "rmi" && "$2" == "$BB_TEST_LOCAL_IMAGE" ]]; then
+    echo "Removing image $2"
+  else
+    echo 'Running podman'
+  fi
+}
+
+main "$@"

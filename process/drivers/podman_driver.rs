@@ -1,0 +1,1138 @@
+use std::{
+    collections::BTreeSet,
+    fs::{self, File},
+    ops::Not,
+    path::Path,
+    process::{Command, ExitStatus, Stdio},
+    time::Duration,
+};
+
+use blue_build_utils::{
+    constants::USER,
+    container::{ContainerId, Digest, ImageRef, MountId},
+    credentials::Credentials,
+    get_env_var,
+    platform::Platform,
+    secret::SecretArgs,
+    semver::Version,
+    string_vec, sudo_cmd, tempdir,
+};
+use colored::Colorize;
+use comlexr::{cmd, pipe};
+use log::{debug, error, info, trace, warn};
+use miette::{Context, IntoDiagnostic, Result, bail};
+use oci_client::Reference;
+use rayon::prelude::*;
+use serde::Deserialize;
+
+use super::{
+    BuildChunkedOciDriver, BuildDriver, ContainerMountDriver, DriverVersion, ImageStorageDriver,
+    PostBuildDriver, RechunkDriver, RunDriver,
+    opts::{
+        BuildOpts, BuildTagPushOpts, ContainerOpts, CreateContainerOpts, InspectImageOpts,
+        ManifestCreateOpts, ManifestPushOpts, PostBuildDriverOpts, PostBuildOpts, PruneOpts,
+        PullOpts, PushOpts, RemoveContainerOpts, RemoveImageOpts, RunOpts, RunOptsEnv,
+        RunOptsVolume, TagOpts, UntagOpts, VolumeOpts,
+    },
+    rpm_ostree_runner::RpmOstreeRunner,
+};
+use crate::{
+    logging::CommandLogging,
+    run_volumes,
+    signal_handler::{ContainerRuntime, ContainerSignalId, DetachedContainer, add_cid, remove_cid},
+};
+
+const SUDO_PROMPT: &str = "Password for %u required to run 'podman' as privileged";
+
+#[derive(Debug, Deserialize)]
+struct PodmanVersionJsonClient {
+    #[serde(alias = "Version")]
+    pub version: Version,
+}
+
+#[derive(Debug, Deserialize)]
+struct PodmanVersionJson {
+    #[serde(alias = "Client")]
+    pub client: PodmanVersionJsonClient,
+}
+
+#[derive(Debug)]
+pub struct PodmanDriver;
+
+impl PodmanDriver {
+    /// Copy an image from the user container
+    /// store to the root container store for
+    /// booting off of.
+    ///
+    /// # Errors
+    /// Will error if the image can't be copied.
+    pub fn copy_image_to_root_store(image: &Reference) -> Result<()> {
+        let image = image.whole();
+        let status = {
+            let c = sudo_cmd!(
+                prompt = SUDO_PROMPT,
+                "podman",
+                "image",
+                "scp",
+                format!("{}@localhost::{image}", get_env_var(USER)?),
+                "root@localhost::"
+            );
+            trace!("{c:?}");
+            c
+        }
+        .build_status(&image, "Copying image to root container store")
+        // .status()
+        .into_diagnostic()?;
+
+        if status.success().not() {
+            bail!(
+                "Failed to copy image {} to root container store",
+                image.bold()
+            );
+        }
+
+        Ok(())
+    }
+
+    pub(crate) fn get_podman_info(fmt: &str) -> Result<String> {
+        let output = cmd!("podman", "info", format!("--format={fmt}"))
+            .output()
+            .into_diagnostic()?;
+        if !output.status.success() {
+            bail!("Failed to find podman info {fmt}");
+        }
+        let mut stdout = output.stdout;
+        while stdout.pop_if(|byte| byte.is_ascii_whitespace()).is_some() {}
+        String::from_utf8(stdout).into_diagnostic()
+    }
+
+    /// Push a manifest list to a remote registry, applying workarounds for the following bug:
+    /// https://github.com/containers/podman/issues/27796
+    /// This ensures that layer annotations are preserved by pushing.
+    ///
+    /// Currently the following workaround steps are applied:
+    ///
+    /// * To ensure the pushing is done by a newer podman version, a container allowing
+    ///   podman-in-podman operations to be run can be provided.
+    /// * The manifest list is pushed twice.
+    ///
+    /// This is a hack, and at the time of writing, it's not clear why this works (if we knew, we
+    /// could probably fix the bug in podman).
+    ///
+    /// # Errors
+    /// Returns an error if any of the container operations fails.
+    pub(crate) fn manifest_push_with_layer_annotation_bug_workaround(
+        opts: ManifestPushOpts,
+        podman_in_podman_container: Option<&DetachedContainer>,
+        podman_storage_dir: &str,
+        tmp_dir: &Path,
+    ) -> Result<Digest> {
+        let Some(container) = podman_in_podman_container else {
+            return Self::manifest_push(opts).and_then(|_| Self::manifest_push(opts));
+        };
+
+        let digestfile = tmp_dir.join("digest");
+
+        for i in 0..2 {
+            let status = {
+                let c = cmd!(
+                    "podman",
+                    "exec",
+                    container.id(),
+                    "podman",
+                    format!("--root={podman_storage_dir}"),
+                    "manifest",
+                    "push",
+                    format!("--digestfile={}", digestfile.display()),
+                    "--authfile=/run/containers/auth.json",
+                    if let Some(compression_fmt) = opts.compression_type => format!(
+                        "--compression-format={compression_fmt}"
+                    ),
+                    if i != 0 => "--quiet",
+                    opts.final_image.to_string(),
+                    format!("docker://{}", opts.final_image),
+                );
+                trace!("{c:?}");
+                c
+            }
+            .build_status(
+                opts.final_image.to_string(),
+                format!("Pushing manifest {}...", opts.final_image),
+            )
+            .into_diagnostic()?;
+            if !status.success() {
+                bail!("Failed to push manifest for {}", opts.final_image);
+            }
+        }
+
+        fs::read_to_string(digestfile).into_diagnostic()?.parse()
+    }
+}
+
+impl DriverVersion for PodmanDriver {
+    // First podman version to use buildah v1.24
+    // https://github.com/containers/podman/blob/main/RELEASE_NOTES.md#400
+    const VERSION_REQ: &'static str = ">=4";
+
+    fn version() -> Result<Version> {
+        trace!("PodmanDriver::version()");
+
+        let output = {
+            let c = cmd!("podman", "version", "-f", "json");
+            trace!("{c:?}");
+            c
+        }
+        .output()
+        .into_diagnostic()?;
+
+        let version_json: PodmanVersionJson = serde_json::from_slice(&output.stdout)
+            .inspect_err(|e| error!("{e}: {}", String::from_utf8_lossy(&output.stdout)))
+            .into_diagnostic()?;
+        trace!("{version_json:#?}");
+
+        Ok(version_json.client.version)
+    }
+}
+
+impl BuildDriver for PodmanDriver {
+    fn build(opts: BuildOpts) -> Result<()> {
+        trace!("PodmanDriver::build({opts:#?})");
+
+        if let Some(base_image) = opts.base_image {
+            debug!("Pulling image {base_image}");
+            // Pull with retries to reduce the chance of network/server issues causing an early
+            // build failure:
+            Self::pull(
+                PullOpts::builder()
+                    .image(base_image)
+                    .maybe_platform(opts.platform)
+                    .retry_count(3)
+                    .privileged(opts.privileged)
+                    .build(),
+            )?;
+        }
+
+        let temp_dir = tempdir().wrap_err("Failed to create temporary directory for secrets")?;
+
+        let command = sudo_cmd!(
+            prompt = SUDO_PROMPT,
+            sudo_check = opts.privileged,
+            "podman",
+            "build",
+            if let Some(platform) = opts.platform => [
+                "--platform",
+                platform.to_string(),
+            ],
+            match opts.cache_from.as_ref() {
+                Some(cache_from) if !opts.squash => [
+                    "--cache-from",
+                    format!(
+                        "{}/{}",
+                        cache_from.registry(),
+                        cache_from.repository()
+                    ),
+                ],
+                _ => [],
+            },
+            match opts.cache_from.as_ref() {
+                Some(cache_to) if !opts.squash => [
+                    "--cache-to",
+                    format!(
+                        "{}/{}",
+                        cache_to.registry(),
+                        cache_to.repository()
+                    ),
+                ],
+                _ => [],
+            },
+            if opts.host_network => "--net=host",
+            if !opts.squash => "--layers",
+            if opts.squash => "--squash",
+            "-f",
+            opts.containerfile,
+            "-t",
+            opts.image.to_string(),
+            for opts.secrets.args(&temp_dir)?,
+            if opts.secrets.ssh() => "--ssh",
+            ".",
+        );
+
+        trace!("{command:?}");
+        let status = command
+            .build_status(opts.image.to_string(), "Building Image")
+            .into_diagnostic()?;
+
+        if status.success() {
+            info!("Successfully built {}", opts.image);
+        } else {
+            bail!("Failed to build {}", opts.image);
+        }
+        Ok(())
+    }
+
+    fn tag(opts: TagOpts) -> Result<()> {
+        trace!("PodmanDriver::tag({opts:#?})");
+
+        let dest_image_str = opts.dest_image.to_string();
+
+        let mut command = sudo_cmd!(
+            prompt = SUDO_PROMPT,
+            sudo_check = opts.privileged,
+            "podman",
+            "tag",
+            opts.src_image.to_string(),
+            &dest_image_str
+        );
+
+        trace!("{command:?}");
+        let status = command.status().into_diagnostic()?;
+
+        if status.success() {
+            info!("Successfully tagged {}!", dest_image_str.bold().green());
+        } else {
+            bail!("Failed to tag image {}", dest_image_str.bold().red());
+        }
+        Ok(())
+    }
+
+    fn untag(opts: UntagOpts) -> Result<()> {
+        trace!("PodmanDriver::untag({opts:#?})");
+
+        let ref_string = opts.image.to_string();
+
+        let mut command = sudo_cmd!(
+            prompt = SUDO_PROMPT,
+            sudo_check = opts.privileged,
+            "podman",
+            "untag",
+            &ref_string, // identify image by reference
+            &ref_string, // remove this reference
+        );
+
+        trace!("{command:?}");
+        let status = command.status().into_diagnostic()?;
+
+        if status.success() {
+            info!("Successfully untagged {}", ref_string.bold().green());
+        } else {
+            bail!("Failed to untag image {}", ref_string.bold().red());
+        }
+        Ok(())
+    }
+
+    fn push(opts: PushOpts) -> Result<Digest> {
+        trace!("PodmanDriver::push({opts:#?})");
+
+        let image_str = opts.image.to_string();
+
+        let digestfile = tempdir()?;
+        let digestfile = digestfile.path().join("digest");
+
+        let command = sudo_cmd!(
+            prompt = SUDO_PROMPT,
+            sudo_check = opts.privileged,
+            "podman",
+            "push",
+            format!("--digestfile={}", digestfile.display()),
+            format!(
+                "--compression-format={}",
+                opts.compression_type.unwrap_or_default()
+            ),
+            &image_str,
+        );
+
+        trace!("{command:?}");
+        let status = command
+            .build_status(&image_str, "Pushing Image")
+            .into_diagnostic()?;
+
+        if status.success() {
+            info!("Successfully pushed {}!", image_str.bold().green());
+        } else {
+            bail!("Failed to push image {}", image_str.bold().red());
+        }
+
+        fs::read_to_string(digestfile).into_diagnostic()?.parse()
+    }
+
+    fn pull(opts: PullOpts) -> Result<ContainerId> {
+        trace!("PodmanDriver::pull({opts:#?})");
+
+        let image_str = opts.image.to_string();
+
+        let mut command = sudo_cmd!(
+            prompt = SUDO_PROMPT,
+            sudo_check = opts.privileged,
+            "podman",
+            "pull",
+            "--quiet",
+            if let Some(platform) = opts.platform => format!("--platform={platform}"),
+            &image_str,
+        );
+
+        info!("Pulling image {image_str}...");
+
+        trace!("{command:?}");
+        let output = blue_build_utils::retry(
+            opts.retry_count.unwrap_or(1),
+            Duration::from_secs(5),
+            || {
+                let output = command.output().into_diagnostic()?;
+                if !output.status.success() {
+                    let err_out = String::from_utf8_lossy(&output.stderr);
+                    bail!(
+                        "Failed to pull image {}:\n{}",
+                        image_str.bold().red(),
+                        err_out
+                    );
+                }
+                Ok(output)
+            },
+        )?;
+        info!("Successfully pulled image {}", image_str.bold().green());
+        let container_id = {
+            let mut stdout = output.stdout;
+            while stdout.pop_if(|byte| byte.is_ascii_whitespace()).is_some() {}
+            ContainerId(String::from_utf8(stdout).into_diagnostic()?)
+        };
+        Ok(container_id)
+    }
+
+    fn login(server: &str) -> Result<()> {
+        trace!("PodmanDriver::login()");
+
+        if let Some(Credentials::Basic { username, password }) = Credentials::get(server) {
+            let output = pipe!(
+                stdin = password.value();
+                {
+                    let c = cmd!(
+                        "podman",
+                        "login",
+                        "-u",
+                        &username,
+                        "--password-stdin",
+                        server,
+                    );
+                    trace!("{c:?}");
+                    c
+                }
+            )
+            .output()
+            .into_diagnostic()?;
+
+            if !output.status.success() {
+                let err_out = String::from_utf8_lossy(&output.stderr);
+                bail!("Failed to login for podman:\n{}", err_out.trim());
+            }
+            debug!("Logged into {server}");
+        }
+        Ok(())
+    }
+
+    fn prune(opts: PruneOpts) -> Result<()> {
+        trace!("PodmanDriver::prune({opts:?})");
+
+        let status = {
+            let c = cmd!(
+                "podman",
+                "system",
+                "prune",
+                "--force",
+                if opts.all => "--all",
+                if opts.volumes => "--volumes",
+            );
+            trace!("{c:?}");
+            c
+        }
+        .message_status("podman system prune", "Pruning Podman System")
+        .into_diagnostic()?;
+
+        if !status.success() {
+            bail!("Failed to prune podman");
+        }
+
+        Ok(())
+    }
+
+    fn manifest_create(opts: ManifestCreateOpts) -> Result<()> {
+        let output = {
+            let c = cmd!("podman", "manifest", "rm", opts.final_image.to_string());
+            trace!("{c:?}");
+            c
+        }
+        .output()
+        .into_diagnostic()?;
+
+        if output.status.success() {
+            warn!(
+                "Existing image manifest {} exists, removing...",
+                opts.final_image
+            );
+        }
+
+        let output = {
+            let c = cmd!(
+                "podman",
+                "manifest",
+                "create",
+                "--all",
+                opts.final_image.to_string(),
+                for image in opts.image_list => format!("containers-storage:{image}"),
+            );
+            trace!("{c:?}");
+            c
+        }
+        .output()
+        .into_diagnostic()?;
+
+        if !output.status.success() {
+            bail!(
+                "Failed to create manifest for {}:\n{}",
+                opts.final_image,
+                String::from_utf8_lossy(&output.stderr)
+            );
+        }
+
+        Ok(())
+    }
+
+    fn manifest_push(opts: ManifestPushOpts) -> Result<Digest> {
+        let image = &opts.final_image.to_string();
+
+        let digestfile = tempdir()?;
+        let digestfile = digestfile.path().join("digest");
+
+        let status = {
+            let c = cmd!(
+                "podman",
+                "manifest",
+                "push",
+                format!("--digestfile={}", digestfile.display()),
+                if let Some(compression_fmt) = opts.compression_type => format!(
+                    "--compression-format={compression_fmt}"
+                ),
+                image,
+                format!("docker://{}", opts.final_image),
+            );
+            trace!("{c:?}");
+            c
+        }
+        .build_status(image, format!("Pushing manifest {image}..."))
+        .into_diagnostic()?;
+
+        if !status.success() {
+            bail!("Failed to create manifest for {}", opts.final_image);
+        }
+
+        fs::read_to_string(digestfile).into_diagnostic()?.parse()
+    }
+}
+
+impl PostBuildDriver for PodmanDriver {
+    #[expect(clippy::too_many_lines)]
+    fn build_tag_push_with_post_build(
+        opts: BuildTagPushOpts,
+        pb_opts: PostBuildDriverOpts,
+    ) -> Result<(Vec<String>, Option<Digest>)> {
+        trace!("PostBuildDriver::build_tag_push_with_post_build({opts:#?}, {pb_opts:#?})");
+
+        assert!(
+            opts.platform.is_empty().not(),
+            "Must have at least 1 platform"
+        );
+
+        pb_opts.post_build.check_driver_requirements()?;
+
+        let build_opts_base = BuildOpts::builder()
+            .containerfile(opts.containerfile.as_ref())
+            .squash(true)
+            .secrets(opts.secrets)
+            .privileged(opts.privileged);
+
+        let images_to_process: Vec<(ImageRef, ImageRef, Platform)> = opts
+            .platform
+            .par_iter()
+            .map(|&platform| {
+                let final_image = opts.image.with_platform(platform);
+                let raw_image =
+                    final_image.append_tag(&"raw".parse().expect("Should be a valid tag"));
+                info!("Building image {final_image}");
+                Self::build(
+                    build_opts_base
+                        .clone()
+                        .image(&raw_image)
+                        .platform(platform)
+                        .build(),
+                )?;
+                Ok((raw_image, final_image, platform))
+            })
+            .collect::<Result<Vec<_>>>()?;
+
+        if pb_opts.remove_base_image
+            && let Some(base_image) = opts.base_image
+        {
+            Self::remove_image(
+                RemoveImageOpts::builder()
+                    .image(base_image)
+                    .privileged(opts.privileged)
+                    .build(),
+            )?;
+            Self::prune(PruneOpts::builder().volumes(true).build())?;
+        }
+
+        let post_build_runner = pb_opts.post_build.init()?;
+        let previous_image = pb_opts.use_previous_image.then_some(opts.image);
+        for (input_image, output_image, platform) in images_to_process {
+            post_build_runner.post_build(
+                PostBuildOpts::builder()
+                    .input_image(&input_image)
+                    .output_image(&output_image)
+                    .maybe_previous_image(previous_image)
+                    .platform(platform)
+                    .build(),
+            )?;
+            if let ImageRef::Remote(input_image) = input_image {
+                Self::remove_image(RemoveImageOpts::builder().image(&input_image).build())?;
+            }
+        }
+
+        let podman_storage_dir = Self::get_podman_info("{{.Store.GraphRoot}}")?;
+        let runtime_container_dir = Self::get_podman_info("{{.Store.RunRoot}}")?;
+        let tmp_dir = tempdir()?;
+        // This is to ensure a recent podman version is used when applying workarounds for the
+        // following podman bug that prevents layer annotations from being pushed:
+        // https://github.com/containers/podman/issues/27796
+        let podman_in_podman_container = if *Self::version()? < semver::Version::new(5, 0, 0) {
+            let tmp_dir = &tmp_dir.path().display().to_string();
+            let container = Self::run_detached(
+                RunOpts::builder()
+                    .image("quay.io/podman/stable:latest@sha256:f345d8d4fddea244d3a1ced27bcec82d14cc9e32cb5ead7f5882b0baf59dc8b0")
+                    .pull(true)
+                    .privileged(true)
+                    .rootless(true)
+                    .remove(true)
+                    .volumes(&run_volumes![
+                        &podman_storage_dir => &podman_storage_dir,
+                        &runtime_container_dir => "/run/containers",
+                        tmp_dir => tmp_dir,
+                    ])
+                    .args(&[
+                        "/bin/sh".to_owned(),
+                        "-c".to_owned(),
+                        "while true; do sleep 86400; done".to_owned(),
+                    ])
+                    .build(),
+            )?;
+            Some(container)
+        } else {
+            None
+        };
+
+        let mut digests: BTreeSet<Digest> = BTreeSet::new();
+
+        let image_list: Vec<String> = match &opts.image {
+            ImageRef::Remote(image) if !opts.tags.is_empty() => {
+                debug!("Tagging all images");
+
+                let mut image_list = Vec::with_capacity(opts.tags.len());
+                let platform_images = opts
+                    .platform
+                    .iter()
+                    .map(|&platform| platform.tagged_image(image))
+                    .collect::<Vec<_>>();
+
+                for tag in opts.tags {
+                    debug!("Tagging {image} with {tag}");
+                    let tagged_image = Reference::with_tag(
+                        image.registry().into(),
+                        image.repository().into(),
+                        tag.to_string(),
+                    );
+
+                    Self::manifest_create(
+                        ManifestCreateOpts::builder()
+                            .final_image(&tagged_image)
+                            .image_list(&platform_images)
+                            .build(),
+                    )?;
+                    image_list.push(tagged_image.to_string());
+
+                    if opts.push {
+                        let retry_count = if opts.retry_push { opts.retry_count } else { 0 };
+
+                        // Push images with retries
+                        let digest =
+                            blue_build_utils::retry(retry_count, Duration::from_secs(5), || {
+                                debug!("Pushing image {tagged_image}");
+
+                                Self::manifest_push_with_layer_annotation_bug_workaround(
+                                    ManifestPushOpts::builder()
+                                        .final_image(&tagged_image)
+                                        .compression_type(opts.compression)
+                                        .build(),
+                                    podman_in_podman_container.as_ref(),
+                                    &podman_storage_dir,
+                                    tmp_dir.path(),
+                                )
+                            })?;
+
+                        digests.insert(digest);
+                    }
+                }
+
+                image_list
+            }
+            _ => {
+                string_vec![opts.image]
+            }
+        };
+
+        if digests.len() > 1 {
+            bail!("Did not expect more than one digest:\n{digests:#?}");
+        }
+
+        Ok((image_list, digests.into_iter().next()))
+    }
+}
+
+impl BuildChunkedOciDriver for PodmanDriver {
+    fn manifest_create_with_runner(
+        runner: &RpmOstreeRunner,
+        opts: ManifestCreateOpts,
+    ) -> Result<()> {
+        trace!("PodmanDriver::manifest_create_with_runner({runner:#?}, {opts:#?})");
+        let (cmd, args) = runner.command_args("podman", &["manifest"]);
+        let output = {
+            let c = cmd!(&cmd, for &args, "rm", opts.final_image.to_string());
+            trace!("{c:?}");
+            c
+        }
+        .output()
+        .into_diagnostic()?;
+
+        if output.status.success() {
+            warn!(
+                "Existing image manifest {} exists, removing...",
+                opts.final_image
+            );
+        }
+
+        let output = {
+            let c = cmd!(
+                &cmd,
+                for &args,
+                "create",
+                "--all",
+                opts.final_image.to_string(),
+                for image in opts.image_list => format!("containers-storage:{image}"),
+            );
+            trace!("{c:?}");
+            c
+        }
+        .output()
+        .into_diagnostic()?;
+
+        if !output.status.success() {
+            bail!(
+                "Failed to create manifest for {}:\n{}",
+                opts.final_image,
+                String::from_utf8_lossy(&output.stderr)
+            );
+        }
+
+        Ok(())
+    }
+
+    fn manifest_push_with_runner(
+        runner: &RpmOstreeRunner,
+        opts: ManifestPushOpts,
+    ) -> Result<Digest> {
+        trace!("PodmanDriver::manifest_push_with_runner({runner:#?}, {opts:#?})");
+        let (cmd, args) = runner.command_args("podman", &["manifest"]);
+        let image = &opts.final_image.to_string();
+
+        let digestfile = runner.tmp_dir().join("digest");
+
+        let status = {
+            let c = cmd!(
+                cmd,
+                for args,
+                "push",
+                format!("--digestfile={}", digestfile.display()),
+                if let Some(authfile) = runner.authfile() => ["--authfile", authfile],
+                if let Some(compression_fmt) = opts.compression_type => format!(
+                    "--compression-format={compression_fmt}"
+                ),
+                image,
+                format!("docker://{}", opts.final_image),
+            );
+            trace!("{c:?}");
+            c
+        }
+        .build_status(image, format!("Pushing manifest {image}..."))
+        .into_diagnostic()?;
+
+        if !status.success() {
+            bail!("Failed to create manifest for {}", opts.final_image);
+        }
+
+        fs::read_to_string(digestfile).into_diagnostic()?.parse()
+    }
+
+    fn pull_with_runner(runner: &RpmOstreeRunner, opts: PullOpts) -> Result<ContainerId> {
+        trace!("PodmanDriver::pull_with_runner({runner:#?}, {opts:#?})");
+        let (cmd, args) = runner.command_args("podman", &["pull"]);
+        let image_str = opts.image.to_string();
+        let mut command = cmd!(
+            cmd,
+            for args,
+            "--quiet",
+            if let Some(retries) = opts.retry_count => format!("--retry={retries}"),
+            if let Some(platform) = opts.platform => format!("--platform={platform}"),
+            &image_str,
+        );
+        info!("Pulling image {image_str}...");
+
+        trace!("{command:?}");
+        let output = command.output().into_diagnostic()?;
+
+        if !output.status.success() {
+            bail!("Failed to pull image {}", image_str.bold().red());
+        }
+        info!("Successfully pulled image {}", image_str.bold().green());
+        let container_id = {
+            let mut stdout = output.stdout;
+            while stdout.pop_if(|byte| byte.is_ascii_whitespace()).is_some() {}
+            ContainerId(String::from_utf8(stdout).into_diagnostic()?)
+        };
+        Ok(container_id)
+    }
+
+    fn remove_image_with_runner(runner: &RpmOstreeRunner, image_ref: &str) -> Result<()> {
+        trace!("PodmanDriver::remove_image_with_runner({runner:?}, {image_ref})");
+        let (cmd, args) = runner.command_args("podman", &["rmi"]);
+        let output = {
+            let c = cmd!(cmd, for args, image_ref);
+            trace!("{c:?}");
+            c
+        }
+        .output()
+        .into_diagnostic()?;
+
+        if !output.status.success() {
+            bail!("Failed to remove the image {image_ref}");
+        }
+
+        Ok(())
+    }
+}
+
+impl ContainerMountDriver for PodmanDriver {
+    fn mount_container(opts: ContainerOpts) -> Result<MountId> {
+        let output = {
+            let c = sudo_cmd!(
+                prompt = SUDO_PROMPT,
+                sudo_check = opts.privileged,
+                "podman",
+                "mount",
+                opts.container_id,
+            );
+            trace!("{c:?}");
+            c
+        }
+        .output()
+        .into_diagnostic()?;
+
+        if !output.status.success() {
+            bail!("Failed to mount container {}", opts.container_id);
+        }
+
+        Ok(MountId(
+            String::from_utf8(output.stdout.trim_ascii().to_vec()).into_diagnostic()?,
+        ))
+    }
+
+    fn unmount_container(opts: ContainerOpts) -> Result<()> {
+        let output = {
+            let c = sudo_cmd!(
+                prompt = SUDO_PROMPT,
+                sudo_check = opts.privileged,
+                "podman",
+                "unmount",
+                opts.container_id
+            );
+            trace!("{c:?}");
+            c
+        }
+        .output()
+        .into_diagnostic()?;
+
+        if !output.status.success() {
+            bail!("Failed to unmount container {}", opts.container_id);
+        }
+
+        Ok(())
+    }
+
+    fn remove_volume(opts: VolumeOpts) -> Result<()> {
+        let output = {
+            let c = sudo_cmd!(
+                prompt = SUDO_PROMPT,
+                sudo_check = opts.privileged,
+                "podman",
+                "volume",
+                "rm",
+                opts.volume_id
+            );
+            trace!("{c:?}");
+            c
+        }
+        .output()
+        .into_diagnostic()?;
+
+        if !output.status.success() {
+            bail!("Failed to remove volume {}", &opts.volume_id);
+        }
+
+        Ok(())
+    }
+}
+
+impl RechunkDriver for PodmanDriver {}
+
+impl RunDriver for PodmanDriver {
+    fn run(opts: RunOpts) -> Result<ExitStatus> {
+        trace!("PodmanDriver::run({opts:#?})");
+
+        let cid_path = tempdir()?;
+        let cid_file = cid_path.path().join("cid");
+
+        let cid = ContainerSignalId::new(&cid_file, ContainerRuntime::Podman, opts.privileged);
+
+        add_cid(&cid);
+
+        let status = podman_run(opts, &cid_file, false)
+            .build_status(opts.image, "Running container")
+            .into_diagnostic()?;
+
+        remove_cid(&cid);
+
+        Ok(status)
+    }
+
+    fn run_output(opts: RunOpts) -> Result<std::process::Output> {
+        trace!("PodmanDriver::run_output({opts:#?})");
+
+        let cid_path = tempdir()?;
+        let cid_file = cid_path.path().join("cid");
+
+        let cid = ContainerSignalId::new(&cid_file, ContainerRuntime::Podman, opts.privileged);
+
+        add_cid(&cid);
+
+        let output = podman_run(opts, &cid_file, false)
+            .output()
+            .into_diagnostic()?;
+
+        remove_cid(&cid);
+
+        Ok(output)
+    }
+
+    fn run_detached(opts: RunOpts) -> Result<DetachedContainer> {
+        trace!("PodmanDriver::run_detached({opts:#?})");
+
+        let cid_path = tempdir()?;
+        let cid_file = cid_path.path().join("cid");
+
+        let cid = ContainerSignalId::new(&cid_file, ContainerRuntime::Podman, opts.privileged);
+        let run_cmd = podman_run(opts, &cid_file, true);
+
+        DetachedContainer::start(cid, run_cmd)
+    }
+
+    fn create_container(opts: CreateContainerOpts) -> Result<ContainerId> {
+        trace!("PodmanDriver::create_container({opts:?})");
+
+        let output = {
+            let c = sudo_cmd!(
+                prompt = SUDO_PROMPT,
+                sudo_check = opts.privileged,
+                "podman",
+                "create",
+                opts.image.to_string(),
+                "bash"
+            );
+            trace!("{c:?}");
+            c
+        }
+        .output()
+        .into_diagnostic()?;
+
+        if !output.status.success() {
+            let err_out = String::from_utf8_lossy(&output.stderr);
+            bail!(
+                "Failed to create a container from image {}:\n{}",
+                opts.image,
+                err_out.trim()
+            );
+        }
+
+        Ok(ContainerId(
+            String::from_utf8(output.stdout.trim_ascii().to_vec()).into_diagnostic()?,
+        ))
+    }
+
+    fn remove_container(opts: RemoveContainerOpts) -> Result<()> {
+        trace!("PodmanDriver::remove_container({opts:?})");
+
+        let output = {
+            let c = sudo_cmd!(
+                prompt = SUDO_PROMPT,
+                sudo_check = opts.privileged,
+                "podman",
+                "rm",
+                opts.container_id,
+            );
+            trace!("{c:?}");
+            c
+        }
+        .output()
+        .into_diagnostic()?;
+
+        if !output.status.success() {
+            let err_out = String::from_utf8_lossy(&output.stderr);
+            bail!(
+                "Failed to remove container {}:\n{}",
+                opts.container_id,
+                err_out.trim()
+            );
+        }
+
+        Ok(())
+    }
+}
+
+impl ImageStorageDriver for PodmanDriver {
+    fn inspect_image(opts: InspectImageOpts) -> Result<Option<Vec<u8>>> {
+        let stdout = if let Some(output_path) = opts.output_path {
+            Stdio::from(File::create(output_path).into_diagnostic()?)
+        } else {
+            Stdio::piped()
+        };
+        let output = cmd!("podman", "image", "inspect", "--", opts.image)
+            .stdout(stdout)
+            .output()
+            .into_diagnostic()?;
+
+        if !output.status.success() {
+            let stderr = String::from_utf8_lossy(&output.stderr);
+            bail!("Failed to inspect image {}:\n{}", opts.image, stderr);
+        }
+
+        Ok(opts.output_path.is_none().then_some(output.stdout))
+    }
+
+    fn remove_image(opts: RemoveImageOpts) -> Result<()> {
+        trace!("PodmanDriver::remove_image({opts:?})");
+
+        let output = {
+            let c = sudo_cmd!(
+                prompt = SUDO_PROMPT,
+                sudo_check = opts.privileged,
+                "podman",
+                "rmi",
+                "--",
+                opts.image.to_string(),
+            );
+            trace!("{c:?}");
+            c
+        }
+        .output()
+        .into_diagnostic()?;
+
+        if !output.status.success() {
+            let err_out = String::from_utf8_lossy(&output.stderr);
+            bail!(
+                "Failed to remove the image {}:\n{}",
+                opts.image,
+                err_out.trim()
+            );
+        }
+
+        Ok(())
+    }
+
+    fn list_images(privileged: bool) -> Result<Vec<Reference>> {
+        #[derive(Deserialize)]
+        #[serde(rename_all = "PascalCase")]
+        struct Image {
+            names: Option<Vec<String>>,
+        }
+
+        trace!("PodmanDriver::list_images({privileged})");
+
+        let output = {
+            let c = sudo_cmd!(
+                prompt = SUDO_PROMPT,
+                sudo_check = privileged,
+                "podman",
+                "images",
+                "--format",
+                "json"
+            );
+            trace!("{c:?}");
+            c
+        }
+        .output()
+        .into_diagnostic()?;
+
+        if !output.status.success() {
+            let err_out = String::from_utf8_lossy(&output.stderr);
+            bail!("Failed to list images:\n{}", err_out.trim());
+        }
+
+        let images: Vec<Image> = serde_json::from_slice(&output.stdout).into_diagnostic()?;
+
+        images
+            .into_iter()
+            .filter_map(|image| image.names)
+            .flat_map(|names| {
+                names
+                    .into_iter()
+                    .map(|name| name.parse::<Reference>().into_diagnostic())
+            })
+            .collect()
+    }
+}
+
+fn podman_run(opts: RunOpts, cid_file: &Path, detach: bool) -> Command {
+    let command = sudo_cmd!(
+        prompt = SUDO_PROMPT,
+        sudo_check = opts.privileged && !opts.rootless,
+        "podman",
+        "run",
+        format!("--cidfile={}", cid_file.display()),
+        if opts.privileged => [
+            "--privileged",
+            "--network=host",
+        ],
+        if opts.remove => "--rm",
+        if detach => "--detach",
+        if opts.pull => "--pull=always",
+        if let Some(user) = opts.user.as_ref() => format!("--user={user}"),
+        for RunOptsVolume { path_or_vol_name, container_path } in opts.volumes.iter() => [
+            "--volume",
+            format!("{path_or_vol_name}:{container_path}"),
+        ],
+        for RunOptsEnv { key, value } in opts.env_vars.iter() => [
+            "--env",
+            format!("{key}={value}"),
+        ],
+        opts.image,
+        for arg in opts.args.iter() => &**arg,
+    );
+    trace!("{command:?}");
+
+    command
+}

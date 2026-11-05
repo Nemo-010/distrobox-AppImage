@@ -1,0 +1,51 @@
+[package]
+name = "blue-build-utils"
+version.workspace = true
+edition.workspace = true
+description.workspace = true
+repository.workspace = true
+license.workspace = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+base64 = "=0.23.1"
+blake2 = "=0.10.6"
+constcat = "=0.6.1"
+directories = "=6.0.0"
+docker_credential = "=1.4.0"
+process_control = { version = "=5.2.0" }
+shellexpand = { version = "=3.1.2", default-features = false, features = ["base-0"] }
+
+bon.workspace = true
+cached.workspace = true
+chrono.workspace = true
+clap = { workspace = true, features = ["derive", "env"] }
+comlexr.workspace = true
+lazy-regex.workspace = true
+log.workspace = true
+miette.workspace = true
+nix = { workspace = true, features = ["user"] }
+oci-client.workspace = true
+rand.workspace = true
+semver = { workspace = true, features = ["serde"] }
+serde.workspace = true
+serde_yaml.workspace = true
+syntect.workspace = true
+tempfile.workspace = true
+tokio = { workspace = true, features = ["time"] }
+uuid.workspace = true
+which.workspace = true
+zeroize.workspace = true
+
+[build-dependencies]
+syntect.workspace = true
+
+[dev-dependencies]
+rstest.workspace = true
+
+[lints]
+workspace = true
+
+[features]
+test = []

@@ -1,0 +1,23 @@
+name: Test blue-build podman driver with the AppImage podman
+
+on:
+  push:
+
+permissions: {}
+
+jobs:
+  podman:
+    uses: ./.github/workflows/run-test.yml
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    with:
+      repo: Nemo-010/distrobox-AppImage
+      ref: ci/bluebuild-source
+      registry_login: true
+      install_podman: true
+      cache_layers: false
+      run: test-podman-build
+    secrets:
+      TEST_SIGNING_SECRET: ${{ secrets.TEST_SIGNING_SECRET }}

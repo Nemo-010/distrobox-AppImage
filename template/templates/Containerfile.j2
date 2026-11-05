@@ -1,0 +1,64 @@
+ARG BASE_IMAGE="{{ recipe.get_base_image() }}@{{ base_digest }}"
+{%- set main_stage = recipe.get_name()|replace('/', "-") %}
+FROM "${BASE_IMAGE}" AS {{ main_stage }}
+{% import "modules/modules.j2" as modules %}
+{% include "stages.j2" %}
+
+# Main image
+FROM {{ main_stage }}
+
+ARG TARGETARCH
+ARG RECIPE={{ recipe_path.display() }}
+ARG IMAGE_REGISTRY={{ registry }}
+ARG BB_BUILD_FEATURES="{{ get_features() }}"
+
+{%- if self::config_dir_exists() && !self::files_dir_exists() %}
+ARG CONFIG_DIRECTORY="/tmp/config"
+{%- else %}
+ARG CONFIG_DIRECTORY="/tmp/files"
+{%- endif %}
+ARG MODULE_DIRECTORY="/tmp/modules"
+ARG IMAGE_NAME="{{ recipe.get_name() }}"
+ARG BASE_IMAGE="{{ recipe.get_base_image() }}"
+
+{%- if self::should_color() %}
+ARG FORCE_COLOR=1
+ARG CLICOLOR_FORCE=1
+ARG RUST_LOG_STYLE=always
+{%- endif %}
+
+{%- if self::has_cosign_file() %}
+# Key RUN
+RUN --mount=type=bind,from=stage-keys,src=/keys,dst=/tmp/keys \
+  mkdir -p /etc/pki/containers/ \
+  && cp /tmp/keys/* /etc/pki/containers/
+{% endif %}
+
+
+{%- if recipe.should_install_bins() %}
+# Bin RUN
+RUN --mount=type=bind,from=stage-bins,src=/bins,dst=/tmp/bins \
+  mkdir -p /usr/bin/ \
+  && cp /tmp/bins/* /usr/bin/
+{%- endif %}
+
+{%- if let Some(version) = recipe.get_nushell_version() %}
+RUN --mount=type=bind,from={{ blue_build_utils::constants::NUSHELL_IMAGE }}:{{ version }},src=/nu,dst=/tmp/nu \
+  mkdir -p /usr/libexec/bluebuild/nu \
+  && cp -r /tmp/nu/* /usr/libexec/bluebuild/nu/
+{%- endif %}
+
+RUN \
+  {{ scripts_mount("/scripts/") }} \
+  /scripts/pre_build.sh
+
+{{ modules::modules_run(recipe.get_processed_modules(), main_stage) }}
+
+RUN \
+  {{ scripts_mount("/scripts/") }} \
+  /scripts/post_build.sh
+
+# Labels are added last since they cause cache misses with buildah
+{%- for (name, value) in labels %}
+LABEL {{ name }}="{{ value }}"
+{%- endfor %}

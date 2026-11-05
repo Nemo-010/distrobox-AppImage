@@ -1,0 +1,7 @@
+name: copy
+shortdesc: The copy module is a direct translation of the `COPY` instruction in a Containerfile.
+example: |
+  type: copy
+  from: docker.io/mikefarah/yq
+  src: /usr/bin/yq
+  dest: /usr/bin/

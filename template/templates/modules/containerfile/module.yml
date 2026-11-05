@@ -1,0 +1,9 @@
+name: containerfile
+shortdesc: The containerfile module enables the addition of custom Containerfile instructions into the build process.
+example: |
+  type: containerfile
+  snippets:
+    - RUN --mount=type=tmpfs,target=/tmp /some/script.sh
+  containerfiles:
+    - example
+    - subroutine

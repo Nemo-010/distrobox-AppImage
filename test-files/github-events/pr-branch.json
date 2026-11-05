@@ -1,0 +1,24 @@
+{
+    "pull_request": {
+        "head": {
+            "ref": "test-branch",
+            "repo": {
+                "default_branch": "main",
+                "owner": {
+                    "login": "gmpinder"
+                },
+                "html_url": "https://example.com/"
+            }
+        },
+        "base": {
+            "ref": "main"
+        }
+    },
+    "repository": {
+        "default_branch": "main",
+        "owner": {
+            "login": "Test-Owner"
+        },
+        "html_url": "https://example.com/"
+    }
+}

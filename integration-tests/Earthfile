@@ -1,0 +1,142 @@
+VERSION 0.8
+
+IMPORT github.com/EarthBuild/lib/utils/dind AS dind
+
+all:
+    BUILD +build
+    BUILD +switch
+    BUILD +validate
+    BUILD +template-containerfile
+    BUILD +template-legacy-containerfile
+
+template-containerfile:
+    FROM +test-base
+    RUN --no-cache bluebuild -v generate recipes/recipe.yml | tee Containerfile
+
+    SAVE ARTIFACT /test
+
+template-legacy-containerfile:
+    FROM +legacy-base
+    RUN --no-cache bluebuild -v template config/recipe.yml | tee Containerfile
+
+    SAVE ARTIFACT /test
+
+build:
+    FROM +test-base
+
+    RUN bluebuild -v build recipes/recipe.yml
+
+build-full:
+    FROM +test-base --MOCK="false"
+
+    DO dind+INSTALL
+
+    ENV BB_USERNAME=gmpinder
+    ENV BB_REGISTRY=ghcr.io
+    ENV BB_REGISTRY_NAMESPACE=blue-build
+
+    WITH DOCKER
+        RUN --secret BB_PASSWORD=github/registry bluebuild build --push -S sigstore -vv recipes/recipe.yml
+    END
+
+switch:
+    FROM +test-base
+
+    RUN --no-cache bluebuild -v switch --boot-driver rpm-ostree recipes/recipe.yml
+    RUN --no-cache bluebuild -v switch --boot-driver bootc recipes/recipe.yml
+
+validate:
+    FROM +test-base
+
+    RUN --no-cache bluebuild -v validate recipes/recipe.yml
+    RUN --no-cache bluebuild -v validate recipes/recipe-gts.yml
+    RUN --no-cache bluebuild -v validate recipes/recipe-arm64.yml
+    RUN --no-cache bluebuild -v validate recipes/recipe-invalid.yml && exit 1 || exit 0
+    RUN --no-cache bluebuild -v validate recipes/recipe-invalid-module.yml && exit 1 || exit 0
+    RUN --no-cache bluebuild -v validate recipes/recipe-invalid-stage.yml && exit 1 || exit 0
+    RUN --no-cache bluebuild -v validate recipes/recipe-invalid-from-file.yml && exit 1 || exit 0
+
+init:
+    FROM +test-base
+
+    WORKDIR /tmp
+    RUN --no-cache bluebuild new test-github \
+        --image-name test-github \
+        --org-name test \
+        --description 'This is a description' \
+        --registry 'ghcr.io' \
+        --ci-provider github
+    RUN --no-cache bluebuild new test-gitlab \
+        --image-name test-gitlab \
+        --org-name test \
+        --description 'This is a description' \
+        --registry 'registry.gitlab.com' \
+        --ci-provider gitlab
+    RUN --no-cache bluebuild new test-none \
+        --image-name test-none \
+        --org-name test \
+        --description 'This is a description' \
+        --registry 'docker.io' \
+        --ci-provider none \
+        --no-git
+
+    WORKDIR /tmp/test-init
+    RUN --no-cache bluebuild init \
+        --image-name test-init \
+        --org-name test \
+        --description 'This is a description' \
+        --registry 'docker.io' \
+        --ci-provider none \
+        --no-git
+
+legacy-base:
+    FROM ../+blue-build-cli
+    ENV BB_TEST_LOCAL_IMAGE=localhost/cli/test:latest
+    ENV CLICOLOR_FORCE=1
+
+    COPY ./mock-scripts/ /usr/bin/
+
+    WORKDIR /test
+    COPY ./legacy-test-repo /test
+
+    DO ../+INSTALL --OUT_DIR="/usr/bin/" --BUILD_TARGET="x86_64-unknown-linux-musl" --TAGGED="true"
+
+    DO +GEN_KEYPAIR
+    ENV USER=root
+
+test-base:
+    FROM ../+blue-build-cli
+    RUN git config --global user.email "you@example.com" && \
+        git config --global user.name "Your Name"
+
+    ENV BB_TEST_LOCAL_IMAGE=localhost/cli/test:latest
+    ENV CLICOLOR_FORCE=1
+
+    ARG MOCK="true"
+    IF [ "$MOCK" = "true" ]
+        COPY ./mock-scripts/ /usr/bin/
+    END
+
+    WORKDIR /test
+    COPY ./test-repo /test
+
+    DO +GEN_KEYPAIR
+    ENV USER=root
+
+GEN_KEYPAIR:
+    FUNCTION
+    # Setup a cosign key pair
+    ENV COSIGN_PASSWORD=""
+    ENV COSIGN_YES="true"
+    RUN cosign generate-key-pair
+    ENV COSIGN_PRIVATE_KEY=$(cat cosign.key)
+    RUN rm cosign.key
+
+RUN_TESTS:
+    FUNCTION
+    FOR script IN $(ls *.sh)
+        RUN --no-cache chmod +x $script \
+            && echo "Running test $script" \
+            && ./$script
+    END
+

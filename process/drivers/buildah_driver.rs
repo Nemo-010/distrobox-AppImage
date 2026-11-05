@@ -1,0 +1,466 @@
+use std::{
+    fs::{self, File},
+    process::Stdio,
+};
+
+use blue_build_utils::{
+    container::{ContainerId, Digest},
+    credentials::Credentials,
+    secret::SecretArgs,
+    semver::Version,
+    sudo_cmd, tempdir,
+};
+use colored::Colorize;
+use comlexr::{cmd, pipe};
+use log::{debug, error, info, trace, warn};
+use miette::{Context, IntoDiagnostic, Result, bail};
+use oci_client::Reference;
+use serde::Deserialize;
+
+use crate::logging::CommandLogging;
+
+use super::{
+    BuildDriver, DriverVersion, ImageStorageDriver,
+    opts::{
+        BuildOpts, InspectImageOpts, ManifestCreateOpts, ManifestPushOpts, PruneOpts, PullOpts,
+        PushOpts, TagOpts, UntagOpts,
+    },
+};
+
+const SUDO_PROMPT: &str = "Password for %u required to run 'buildah' as privileged";
+
+#[derive(Debug, Deserialize)]
+struct BuildahVersionJson {
+    pub version: Version,
+}
+
+#[derive(Debug)]
+pub struct BuildahDriver;
+
+impl DriverVersion for BuildahDriver {
+    // The prune command wasn't present until 1.29
+    const VERSION_REQ: &'static str = ">=1.29";
+
+    fn version() -> Result<Version> {
+        trace!("BuildahDriver::version()");
+
+        let output = {
+            let c = cmd!("buildah", "version", "--json");
+            trace!("{c:?}");
+            c
+        }
+        .output()
+        .into_diagnostic()?;
+
+        let version_json: BuildahVersionJson = serde_json::from_slice(&output.stdout)
+            .inspect_err(|e| error!("{e}: {}", String::from_utf8_lossy(&output.stdout)))
+            .into_diagnostic()?;
+        trace!("{version_json:#?}");
+
+        Ok(version_json.version)
+    }
+}
+
+impl BuildDriver for BuildahDriver {
+    fn build(opts: BuildOpts) -> Result<()> {
+        trace!("BuildahDriver::build({opts:#?})");
+
+        if let Some(base_image) = &opts.base_image {
+            debug!("Pulling image {base_image}");
+            // Pull with retries to reduce the chance of network/server issues causing an early
+            // build failure:
+            Self::pull(
+                PullOpts::builder()
+                    .image(base_image)
+                    .maybe_platform(opts.platform)
+                    .retry_count(3)
+                    .privileged(opts.privileged)
+                    .build(),
+            )?;
+        }
+
+        let temp_dir = tempdir().wrap_err("Failed to create temporary directory for secrets")?;
+
+        let command = sudo_cmd!(
+            prompt = SUDO_PROMPT,
+            sudo_check = opts.privileged,
+            "buildah",
+            "build",
+            for opts.secrets.args(&temp_dir)?,
+            if opts.secrets.ssh() => "--ssh",
+            if let Some(platform) = opts.platform => [
+                "--platform",
+                platform.to_string(),
+            ],
+            if !opts.squash => "--layers",
+            if opts.squash => "--squash",
+            match opts.cache_from.as_ref() {
+                Some(cache_from) if !opts.squash => [
+                    "--cache-from",
+                    format!(
+                        "{}/{}",
+                        cache_from.registry(),
+                        cache_from.repository()
+                    ),
+                ],
+                _ => [],
+            },
+            match opts.cache_from.as_ref() {
+                Some(cache_to) if !opts.squash => [
+                    "--cache-to",
+                    format!(
+                        "{}/{}",
+                        cache_to.registry(),
+                        cache_to.repository()
+                    ),
+                ],
+                _ => [],
+            },
+            "-f",
+            opts.containerfile,
+            "-t",
+            opts.image.to_string(),
+        );
+
+        trace!("{command:?}");
+        let status = command
+            .build_status(opts.image.to_string(), "Building Image")
+            .into_diagnostic()?;
+
+        if status.success() {
+            info!("Successfully built {}", opts.image);
+        } else {
+            bail!("Failed to build {}", opts.image);
+        }
+        Ok(())
+    }
+
+    fn tag(opts: TagOpts) -> Result<()> {
+        trace!("BuildahDriver::tag({opts:#?})");
+
+        let dest_image_str = opts.dest_image.to_string();
+
+        let mut command = sudo_cmd!(
+            prompt = SUDO_PROMPT,
+            sudo_check = opts.privileged,
+            "buildah",
+            "tag",
+            opts.src_image.to_string(),
+            &dest_image_str,
+        );
+
+        trace!("{command:?}");
+        if command.status().into_diagnostic()?.success() {
+            info!("Successfully tagged {}!", dest_image_str.bold().green());
+        } else {
+            bail!("Failed to tag image {}", dest_image_str.bold().red());
+        }
+        Ok(())
+    }
+
+    fn untag(opts: UntagOpts) -> Result<()> {
+        trace!("BuildahDriver::untag({opts:#?})");
+
+        let ref_string = opts.image.to_string();
+
+        let mut command = sudo_cmd!(
+            prompt = SUDO_PROMPT,
+            sudo_check = opts.privileged,
+            "buildah",
+            "untag",
+            &ref_string, // identify image by reference
+            &ref_string, // remove this reference
+        );
+
+        trace!("{command:?}");
+        if command.status().into_diagnostic()?.success() {
+            info!("Successfully untagged {}", ref_string.bold().green());
+        } else {
+            bail!("Failed to untag image {}", ref_string.bold().red());
+        }
+        Ok(())
+    }
+
+    fn push(opts: PushOpts) -> Result<Digest> {
+        trace!("BuildahDriver::push({opts:#?})");
+
+        let image_str = opts.image.to_string();
+
+        let digestfile = tempdir()?;
+        let digestfile = digestfile.path().join("digest");
+
+        let command = sudo_cmd!(
+            prompt = SUDO_PROMPT,
+            sudo_check = opts.privileged,
+            "buildah",
+            "push",
+            format!("--digestfile={}", digestfile.display()),
+            format!(
+                "--compression-format={}",
+                opts.compression_type.unwrap_or_default()
+            ),
+            &image_str,
+        );
+
+        trace!("{command:?}");
+        let status = command
+            .build_status(&image_str, "Pushing Image")
+            .into_diagnostic()?;
+
+        if status.success() {
+            info!("Successfully pushed {}!", image_str.bold().green());
+        } else {
+            bail!("Failed to push image {}", image_str.bold().red());
+        }
+
+        fs::read_to_string(digestfile).into_diagnostic()?.parse()
+    }
+
+    fn pull(opts: PullOpts) -> Result<ContainerId> {
+        trace!("BuildahDriver::pull({opts:#?})");
+
+        let image_str = opts.image.to_string();
+
+        let mut command = sudo_cmd!(
+            prompt = SUDO_PROMPT,
+            sudo_check = opts.privileged,
+            "buildah",
+            "pull",
+            "--quiet",
+            if let Some(retries) = opts.retry_count => format!("--retry={retries}"),
+            if let Some(platform) = opts.platform => format!("--platform={platform}"),
+            &image_str,
+        );
+
+        info!("Pulling image {image_str}...");
+
+        trace!("{command:?}");
+        let output = command.output().into_diagnostic()?;
+
+        if !output.status.success() {
+            bail!("Failed to pull image {}", image_str.bold().red());
+        }
+        info!("Successfully pulled image {}", image_str.bold().green());
+        let container_id = {
+            let mut stdout = output.stdout;
+            while stdout.pop_if(|byte| byte.is_ascii_whitespace()).is_some() {}
+            ContainerId(String::from_utf8(stdout).into_diagnostic()?)
+        };
+        Ok(container_id)
+    }
+
+    fn login(server: &str) -> Result<()> {
+        trace!("BuildahDriver::login()");
+
+        if let Some(Credentials::Basic { username, password }) = Credentials::get(server) {
+            let output = pipe!(
+                stdin = password.value();
+                {
+                    let c = cmd!(
+                        "buildah",
+                        "login",
+                        "-u",
+                        &username,
+                        "--password-stdin",
+                        server,
+                    );
+                    trace!("{c:?}");
+                    c
+                }
+            )
+            .output()
+            .into_diagnostic()?;
+
+            if !output.status.success() {
+                let err_out = String::from_utf8_lossy(&output.stderr);
+                bail!("Failed to login for buildah:\n{}", err_out.trim());
+            }
+            debug!("Logged into {server}");
+        }
+        Ok(())
+    }
+
+    fn prune(opts: PruneOpts) -> Result<()> {
+        trace!("BuildahDriver::prune({opts:?})");
+
+        let status = cmd!(
+            "buildah",
+            "prune",
+            "--force",
+            if opts.all => "--all",
+        )
+        .message_status("buildah prune", "Pruning Buildah System")
+        .into_diagnostic()?;
+
+        if !status.success() {
+            bail!("Failed to prune buildah");
+        }
+
+        Ok(())
+    }
+
+    fn manifest_create(opts: ManifestCreateOpts) -> Result<()> {
+        let output = {
+            let c = cmd!("buildah", "manifest", "rm", opts.final_image.to_string());
+            trace!("{c:?}");
+            c
+        }
+        .output()
+        .into_diagnostic()?;
+
+        if output.status.success() {
+            warn!(
+                "Existing image manifest {} exists, removing...",
+                opts.final_image
+            );
+        }
+
+        let output = {
+            let c = cmd!(
+                "buildah",
+                "manifest",
+                "create",
+                opts.final_image.to_string(),
+                for image in opts.image_list => format!("containers-storage:{image}"),
+            );
+            trace!("{c:?}");
+            c
+        }
+        .output()
+        .into_diagnostic()?;
+
+        if !output.status.success() {
+            bail!(
+                "Failed to create manifest for {}:\n{}",
+                opts.final_image,
+                String::from_utf8_lossy(&output.stderr)
+            );
+        }
+
+        Ok(())
+    }
+
+    fn manifest_push(opts: ManifestPushOpts) -> Result<Digest> {
+        let image = &opts.final_image.to_string();
+
+        let digestfile = tempdir()?;
+        let digestfile = digestfile.path().join("digest");
+
+        let status = {
+            let c = cmd!(
+                "buildah",
+                "manifest",
+                "push",
+                format!("--digestfile={}", digestfile.display()),
+                "--all",
+                if let Some(compression_fmt) = opts.compression_type => format!(
+                    "--compression-format={compression_fmt}"
+                ),
+                image,
+                format!("docker://{}", opts.final_image),
+            );
+            trace!("{c:?}");
+            c
+        }
+        .build_status(image, format!("Pushing manifest {image}..."))
+        .into_diagnostic()?;
+
+        if !status.success() {
+            bail!("Failed to create manifest for {}", opts.final_image);
+        }
+
+        fs::read_to_string(digestfile).into_diagnostic()?.parse()
+    }
+}
+
+impl ImageStorageDriver for BuildahDriver {
+    fn inspect_image(opts: InspectImageOpts) -> Result<Option<Vec<u8>>> {
+        let stdout = if let Some(output_path) = opts.output_path {
+            Stdio::from(File::create(output_path).into_diagnostic()?)
+        } else {
+            Stdio::piped()
+        };
+        let output = cmd!("buildah", "inspect", "--type", "image", "--", opts.image)
+            .stdout(stdout)
+            .output()
+            .into_diagnostic()?;
+
+        if !output.status.success() {
+            let stderr = String::from_utf8_lossy(&output.stderr);
+            bail!("Failed to inspect image {}:\n{}", opts.image, stderr);
+        }
+
+        Ok(opts.output_path.is_none().then_some(output.stdout))
+    }
+
+    fn remove_image(opts: super::opts::RemoveImageOpts) -> Result<()> {
+        trace!("BuildahDriver::remove_image({opts:?})");
+
+        let output = {
+            let c = sudo_cmd!(
+                prompt = SUDO_PROMPT,
+                sudo_check = opts.privileged,
+                "buildah",
+                "rmi",
+                "--",
+                opts.image.to_string(),
+            );
+            trace!("{c:?}");
+            c
+        }
+        .output()
+        .into_diagnostic()?;
+
+        if !output.status.success() {
+            let err_out = String::from_utf8_lossy(&output.stderr);
+            bail!(
+                "Failed to remove the image {}:\n{}",
+                opts.image,
+                err_out.trim()
+            );
+        }
+
+        Ok(())
+    }
+
+    fn list_images(privileged: bool) -> Result<Vec<Reference>> {
+        #[derive(Deserialize)]
+        #[serde(rename_all = "PascalCase")]
+        struct Image {
+            names: Option<Vec<String>>,
+        }
+
+        trace!("BuildahDriver::list_images({privileged})");
+
+        let output = {
+            let c = sudo_cmd!(
+                prompt = SUDO_PROMPT,
+                sudo_check = privileged,
+                "buildah",
+                "images",
+                "--json",
+            );
+            trace!("{c:?}");
+            c
+        }
+        .output()
+        .into_diagnostic()?;
+
+        if !output.status.success() {
+            let err_out = String::from_utf8_lossy(&output.stderr);
+            bail!("Failed to list images:\n{}", err_out.trim());
+        }
+
+        let images: Vec<Image> = serde_json::from_slice(&output.stdout).into_diagnostic()?;
+
+        images
+            .into_iter()
+            .filter_map(|image| image.names)
+            .flat_map(|names| {
+                names
+                    .into_iter()
+                    .map(|name| name.parse::<Reference>().into_diagnostic())
+            })
+            .collect()
+    }
+}
