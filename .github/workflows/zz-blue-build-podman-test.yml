@@ -1,0 +1,21 @@
+name: Test blue-build podman driver with the AppImage podman
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  podman:
+    uses: ./.github/workflows/run-test.yml
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    with:
+      repo: blue-build/cli
+      ref: main
+      fork_pr: true
+      run: test-podman-build
+    secrets:
+      TEST_SIGNING_SECRET: ${{ secrets.TEST_SIGNING_SECRET }}
