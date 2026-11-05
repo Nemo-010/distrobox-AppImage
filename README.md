@@ -29,6 +29,8 @@ This AppImage is also supplied with a self-updater by default, so any updates to
 
 Self-updater is disabled by default if AppImage managers like [am](https://github.com/ivan-hc/AM), [soar](https://github.com/pkgforge/soar) or [dbin](https://github.com/xplshn/dbin) exist, which manage AppImage updates.
 
+Rootless podman joins the namespace saved by an earlier podman run. If that namespace does not contain this AppImage's mount, the launcher removes it when only its pause process runs there, and stops with a message when containers run in it.
+
 <details>
   <summary><b><i>raison d'être</i></b></summary>
     <img src="https://github.com/user-attachments/assets/d40067a6-37d2-4784-927c-2c7f7cc6104b" alt="Inspiration Image">

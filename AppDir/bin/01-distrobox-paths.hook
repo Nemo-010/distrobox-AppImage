@@ -25,3 +25,38 @@ if [ -f "$APPDIR"/etc/containers/containers.conf ]; then
 		> "$DISTROBOX_BIN_DIR"/containers.conf
 	export CONTAINERS_CONF_OVERRIDE="$DISTROBOX_BIN_DIR"/containers.conf
 fi
+
+# rootless podman joins the user and mount namespace saved by an earlier run
+# (libpod/tmp/pause.pid) before any of its own code runs. A saved namespace
+# created without this launch's mount shows $APPDIR as an empty directory, so
+# podman cannot find conmon, crun or netavark. If nothing but the pause
+# process runs in that namespace, drop it and let podman create one that
+# contains this mount. If something else does, such as a container, it must
+# stay, and the problem is reported here instead of as a missing crun.
+pause_pid_file=${XDG_RUNTIME_DIR:+"$XDG_RUNTIME_DIR"/libpod/tmp/pause.pid}
+if [ -n "$pause_pid_file" ] && [ -r "$pause_pid_file" ]; then
+	pause_pid=$(cat "$pause_pid_file" 2>/dev/null)
+	case "$pause_pid" in
+	'' | *[!0-9]*) pause_pid= ;;
+	esac
+	if [ -n "$pause_pid" ] && [ -r /proc/"$pause_pid"/mountinfo ] \
+		&& ! grep -qF " $APPDIR " /proc/"$pause_pid"/mountinfo; then
+		running=
+		for ns in /proc/[0-9]*/ns/mnt; do
+			pid=${ns#/proc/}
+			pid=${pid%/ns/mnt}
+			[ "$pid" = "$pause_pid" ] && continue
+			if [ "$ns" -ef /proc/"$pause_pid"/ns/mnt ]; then
+				running=1
+				break
+			fi
+		done
+		if [ -n "$running" ]; then
+			echo "podman's saved namespace (pid $pause_pid) does not contain this AppImage's mount, and other processes, such as containers, still run in it." >&2
+			echo "Stop them with the podman that started them, then run this again." >&2
+			exit 1
+		fi
+		kill "$pause_pid" 2>/dev/null
+		rm -f "$pause_pid_file" "$XDG_RUNTIME_DIR"/libpod/tmp/ns_handles
+	fi
+fi
