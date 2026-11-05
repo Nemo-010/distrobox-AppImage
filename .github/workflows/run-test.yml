@@ -100,24 +100,25 @@ jobs:
 
       - uses: extractions/setup-just@53165ef7e734c5c07cb06b3c8e7b647c5aa16db3 # v4.0.0
 
-      # The podman shipped with the runner image is old, so the tests would
-      # never run against what our users actually get. The distrobox AppImage
-      # builds podman from the latest sources, so use its podman instead.
+      # The podman shipped with the runner image is older than the latest
+      # release, so the tests would never run against what our users actually
+      # get. The distrobox AppImage builds podman from the latest sources, and
+      # it is multi-call: with "podman" as the first argument it runs the
+      # bundled podman, conmon, crun and friends.
       - name: Install latest Podman
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          cd "$RUNNER_TEMP"
           gh release download --repo pkgforge-dev/distrobox-AppImage \
             --pattern "*anylinux-$(uname -m).AppImage" \
-            --output distrobox.AppImage
-          chmod +x distrobox.AppImage
-          ./distrobox.AppImage --appimage-extract > /dev/null
-          podman_dir="$PWD/squashfs-root/bin"
-          # conmon, crun, netavark and aardvark-dns come from the AppImage too
-          echo "CONTAINERS_HELPER_BINARY_DIR=$podman_dir" >> "$GITHUB_ENV"
-          echo "$podman_dir" >> "$GITHUB_PATH"
-          "$podman_dir"/podman --version
+            --output "$RUNNER_TEMP/distrobox.AppImage"
+          chmod +x "$RUNNER_TEMP/distrobox.AppImage"
+          mkdir -p "$RUNNER_TEMP/bin"
+          printf '#!/bin/sh\nexec "%s" podman "$@"\n' \
+            "$RUNNER_TEMP/distrobox.AppImage" > "$RUNNER_TEMP/bin/podman"
+          chmod +x "$RUNNER_TEMP/bin/podman"
+          echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
+          echo "DISABLE_AUTO_UPDATES=1" >> "$GITHUB_ENV"
 
       - name: Run ${{ inputs.run }}
         if: ${{ ! inputs.fork_pr }}
