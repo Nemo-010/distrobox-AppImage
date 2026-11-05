@@ -103,28 +103,23 @@ jobs:
       # The podman shipped with the runner image is older than the latest
       # release, so the tests would never run against what our users actually
       # get. The distrobox AppImage builds podman from the latest sources, and
-      # it is multi-call: with "podman" as the first argument it runs the
-      # bundled podman, conmon, crun and friends.
+      # it is multi-call: named podman, it runs its bundled podman, conmon,
+      # crun and friends.
       - name: Install latest Podman
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          image="$RUNNER_TEMP/distrobox.AppImage"
+          image="$RUNNER_TEMP/podman"
           gh release download --repo pkgforge-dev/distrobox-AppImage \
             --pattern "*anylinux-$(uname -m).AppImage" \
             --output "$image"
           chmod +x "$image"
-          mkdir -p "$RUNNER_TEMP/bin"
-          printf '#!/bin/sh\nexec "%s" podman "$@"\n' "$image" \
-            > "$RUNNER_TEMP/bin/podman"
-          chmod +x "$RUNNER_TEMP/bin/podman"
-          echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
+          echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
           echo "DISABLE_AUTO_UPDATES=1" >> "$GITHUB_ENV"
           # the first rootless run on a machine fails once while podman sets up
           # its pause process: get that out of the way here, not in a test
-          "$RUNNER_TEMP/bin/podman" info > /dev/null 2>&1 \
-            || "$RUNNER_TEMP/bin/podman" info > /dev/null
-          "$RUNNER_TEMP/bin/podman" --version
+          "$image" info > /dev/null 2>&1 || "$image" info > /dev/null
+          "$image" --version
 
       - name: Run ${{ inputs.run }}
         if: ${{ ! inputs.fork_pr }}
