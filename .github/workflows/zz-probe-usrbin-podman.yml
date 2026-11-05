@@ -1,0 +1,52 @@
+name: probe podman installed at /usr/bin/podman
+
+on:
+  push:
+
+permissions: {}
+
+jobs:
+  control-runner-temp:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download AppImage
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          image="$RUNNER_TEMP/podman"
+          gh release download --repo pkgforge-dev/distrobox-AppImage \
+            --pattern "*anylinux-$(uname -m).AppImage" \
+            --output "$image"
+          chmod +x "$image"
+      - name: First rootless run from RUNNER_TEMP, no sysctl
+        run: |
+          sysctl kernel.apparmor_restrict_unprivileged_userns
+          set +e
+          "$RUNNER_TEMP/podman" info > /dev/null
+          echo "control first info exit=$?"
+
+  usr-bin:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download AppImage
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          image="$RUNNER_TEMP/podman"
+          gh release download --repo pkgforge-dev/distrobox-AppImage \
+            --pattern "*anylinux-$(uname -m).AppImage" \
+            --output "$image"
+          chmod +x "$image"
+      - name: Install to /usr/bin/podman, no sysctl
+        run: |
+          sysctl kernel.apparmor_restrict_unprivileged_userns
+          sudo install -m 755 "$RUNNER_TEMP/podman" /usr/bin/podman
+          hash -r
+          ls -l /usr/bin/podman
+          command -v podman
+          podman --version
+          set +e
+          podman info > /dev/null
+          echo "usr-bin first info exit=$?"
+          podman info > /dev/null
+          echo "usr-bin second info exit=$?"
