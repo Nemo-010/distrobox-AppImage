@@ -15,7 +15,7 @@ jobs:
     with:
       repo: blue-build/cli
       ref: main
-      fork_pr: true
+      registry_login: true
       run: test-podman-build
     secrets:
       TEST_SIGNING_SECRET: ${{ secrets.TEST_SIGNING_SECRET }}
