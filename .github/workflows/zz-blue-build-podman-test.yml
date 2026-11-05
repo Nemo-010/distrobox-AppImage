@@ -1,7 +1,7 @@
 name: Test blue-build podman driver with the AppImage podman
 
 on:
-  workflow_dispatch:
+  push:
 
 permissions: {}
 
