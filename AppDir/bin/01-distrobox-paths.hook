@@ -1,7 +1,7 @@
 #!/bin/sh
 
-# the wrappers and containers.conf below live outside $APPDIR, which changes on
-# every update: exported .desktop entries point at them
+# the wrappers below live outside $APPDIR, which changes on every update:
+# exported .desktop entries point at them
 
 export DISTROBOX_BIN_DIR="$DATADIR"/distrobox-appimage
 
@@ -10,11 +10,11 @@ cp -f "$APPDIR"/bin/distrobox-init "$APPDIR"/bin/distrobox-export \
 	"$APPDIR"/bin/distrobox-host-exec "$DISTROBOX_BIN_DIR"
 
 # distrobox binds its container helpers from /usr/bin, which only exists for a
-# distrobox installed on the host. crun is patched to look here instead, and
-# only for those three names. These copies are a fallback for the AppImage
-# alone: they are never the path recorded in a container, and they have to be
-# real files, since crun reads them from inside the container's namespace where
-# the AppImage mount is not reachable
+# distrobox installed on the host. Podman and crun (patches 0002 and 0003) both
+# read this dir for those three names when /usr/bin has them missing: podman
+# takes the mount options and crun mounts the copy at start. Real files outside
+# the mount on purpose, since crun reads them from inside the container's
+# namespace where the AppImage mount is not reachable
 export CRUN_BIND_SOURCE_FALLBACK_DIR="$DISTROBOX_BIN_DIR"
 
 # a copy of these cannot find podman from a desktop entry, launch the AppImage
@@ -22,13 +22,6 @@ for f in distrobox distrobox-enter; do
 	printf '#!/bin/sh\nexec "${APPIMAGE:?}" "${0##*/}" "$@"\n' > "$DISTROBOX_BIN_DIR/$f"
 	chmod +x "$DISTROBOX_BIN_DIR/$f"
 done
-
-# podman must read its config from outside the mount too: $APPDIR changes on
-# every update, and a config path that is not there stops every podman call
-if [ -f "$APPDIR"/etc/containers/containers.conf ]; then
-	cp -f "$APPDIR"/etc/containers/containers.conf "$DISTROBOX_BIN_DIR"/containers.conf
-	export CONTAINERS_CONF_OVERRIDE="$DISTROBOX_BIN_DIR"/containers.conf
-fi
 
 # rootless podman joins the user and mount namespace saved by an earlier run
 # (libpod/tmp/pause.pid) before any of its own code runs, so a namespace saved

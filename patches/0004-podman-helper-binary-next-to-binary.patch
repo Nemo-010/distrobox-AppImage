@@ -1,0 +1,16 @@
+--- a/vendor/go.podman.io/common/pkg/config/config.go
++++ b/vendor/go.podman.io/common/pkg/config/config.go
+@@ -1130,6 +1130,13 @@ func (c *Config) FindHelperBinary(name string, searchPATH bool) (string, error)
+ 	bindirPath := ""
+ 	bindirSearched := false
+ 
++	// distrobox-in-appimage shim: helper binaries that ship with this one live
++	// next to it and are the ones built for it, so search there first.  The
++	// configured directories are system paths, which the image does not have.
++	if bindir := findBindir(); bindir != "" {
++		dirList = append([]string{bindir}, dirList...)
++	}
++
+ 	// If set, search this directory first. This is used in testing.
+ 	if dir, found := os.LookupEnv("CONTAINERS_HELPER_BINARY_DIR"); found {
+ 		dirList = append([]string{dir}, dirList...)
