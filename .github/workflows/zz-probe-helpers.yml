@@ -31,8 +31,8 @@ jobs:
           set -euo pipefail
           mount_bin=$(podman unshare printenv PATH | cut -d: -f1)
           sudo mkdir -p /etc/containers/containers.conf.d
-          printf '[engine]\nconmon_path = ["%s/conmon"]\ninit_path = "%s/catatonit"\n' \
-            "${mount_bin}" "${mount_bin}" \
+          printf '[engine]\nconmon_path = ["%s/conmon"]\ninit_path = "%s/catatonit"\n[containers]\ninit_path = "%s/catatonit"\n' \
+            "${mount_bin}" "${mount_bin}" "${mount_bin}" \
             | sudo tee /etc/containers/containers.conf.d/zz-appimage-podman.conf
           echo "conmon: $(podman info --format '{{.Host.Conmon.Path}}')"
           echo "runtime: $(podman info --format '{{.Host.OCIRuntime.Path}}')"
