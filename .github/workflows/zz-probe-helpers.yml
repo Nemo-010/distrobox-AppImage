@@ -26,6 +26,17 @@ jobs:
           echo "DISABLE_AUTO_UPDATES=1" >> "$GITHUB_ENV"
           podman info > /dev/null 2>&1 || podman system migrate --migrate-db
 
+      - name: Pin conmon, catatonit and the runtime at the bundled ones
+        run: |
+          set -euo pipefail
+          mount_bin=$(podman unshare printenv PATH | cut -d: -f1)
+          sudo mkdir -p /etc/containers/containers.conf.d
+          printf '[engine]\nconmon_path = ["%s/conmon"]\ninit_path = "%s/catatonit"\n' \
+            "${mount_bin}" "${mount_bin}" \
+            | sudo tee /etc/containers/containers.conf.d/zz-appimage-podman.conf
+          echo "conmon: $(podman info --format '{{.Host.Conmon.Path}}')"
+          echo "runtime: $(podman info --format '{{.Host.OCIRuntime.Path}}')"
+
       - name: What the host ships
         run: |
           for b in conmon crun pasta slirp4netns netavark aardvark-dns catatonit newuidmap; do
