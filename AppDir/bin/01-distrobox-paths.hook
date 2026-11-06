@@ -9,6 +9,11 @@ mkdir -p "$DISTROBOX_BIN_DIR"
 cp -f "$APPDIR"/bin/distrobox-init "$APPDIR"/bin/distrobox-export \
 	"$APPDIR"/bin/distrobox-host-exec "$DISTROBOX_BIN_DIR"
 
+# catatonit runs inside the container, where the AppImage mount is not
+# reachable, so podman cannot use the sharun hardlink in bin: copy the binary
+# itself, which is static, and point podman's init_path at the copy
+cp -f "$APPDIR"/shared/bin/catatonit "$DISTROBOX_BIN_DIR"/catatonit
+
 # distrobox binds its container helpers from /usr/bin, which only exists for a
 # distrobox installed on the host. Podman and crun (patches 0002 and 0003) both
 # read this dir for those three names when /usr/bin has them missing: podman
@@ -35,6 +40,9 @@ if [ -f "$APPDIR"/etc/containers/containers.conf ]; then
 		# both at the binaries this image ships, which match this podman
 		printf 'runtime = "%s/bin/crun"\n' "$APPDIR"
 		printf 'conmon_path = ["%s/bin/conmon"]\n' "$APPDIR"
+		# the compiled default for this one is /usr/bin/catatonit, and the copy
+		# above is the only catatonit a container can reach
+		printf 'init_path = "%s/catatonit"\n' "$DISTROBOX_BIN_DIR"
 	} > "$DISTROBOX_BIN_DIR"/containers.conf
 	export CONTAINERS_CONF_OVERRIDE="$DISTROBOX_BIN_DIR"/containers.conf
 fi
