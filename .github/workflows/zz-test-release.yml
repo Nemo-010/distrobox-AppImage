@@ -15,12 +15,12 @@ jobs:
       matrix:
         runs-on: [ubuntu-22.04, ubuntu-24.04, ubuntu-latest]
     steps:
-      - name: Install the AppImage built from fix/catatonit-outside-mount
+      - name: Install the AppImage built from fix/catatonit-outside-mount (if ! check)
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          gh run download 42309052953 --repo Nemo-010/distrobox-AppImage \
+          gh run download 42310858140 --repo Nemo-010/distrobox-AppImage \
             --name AppImage-x86_64 --dir "$RUNNER_TEMP/art"
           sudo install -m 755 "$RUNNER_TEMP/art/"*.AppImage /usr/bin/podman
           echo "DISABLE_AUTO_UPDATES=1" >> "$GITHUB_ENV"
