@@ -52,4 +52,9 @@ jobs:
           set -euo pipefail
           podman run -d --name probe --init docker.io/library/busybox:latest sleep 60
           ps -eo args | grep -E "conmon|crun|pasta|slirp4netns|catatonit" | grep -v grep | cut -c1-160
+          for name in catatonit conmon crun pasta; do
+            for pid in $(pgrep -f "^$name" || true); do
+              echo "$name pid $pid -> $(readlink /proc/$pid/exe)"
+            done
+          done
           podman rm -f probe
