@@ -17,7 +17,6 @@ pacman -Syu --noconfirm \
 	gpgme       \
 	libtool     \
 	podman      \
-	python      \
 	shadow      \
 	sqlite      \
 	systemd
@@ -47,7 +46,7 @@ git clone https://github.com/containers/crun ./crun && (
 
 	git apply -p1 ../patches/0002-crun-bind-source-fallback.patch
 	./autogen.sh
-	./configure --disable-static --disable-criu
+	./configure --disable-static --disable-criu --enable-embedded-blake3
 	make -j"$(nproc)"
 	cp -f ./crun /usr/bin/crun
 	chmod +x /usr/bin/crun

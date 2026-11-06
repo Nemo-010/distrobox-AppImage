@@ -12,11 +12,9 @@ export DESKTOP=DUMMY
 export MAIN_BIN=distrobox
 
 # Deploy dependencies
-quick-sharun \
+STRACE_BINARY="podman crun conmon" quick-sharun \
 	/usr/bin/distrobox* \
 	/usr/bin/conmon     \
-	/usr/bin/compel     \
-	/usr/bin/criu       \
 	/usr/bin/crun       \
 	/usr/bin/podman     \
 	/usr/lib/podman
