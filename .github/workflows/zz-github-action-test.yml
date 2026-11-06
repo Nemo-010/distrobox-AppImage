@@ -23,6 +23,7 @@ jobs:
         run: |
           grep -E '^(ID|VERSION_ID)=' /etc/os-release
           podman --version || echo "no podman in the runner image"
+          /usr/bin/crun --version 2>/dev/null | head -1 || echo "no crun in the runner image"
 
       - uses: ./action
         with:
@@ -36,5 +37,26 @@ jobs:
       - name: Check the podman the action installed
         run: |
           podman --version
-          file /usr/bin/podman
+          /usr/bin/crun --version 2>&1 | head -1
           echo "DISABLE_AUTO_UPDATES=${DISABLE_AUTO_UPDATES:-unset}"
+
+  upstream:
+    name: upstream action on ${{ matrix.runs-on }}
+    runs-on: ${{ matrix.runs-on }}
+    strategy:
+      fail-fast: false
+      matrix:
+        runs-on: [ubuntu-22.04, ubuntu-24.04]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: blue-build/github-action@main
+        with:
+          recipe: recipe.yml
+          cosign_private_key: ${{ secrets.TEST_SIGNING_SECRET }}
+          pr_event_number: "0"
+          push: "false"
+          squash: "true"
+          skip_checkout: "true"

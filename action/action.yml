@@ -201,7 +201,7 @@ runs:
       if: ${{ inputs.squash == 'true' || inputs.build_chunked_oci == 'true' || inputs.rechunk == 'true' }}
       shell: bash
       env:
-        AUTH_HEADER: "Authorization: Bearer ${{ github.token }}"
+        GH_TOKEN: ${{ github.token }}
       run: |
         set -euo pipefail
         # other distributions ship a current podman themselves
@@ -210,18 +210,18 @@ runs:
           exit 0
         fi
 
-        appimage_url=$(curl -fLsS --retry 5 \
-          --variable '%AUTH_HEADER' --expand-header '{{AUTH_HEADER}}' \
-          https://api.github.com/repos/pkgforge-dev/distrobox-AppImage/releases/latest \
-          | jq -r --arg arch "$(uname -m)" '.assets[] | select(.name | endswith("-anylinux-\($arch).AppImage")) | .browser_download_url')
-        if [[ -z "${appimage_url}" ]]; then
-          echo "No distrobox AppImage for $(uname -m) in the latest release"
-          exit 1
-        fi
+        appimage="${RUNNER_TEMP}/podman"
+        gh release download --repo pkgforge-dev/distrobox-AppImage \
+          --pattern "*anylinux-$(uname -m).AppImage" \
+          --output "${appimage}"
+        chmod +x "${appimage}"
+        sudo install -m 755 "${appimage}" /usr/bin/podman
 
-        curl -fLsS --retry 5 --output "${RUNNER_TEMP}/podman" "${appimage_url}"
-        chmod +x "${RUNNER_TEMP}/podman"
-        sudo install -m 755 "${RUNNER_TEMP}/podman" /usr/bin/podman
+        # podman runs /usr/bin/crun whenever there is one, and the crun of
+        # Ubuntu 24.04 (1.14) rejects the OCI spec version podman 6 writes. The
+        # AppImage is multi-call, so a hardlink named crun runs the crun it
+        # ships, which is the one that matches the podman it ships
+        sudo ln -f /usr/bin/podman /usr/bin/crun
 
         # the AppImage looks for updates on every launch, which a build does not want
         echo "DISABLE_AUTO_UPDATES=1" >> "${GITHUB_ENV}"
