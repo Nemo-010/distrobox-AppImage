@@ -63,7 +63,14 @@ jobs:
           set -euo pipefail
           mount_bin=$(podman unshare printenv PATH | cut -d: -f1)
           podman run -d --name probe --init docker.io/library/busybox:latest sleep 60
-          podman run --rm --init docker.io/library/busybox:latest sh -c 'grep catatonit /proc/1/mountinfo' || true
+          mkdir -p /tmp/bin && cp /usr/bin/podman /tmp/bin/catatonit && chmod +x /tmp/bin/catatonit
+          echo "bundled catatonit: $(/tmp/bin/catatonit --version 2>&1 | head -1)"
+          echo "== with the host catatonit in place:"
+          podman run --rm --init docker.io/library/busybox:latest true && echo "init ok"
+          sudo mv /usr/bin/catatonit /usr/bin/catatonit.hidden
+          echo "== with the host catatonit hidden:"
+          podman run --rm --init docker.io/library/busybox:latest true && echo "init ok"
+          sudo mv /usr/bin/catatonit.hidden /usr/bin/catatonit
           ps -eo args | grep -E "conmon|crun|pasta|slirp4netns|catatonit" | grep -v grep | cut -c1-160
           for name in catatonit conmon crun pasta; do
             for pid in $(pgrep -f "^$name" || true); do
