@@ -33,7 +33,7 @@ jobs:
           mount_bin=$(podman unshare printenv PATH | cut -d: -f1)
           echo "mount bin: ${mount_bin}"
           sudo mkdir -p /etc/containers/containers.conf.d
-          printf '[engine]\nruntime = "%s/bin/crun"\n' "${mount_bin}" \
+          printf '[engine]\nruntime = "%s/crun"\n' "${mount_bin}" \
             | sudo tee /etc/containers/containers.conf.d/zz-appimage-podman.conf
           echo "runtime path: $(podman info --format '{{.Host.OCIRuntime.Path}}' 2>&1 | tail -1)"
 
