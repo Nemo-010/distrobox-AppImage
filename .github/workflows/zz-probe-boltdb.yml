@@ -1,0 +1,49 @@
+name: Probe the BoltDB state on 22.04
+
+on:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Before touching podman
+        run: |
+          set +e
+          echo "host podman: $(podman --version)"
+          echo "== ~/.local/share/containers/storage/libpod:"
+          ls -la ~/.local/share/containers/storage/libpod/ 2>/dev/null || echo "no such dir"
+          echo "== sqlite:"
+          ls -la ~/.local/share/containers/storage/libpod/*.db 2>/dev/null || echo "no db"
+
+      - name: Install the AppImage podman
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh release download --repo pkgforge-dev/distrobox-AppImage \
+            --pattern "*anylinux-$(uname -m).AppImage" --output "$RUNNER_TEMP/podman"
+          chmod +x "$RUNNER_TEMP/podman"
+          sudo install -m 755 "$RUNNER_TEMP/podman" /usr/bin/podman
+          echo "DISABLE_AUTO_UPDATES=1" >> "$GITHUB_ENV"
+
+      - name: First call
+        run: |
+          set +e
+          podman info > /dev/null
+          echo "podman info exit: $?"
+
+      - name: Migrate
+        run: |
+          set +e
+          podman system migrate --migrate-db
+          echo "migrate exit: $?"
+          echo "== libpod dir after:"
+          ls -la ~/.local/share/containers/storage/libpod/
+          podman info > /dev/null
+          echo "podman info exit after migrate: $?"
+          podman system migrate --migrate-db
+          echo "second migrate exit: $?"
