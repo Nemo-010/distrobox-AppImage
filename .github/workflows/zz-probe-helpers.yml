@@ -1,0 +1,56 @@
+name: Probe which helpers podman takes from the host
+
+on:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    name: ${{ matrix.runs-on }}
+    runs-on: ${{ matrix.runs-on }}
+    strategy:
+      fail-fast: false
+      matrix:
+        runs-on: [ubuntu-22.04, ubuntu-24.04, ubuntu-latest]
+    steps:
+      - name: Install the released AppImage podman
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh release download --repo pkgforge-dev/distrobox-AppImage \
+            --pattern "*anylinux-$(uname -m).AppImage" --output "$RUNNER_TEMP/podman"
+          chmod +x "$RUNNER_TEMP/podman"
+          sudo install -m 755 "$RUNNER_TEMP/podman" /usr/bin/podman
+          echo "DISABLE_AUTO_UPDATES=1" >> "$GITHUB_ENV"
+          podman info > /dev/null 2>&1 || podman system migrate --migrate-db
+
+      - name: What the host ships
+        run: |
+          for b in conmon crun pasta slirp4netns netavark aardvark-dns catatonit newuidmap; do
+            p=$(command -v "$b" || true)
+            if [ -n "$p" ]; then
+              echo "$b: $p $("$p" --version 2>&1 | head -1)"
+            else
+              echo "$b: not on the host"
+            fi
+          done
+
+      - name: What podman reports
+        run: |
+          podman info --format '{{json .Host}}' | jq '{
+            ociRuntime: .ociRuntime,
+            conmon: .conmon,
+            networkBackend: .networkBackend,
+            networkBackendInfo: .networkBackendInfo,
+            rootlessNetworkCmd: .rootlessNetworkCmd
+          }'
+
+      - name: What actually runs
+        run: |
+          set -euo pipefail
+          podman run -d --name probe --init docker.io/library/busybox:latest sleep 60
+          ps -eo args | grep -E "conmon|crun|pasta|slirp4netns|catatonit" | grep -v grep | cut -c1-160
+          podman rm -f probe
