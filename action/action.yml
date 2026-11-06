@@ -221,15 +221,11 @@ runs:
 
         # from 24.04 on, only a binary with its own profile may create a
         # rootless user namespace, and $HOME/bin/podman is not one of them
-        sudo tee /etc/apparmor.d/podman-home > /dev/null <<EOF
-        abi <abi/4.0>,
-        include <tunables/global>
-
-        profile podman "$HOME/bin/podman" flags=(unconfined) {
-          userns,
-        }
-        EOF
-        sudo apparmor_parser -r /etc/apparmor.d/podman-home
+        if [ "$(sysctl -n kernel.apparmor_restrict_unprivileged_userns 2>/dev/null)" = 1 ]; then
+          printf 'abi <abi/4.0>,\ninclude <tunables/global>\n\nprofile podman "%s" flags=(unconfined) {\n  userns,\n}\n' \
+            "$HOME/bin/podman" | sudo tee /etc/apparmor.d/podman-home > /dev/null
+          sudo apparmor_parser -r /etc/apparmor.d/podman-home
+        fi
 
         podman --version
         podman info > /dev/null
