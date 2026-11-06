@@ -1,0 +1,81 @@
+name: Probe podman in the home bin dir
+
+on:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  portable:
+    name: ${{ matrix.runs-on }}
+    runs-on: ${{ matrix.runs-on }}
+    strategy:
+      fail-fast: false
+      matrix:
+        runs-on: [ubuntu-22.04, ubuntu-24.04, ubuntu-latest]
+    steps:
+      - name: Install the AppImage into ~/bin with portable folders
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$HOME/bin"
+          gh release download --repo pkgforge-dev/distrobox-AppImage \
+            --pattern "*anylinux-$(uname -m).AppImage" --output "$HOME/bin/podman"
+          chmod +x "$HOME/bin/podman"
+          mkdir -p "$HOME/bin/podman.home" "$HOME/bin/podman.share" \
+            "$HOME/bin/podman.cache" "$HOME/bin/podman.config"
+          echo "$HOME/bin" >> "$GITHUB_PATH"
+          echo "DISABLE_AUTO_UPDATES=1" >> "$GITHUB_ENV"
+          ls -la "$HOME/bin"
+
+      - name: Before the AppArmor profile
+        run: |
+          set +e
+          echo "podman: $(podman --version)"
+          out=$(podman info 2>&1)
+          echo "podman info exit: $?"
+          echo "$out" | tail -3
+
+      - name: Add the AppArmor profile
+        run: |
+          set -euo pipefail
+          sudo tee /etc/apparmor.d/podman-home > /dev/null <<EOF
+          abi <abi/4.0>,
+          include <tunables/global>
+
+          profile podman "$HOME/bin/podman" flags=(unconfined) {
+            userns,
+          }
+          EOF
+          sudo apparmor_parser -r /etc/apparmor.d/podman-home
+          echo "profile loaded"
+
+      - name: After the AppArmor profile
+        run: |
+          set +e
+          podman info > /dev/null
+          echo "podman info exit: $?"
+
+      - name: Portable dirs in use
+        run: |
+          set +e
+          podman unshare printenv HOME XDG_DATA_HOME XDG_CONFIG_HOME XDG_CACHE_HOME
+          podman info --format 'graphroot: {{.Store.GraphRoot}}'
+          echo "== ~/bin/podman.home:"; ls -A "$HOME/bin/podman.home" | head -5
+          echo "== ~/bin/podman.share:"; ls -A "$HOME/bin/podman.share" | head -5
+          echo "== ~/bin/podman.config:"; ls -A "$HOME/bin/podman.config" | head -5
+          echo "== ~/bin/podman.cache:"; ls -A "$HOME/bin/podman.cache" | head -5
+          echo "== ~/.local/share/containers (should not exist):"
+          ls -d "$HOME/.local/share/containers" 2>/dev/null || echo "absent"
+
+      - name: Build and run
+        run: |
+          set +e
+          podman run --rm docker.io/library/busybox:latest echo from-home-bin
+          echo "run exit: $?"
+          mkdir -p /tmp/ctx
+          printf 'FROM docker.io/library/busybox:latest\nRUN echo hi > /hi\n' > /tmp/ctx/Containerfile
+          podman build -t probe:local /tmp/ctx
+          echo "build exit: $?"
