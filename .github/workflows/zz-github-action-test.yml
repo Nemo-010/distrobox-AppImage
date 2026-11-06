@@ -37,8 +37,8 @@ jobs:
       - name: Check the podman the action installed
         run: |
           podman --version
-          /usr/bin/crun --version 2>&1 | head -1
           echo "DISABLE_AUTO_UPDATES=${DISABLE_AUTO_UPDATES:-unset}"
+          ls -la /usr/bin/crun* 2>/dev/null || echo "no crun in /usr/bin"
 
   upstream:
     name: upstream action on ${{ matrix.runs-on }}

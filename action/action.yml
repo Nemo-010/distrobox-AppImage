@@ -223,7 +223,13 @@ runs:
         echo "DISABLE_AUTO_UPDATES=1" >> "${GITHUB_ENV}"
 
         podman --version
-        podman info > /dev/null
+
+        # podman 3.4, which 22.04 ships, kept its state in BoltDB, and podman 6
+        # refuses to start while that database is there
+        if ! podman info > /dev/null 2>&1; then
+          podman system migrate --migrate-db
+          podman info > /dev/null
+        fi
 
     - uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
       with:
