@@ -15,15 +15,14 @@ jobs:
       matrix:
         runs-on: [ubuntu-22.04, ubuntu-24.04, ubuntu-latest]
     steps:
-      - name: Install the latest released AppImage
+      - name: Install the AppImage built from fix/catatonit-outside-mount
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          gh release download --repo pkgforge-dev/distrobox-AppImage \
-            --pattern "*anylinux-$(uname -m).AppImage" --output "$RUNNER_TEMP/podman"
-          chmod +x "$RUNNER_TEMP/podman"
-          sudo install -m 755 "$RUNNER_TEMP/podman" /usr/bin/podman
+          gh run download 42309052953 --repo Nemo-010/distrobox-AppImage \
+            --name AppImage-x86_64 --dir "$RUNNER_TEMP/art"
+          sudo install -m 755 "$RUNNER_TEMP/art/"*.AppImage /usr/bin/podman
           echo "DISABLE_AUTO_UPDATES=1" >> "$GITHUB_ENV"
 
       - name: Host versions
@@ -33,14 +32,15 @@ jobs:
             if [ -n "$p" ]; then echo "$b: $p $("$p" --version 2>&1 | head -1)"; else echo "$b: not on the host"; fi
           done
 
-      - name: First podman call, no migration
+      - name: First podman call
         run: |
           set +e
           echo "podman: $(podman --version)"
           out=$(podman info 2>&1)
           echo "podman info exit: $?"
-          echo "$out" | head -5
+          echo "$out" | head -3
           echo "$out" | grep -qi bolt && echo "BOLTDB: still blocks" || echo "BOLTDB: no complaint"
+          podman info > /dev/null 2>&1 || podman system migrate --migrate-db
 
       - name: Helper paths
         run: |
@@ -72,8 +72,7 @@ jobs:
           echo "host catatonit:    $(md5sum /usr/bin/catatonit 2>/dev/null)"
           podman run --rm --init docker.io/library/busybox:latest md5sum /run/podman-init
           echo "init md5 exit: $?"
-          echo "== init-path pointing at the real static binary in the mount:"
-          podman run --rm --init --init-path "${mount_bin}/../shared/bin/catatonit" docker.io/library/busybox:latest true
-          echo "real init exit: $?"
-          podman run --rm --init --init-path "${mount_bin}/../shared/bin/catatonit" docker.io/library/busybox:latest md5sum /run/podman-init
-          echo "real init md5 exit: $?"
+          echo "copy: $(md5sum "$HOME/.local/share/distrobox-appimage/catatonit" 2>/dev/null)"
+          echo "host: $(md5sum /usr/bin/catatonit 2>/dev/null)"
+          podman run --rm --init docker.io/library/busybox:latest md5sum /run/podman-init
+          echo "init md5 exit: $?"
