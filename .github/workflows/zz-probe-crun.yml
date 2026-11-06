@@ -8,12 +8,13 @@ permissions:
 
 jobs:
   probe:
-    name: ${{ matrix.runs-on }}
+    name: ${{ matrix.runs-on }} / ${{ matrix.variant }}
     runs-on: ${{ matrix.runs-on }}
     strategy:
       fail-fast: false
       matrix:
         runs-on: [ubuntu-24.04, ubuntu-latest]
+        variant: [default, env-runtime, no-host-crun]
     steps:
       - name: Install the AppImage podman
         env:
@@ -25,23 +26,27 @@ jobs:
           chmod +x "$RUNNER_TEMP/podman"
           sudo install -m 755 "$RUNNER_TEMP/podman" /usr/bin/podman
           echo "DISABLE_AUTO_UPDATES=1" >> "$GITHUB_ENV"
+          /usr/bin/crun --version 2>&1 | head -1 || echo "no host crun"
 
-      - name: Defaults
+      - name: Apply the variant
         run: |
-          echo "== host crun:"; /usr/bin/crun --version 2>&1 | head -1 || echo none
-          echo "== /etc/containers/containers.conf:"; cat /etc/containers/containers.conf 2>/dev/null || echo missing
-          echo "== drop-in dir:"; ls -la /etc/containers/containers.conf.d 2>/dev/null || echo missing
-          echo "== runtime path:"; podman info --format '{{.Host.OCIRuntime.Name}}|{{.Host.OCIRuntime.Path}}' 2>&1 | tail -2
+          set -euo pipefail
+          case "${{ matrix.variant }}" in
+            env-runtime)
+              sudo mkdir -p /etc/containers/containers.conf.d
+              printf '[engine]\nruntime = "$APPDIR/bin/crun"\n' \
+                | sudo tee /etc/containers/containers.conf.d/zz-appimage-podman.conf
+              ;;
+            no-host-crun)
+              sudo mv /usr/bin/crun /usr/bin/crun.hidden
+              ;;
+          esac
 
-      - name: With a runtime drop-in
-        run: |
-          sudo mkdir -p /etc/containers/containers.conf.d
-          printf '[engine]\nruntime = "crun"\n' | sudo tee /etc/containers/containers.conf.d/zz-appimage-podman.conf
-          echo "== runtime path:"; podman info --format '{{.Host.OCIRuntime.Name}}|{{.Host.OCIRuntime.Path}}' 2>&1 | tail -2
+      - name: Resolved runtime
+        run: podman info --format '{{.Host.OCIRuntime.Name}}|{{.Host.OCIRuntime.Path}}' 2>&1 | tail -2
 
-      - name: Build a container with the drop-in
+      - name: Build with a RUN step
         run: |
           mkdir -p /tmp/ctx
-          printf 'FROM scratch\nCOPY file /file\n' > /tmp/ctx/Containerfile
-          echo hi > /tmp/ctx/file
+          printf 'FROM docker.io/library/busybox:latest\nRUN echo hi > /hi\n' > /tmp/ctx/Containerfile
           podman build -t probe:local /tmp/ctx
