@@ -62,7 +62,8 @@ jobs:
         run: |
           set -euo pipefail
           mount_bin=$(podman unshare printenv PATH | cut -d: -f1)
-          podman run -d --name probe --init --init-path "${mount_bin}/catatonit" docker.io/library/busybox:latest sleep 60
+          podman run -d --name probe --init docker.io/library/busybox:latest sleep 60
+          podman inspect probe --format '{{json .Mounts}}' | jq -c '.[] | select(.destination | test("catatonit"))'
           ps -eo args | grep -E "conmon|crun|pasta|slirp4netns|catatonit" | grep -v grep | cut -c1-160
           for name in catatonit conmon crun pasta; do
             for pid in $(pgrep -f "^$name" || true); do
