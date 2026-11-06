@@ -1,4 +1,4 @@
-name: Probe podman in the home bin dir
+name: Probe the storage driver with portable folders
 
 on:
   push:
@@ -7,7 +7,7 @@ permissions:
   contents: read
 
 jobs:
-  portable:
+  probe:
     name: ${{ matrix.runs-on }}
     runs-on: ${{ matrix.runs-on }}
     strategy:
@@ -15,7 +15,7 @@ jobs:
       matrix:
         runs-on: [ubuntu-22.04, ubuntu-24.04, ubuntu-latest]
     steps:
-      - name: Install the AppImage into ~/bin with portable folders
+      - name: Install with portable folders
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -28,54 +28,29 @@ jobs:
             "$HOME/bin/podman.cache" "$HOME/bin/podman.config"
           echo "$HOME/bin" >> "$GITHUB_PATH"
           echo "DISABLE_AUTO_UPDATES=1" >> "$GITHUB_ENV"
-          ls -la "$HOME/bin"
+          if [ "$(sysctl -n kernel.apparmor_restrict_unprivileged_userns 2>/dev/null)" = 1 ]; then
+            printf 'abi <abi/4.0>,\ninclude <tunables/global>\n\nprofile podman "%s" flags=(unconfined) {\n  userns,\n}\n' \
+              "$HOME/bin/podman" | sudo tee /etc/apparmor.d/podman-home > /dev/null
+            sudo apparmor_parser -r /etc/apparmor.d/podman-home
+          fi
 
-      - name: Before the AppArmor profile
+      - name: Storage
         run: |
           set +e
-          echo "podman: $(podman --version)"
-          out=$(podman info 2>&1)
-          echo "podman info exit: $?"
-          echo "$out" | tail -3
-
-      - name: Add the AppArmor profile
-        run: |
-          set -euo pipefail
-          sudo tee /etc/apparmor.d/podman-home > /dev/null <<EOF
-          abi <abi/4.0>,
-          include <tunables/global>
-
-          profile podman "$HOME/bin/podman" flags=(unconfined) {
-            userns,
-          }
-          EOF
-          sudo apparmor_parser -r /etc/apparmor.d/podman-home
-          echo "profile loaded"
-
-      - name: After the AppArmor profile
-        run: |
-          set +e
-          podman info > /dev/null
-          echo "podman info exit: $?"
-
-      - name: Portable dirs in use
-        run: |
-          set +e
-          podman unshare printenv HOME XDG_DATA_HOME XDG_CONFIG_HOME XDG_CACHE_HOME
+          podman info --format 'driver: {{.Store.GraphDriverName}}'
           podman info --format 'graphroot: {{.Store.GraphRoot}}'
-          echo "== ~/bin/podman.home:"; ls -A "$HOME/bin/podman.home" | head -5
-          echo "== ~/bin/podman.share:"; ls -A "$HOME/bin/podman.share" | head -5
-          echo "== ~/bin/podman.config:"; ls -A "$HOME/bin/podman.config" | head -5
-          echo "== ~/bin/podman.cache:"; ls -A "$HOME/bin/podman.cache" | head -5
-          echo "== ~/.local/share/containers (should not exist):"
-          ls -d "$HOME/.local/share/containers" 2>/dev/null || echo "absent"
+          podman info --format 'runroot: {{.Store.RunRoot}}'
+          df -T "$HOME/bin" | tail -1
 
-      - name: Build and run
+      - name: Build with a bind mount from a stage
         run: |
           set +e
-          podman run --rm docker.io/library/busybox:latest echo from-home-bin
-          echo "run exit: $?"
           mkdir -p /tmp/ctx
-          printf 'FROM docker.io/library/busybox:latest\nRUN echo hi > /hi\n' > /tmp/ctx/Containerfile
+          cat > /tmp/ctx/Containerfile <<'EOF'
+          FROM docker.io/library/busybox:latest AS stage
+          RUN mkdir -p /bins && echo hi > /bins/f
+          FROM docker.io/library/busybox:latest
+          RUN --mount=type=bind,from=stage,src=/bins,dst=/tmp/bins cp /tmp/bins/f /f
+          EOF
           podman build -t probe:local /tmp/ctx
           echo "build exit: $?"
