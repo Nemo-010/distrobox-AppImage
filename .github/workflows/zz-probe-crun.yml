@@ -1,4 +1,4 @@
-name: Probe the PATH the AppImage podman sees
+name: Probe an absolute runtime path
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runs-on: [ubuntu-22.04, ubuntu-24.04, ubuntu-latest]
+        runs-on: [ubuntu-24.04, ubuntu-latest]
     steps:
       - name: Install the AppImage podman
         env:
@@ -26,16 +26,19 @@ jobs:
           sudo install -m 755 "$RUNNER_TEMP/podman" /usr/bin/podman
           echo "DISABLE_AUTO_UPDATES=1" >> "$GITHUB_ENV"
 
-      - name: What podman sees
+      - name: Point the runtime at the bundled crun
         run: |
-          echo "== shell PATH: ${PATH}"
-          echo "== host crun: $(/usr/bin/crun --version 2>/dev/null | head -1 || echo none)"
-          echo "== runtime path: $(podman info --format '{{.Host.OCIRuntime.Path}}' 2>&1 | tail -1)"
-          echo "== PATH inside podman:"
-          podman unshare printenv PATH || echo "podman unshare failed"
-          echo "== crun that PATH finds inside podman:"
-          podman unshare sh -c 'command -v crun; crun --version 2>&1 | head -1' || echo "podman unshare failed"
-          echo "== CONTAINERS_CONF_OVERRIDE inside podman:"
-          podman unshare printenv CONTAINERS_CONF_OVERRIDE || echo "unset"
-          echo "== the override file:"
-          podman unshare sh -c 'cat "$CONTAINERS_CONF_OVERRIDE"' || echo "none"
+          set -euo pipefail
+          # the mount the AppImage uses for this file, as podman sees it
+          mount_bin=$(podman unshare printenv PATH | cut -d: -f1)
+          echo "mount bin: ${mount_bin}"
+          sudo mkdir -p /etc/containers/containers.conf.d
+          printf '[engine]\nruntime = "%s/bin/crun"\n' "${mount_bin}" \
+            | sudo tee /etc/containers/containers.conf.d/zz-appimage-podman.conf
+          echo "runtime path: $(podman info --format '{{.Host.OCIRuntime.Path}}' 2>&1 | tail -1)"
+
+      - name: Build with a RUN step
+        run: |
+          mkdir -p /tmp/ctx
+          printf 'FROM docker.io/library/busybox:latest\nRUN echo hi > /hi\n' > /tmp/ctx/Containerfile
+          podman build -t probe:local /tmp/ctx
