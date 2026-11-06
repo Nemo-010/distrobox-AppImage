@@ -1,0 +1,74 @@
+name: Test the released AppImage
+
+on:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: ${{ matrix.runs-on }}
+    runs-on: ${{ matrix.runs-on }}
+    strategy:
+      fail-fast: false
+      matrix:
+        runs-on: [ubuntu-22.04, ubuntu-24.04, ubuntu-latest]
+    steps:
+      - name: Install the latest released AppImage
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh release download --repo pkgforge-dev/distrobox-AppImage \
+            --pattern "*anylinux-$(uname -m).AppImage" --output "$RUNNER_TEMP/podman"
+          chmod +x "$RUNNER_TEMP/podman"
+          sudo install -m 755 "$RUNNER_TEMP/podman" /usr/bin/podman
+          echo "DISABLE_AUTO_UPDATES=1" >> "$GITHUB_ENV"
+
+      - name: Host versions
+        run: |
+          for b in crun conmon catatonit; do
+            p=$(command -v "$b" || true)
+            if [ -n "$p" ]; then echo "$b: $p $("$p" --version 2>&1 | head -1)"; else echo "$b: not on the host"; fi
+          done
+
+      - name: First podman call, no migration
+        run: |
+          set +e
+          echo "podman: $(podman --version)"
+          out=$(podman info 2>&1)
+          echo "podman info exit: $?"
+          echo "$out" | head -5
+          echo "$out" | grep -qi bolt && echo "BOLTDB: still blocks" || echo "BOLTDB: no complaint"
+
+      - name: Helper paths
+        run: |
+          set +e
+          echo "CONTAINERS_CONF_OVERRIDE: ${CONTAINERS_CONF_OVERRIDE:-unset in the shell}"
+          podman info --format 'runtime: {{.Host.OCIRuntime.Path}}' 2>&1 | tail -1
+          podman info --format 'conmon: {{.Host.Conmon.Path}}' 2>&1 | tail -1
+          podman info --format 'netavark: {{.Host.NetworkBackendInfo.Path}}' 2>&1 | tail -1
+          podman info --format 'aardvark: {{.Host.NetworkBackendInfo.DNS.Path}}' 2>&1 | tail -1
+
+      - name: Build with a RUN step
+        run: |
+          set +e
+          mkdir -p /tmp/ctx
+          printf 'FROM docker.io/library/busybox:latest\nRUN echo hi > /hi\n' > /tmp/ctx/Containerfile
+          podman build -t probe:local /tmp/ctx
+          echo "build exit: $?"
+
+      - name: Run with --init
+        run: |
+          set +e
+          podman run --rm probe:local cat /hi
+          echo "run exit: $?"
+          podman run --rm --init docker.io/library/busybox:latest true
+          echo "run --init exit: $?"
+          mount_bin=$(podman unshare printenv PATH 2>/dev/null | cut -d: -f1)
+          echo "mount bin: ${mount_bin}"
+          echo "bundled catatonit: $(md5sum "${mount_bin}/../shared/bin/catatonit" 2>/dev/null)"
+          echo "host catatonit:    $(md5sum /usr/bin/catatonit 2>/dev/null)"
+          podman run --rm --init docker.io/library/busybox:latest md5sum /run/podman-init
+          echo "init md5 exit: $?"
