@@ -1,0 +1,47 @@
+name: Probe crun resolution
+
+on:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    name: ${{ matrix.runs-on }}
+    runs-on: ${{ matrix.runs-on }}
+    strategy:
+      fail-fast: false
+      matrix:
+        runs-on: [ubuntu-24.04, ubuntu-latest]
+    steps:
+      - name: Install the AppImage podman
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh release download --repo pkgforge-dev/distrobox-AppImage \
+            --pattern "*anylinux-$(uname -m).AppImage" --output "$RUNNER_TEMP/podman"
+          chmod +x "$RUNNER_TEMP/podman"
+          sudo install -m 755 "$RUNNER_TEMP/podman" /usr/bin/podman
+          echo "DISABLE_AUTO_UPDATES=1" >> "$GITHUB_ENV"
+
+      - name: Defaults
+        run: |
+          echo "== host crun:"; /usr/bin/crun --version 2>&1 | head -1 || echo none
+          echo "== /etc/containers/containers.conf:"; cat /etc/containers/containers.conf 2>/dev/null || echo missing
+          echo "== drop-in dir:"; ls -la /etc/containers/containers.conf.d 2>/dev/null || echo missing
+          echo "== runtime path:"; podman info --format '{{.Host.OCIRuntime.Name}}|{{.Host.OCIRuntime.Path}}' 2>&1 | tail -2
+
+      - name: With a runtime drop-in
+        run: |
+          sudo mkdir -p /etc/containers/containers.conf.d
+          printf '[engine]\nruntime = "crun"\n' | sudo tee /etc/containers/containers.conf.d/zz-appimage-podman.conf
+          echo "== runtime path:"; podman info --format '{{.Host.OCIRuntime.Name}}|{{.Host.OCIRuntime.Path}}' 2>&1 | tail -2
+
+      - name: Build a container with the drop-in
+        run: |
+          mkdir -p /tmp/ctx
+          printf 'FROM scratch\nCOPY file /file\n' > /tmp/ctx/Containerfile
+          echo hi > /tmp/ctx/file
+          podman build -t probe:local /tmp/ctx
