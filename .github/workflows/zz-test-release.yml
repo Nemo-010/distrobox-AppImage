@@ -72,3 +72,8 @@ jobs:
           echo "host catatonit:    $(md5sum /usr/bin/catatonit 2>/dev/null)"
           podman run --rm --init docker.io/library/busybox:latest md5sum /run/podman-init
           echo "init md5 exit: $?"
+          echo "== init-path pointing at the real static binary in the mount:"
+          podman run --rm --init --init-path "${mount_bin}/../shared/bin/catatonit" docker.io/library/busybox:latest true
+          echo "real init exit: $?"
+          podman run --rm --init --init-path "${mount_bin}/../shared/bin/catatonit" docker.io/library/busybox:latest md5sum /run/podman-init
+          echo "real init md5 exit: $?"
