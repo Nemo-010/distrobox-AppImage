@@ -189,14 +189,15 @@ runs:
         cache-binary: ${{ inputs.use_cache }}
 
     # The runner images do not ship a podman this action can use: 22.04 has
-    # none at all, and from 24.04 on the unprivileged_userns AppArmor profile
-    # only lets /usr/bin/podman create a rootless user namespace, so a podman
-    # installed anywhere else fails its first rootless run.
+    # none at all, and the others are behind. The distrobox AppImage builds
+    # podman from current sources and is multi-call: named podman, it runs its
+    # bundled podman together with conmon and crun, so every runner gets the
+    # same current podman.
     #
-    # The distrobox AppImage builds podman from current sources and is
-    # multi-call: named podman, it runs its bundled podman together with conmon
-    # and crun. Installed as /usr/bin/podman it gives every runner the same
-    # current podman, at the one path the AppArmor profile exempts.
+    # It goes into ~/bin with its portable folders, which keeps podman's state
+    # next to the AppImage. From 24.04 on the unprivileged_userns AppArmor
+    # profile only lets a binary with its own profile create a rootless user
+    # namespace, so the step loads one for that path.
     - name: Setup Podman
       if: ${{ inputs.squash == 'true' || inputs.build_chunked_oci == 'true' || inputs.rechunk == 'true' }}
       shell: bash
@@ -204,32 +205,34 @@ runs:
         GH_TOKEN: ${{ github.token }}
       run: |
         set -euo pipefail
-        appimage="${RUNNER_TEMP}/podman"
+        mkdir -p "$HOME/bin"
         gh release download --repo pkgforge-dev/distrobox-AppImage \
           --pattern "*anylinux-$(uname -m).AppImage" \
-          --output "${appimage}"
-        chmod +x "${appimage}"
-        sudo install -m 755 "${appimage}" /usr/bin/podman
-
-        # podman runs /usr/bin/crun whenever there is one, and the crun of
-        # Ubuntu 24.04 (1.14) rejects the OCI spec version podman 6 writes.
-        # Without it podman runs the crun the AppImage ships, which matches the
-        # podman it ships
-        if [ -e /usr/bin/crun ]; then
-          sudo mv /usr/bin/crun /usr/bin/crun.distro
-        fi
-
-        # the AppImage looks for updates on every launch, which a build does not want
+          --output "$HOME/bin/podman"
+        chmod +x "$HOME/bin/podman"
+        # portable folders, so podman keeps its state next to the AppImage
+        # instead of in the runner's home, where an older podman may have left
+        # a BoltDB database that podman 6 refuses to start with
+        mkdir -p "$HOME/bin/podman.home" "$HOME/bin/podman.share" \
+          "$HOME/bin/podman.cache" "$HOME/bin/podman.config"
+        echo "$HOME/bin" >> "${GITHUB_PATH}"
         echo "DISABLE_AUTO_UPDATES=1" >> "${GITHUB_ENV}"
+        export PATH="$HOME/bin:$PATH"
+
+        # from 24.04 on, only a binary with its own profile may create a
+        # rootless user namespace, and $HOME/bin/podman is not one of them
+        sudo tee /etc/apparmor.d/podman-home > /dev/null <<EOF
+        abi <abi/4.0>,
+        include <tunables/global>
+
+        profile podman "$HOME/bin/podman" flags=(unconfined) {
+          userns,
+        }
+        EOF
+        sudo apparmor_parser -r /etc/apparmor.d/podman-home
 
         podman --version
-
-        # podman 3.4, which 22.04 ships, kept its state in BoltDB, and podman 6
-        # refuses to start while that database is there
-        if ! podman info > /dev/null 2>&1; then
-          podman system migrate --migrate-db
-          podman info > /dev/null
-        fi
+        podman info > /dev/null
 
     - uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
       with:
