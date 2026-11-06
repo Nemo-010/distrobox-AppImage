@@ -1,0 +1,453 @@
+name: "BlueBuild"
+description: "Build a custom OS image"
+inputs:
+  recipe:
+    description: |
+      The [recipe](https://blue-build.org/reference/recipe/) file to build the image from, relative to the `config/` or `recipes/` directory.
+    required: true
+    default: "recipe.yml"
+  cosign_private_key:
+    description: |
+      The Sigstore/cosign secret used to sign the image.
+
+      Example: `&#36;{{ secrets.COSIGN_PRIVATE_KEY }}`
+    required: true
+
+  cosign_public_key:
+    description: |
+      The public key, but passed as env.
+
+      Example: `&#36;{{ secrets.COSIGN_PUBLIC_KEY }}`
+    required: false
+    default: ""
+
+  push:
+    description: |
+      Whether to push the image to a container registry.
+    required: false
+    default: "true"
+  registry_token:
+    description: |
+      The token used to sign into the container registry.
+
+      Example: `&#36;{{ github.token }}`
+    required: false
+    default: ""
+  registry_username:
+    description: |
+      The username used to sign into the container registry.
+    required: false
+    default: ${{ github.repository_owner }}
+  pr_event_number:
+    description: |
+      The event number used to tag images pushed from pull requests.
+
+      Example: `&#36;{{ github.event.number }}`
+    required: true
+  maximize_build_space:
+    description: |
+      Whether to run the unwanted software remover to maximize build space in the GitHub builder.
+      Disable this with 'false' if your image doesn't take up a lot of space and you'd rather have shorter build times.
+    required: false
+    default: "true"
+  use_unstable_cli:
+    description: |
+      If true, this action pulls the `main` branch of blue-build/cli instead of the stable version the current action version is configured to use by default.
+      This feature is useful for testing new features, but should not be used in production.
+      Input must match the string 'true' for the unstable version to be used.
+    required: false
+    default: "false"
+  cli_version:
+    description: |
+      Set this with a tag, sha, or branch name for the blue-build/cli repo to use that particular version of the CLI tool. This will override the `use_unstable_cli` input for the action.
+    required: false
+  registry:
+    description: |
+      The container registry to push the built image to.
+    required: false
+    default: "ghcr.io"
+  registry_namespace:
+    description: |
+      The namespace on the registry to push to.
+
+      Example: `ublue-os`
+    required: false
+    default: ${{ github.repository_owner }}
+  chunkah:
+    description: |
+      Uses Chunkah to rechunk the image, allowing for smaller images and smaller updates.
+
+      This will increase the build-time and take up more space during build-time.
+    required: false
+    default: "false"
+  build_chunked_oci:
+    description: |
+      Uses `rpm-ostree compose build-chunked-oci` to rechunk the image, allowing for smaller images and smaller updates.
+
+      This will increase the build-time and take up more space during build-time.
+    required: false
+    default: "false"
+  max_layers:
+    description: |
+      Maximum number of layers to use when rechunking with `build-chunked-oci`.
+    required: false
+    default: 128
+  rechunk:
+    description: |
+      Rechunk the ostree-based result images with [github.com/hhd-dev/rechunk](https://github.com/hhd-dev/rechunk) for more efficient diffs and updates. (lower image size, better download speed, better update resuming)
+
+      Will make your builds considerably slower. This is an experimental option, as it can cause issues with file permissions in some scenarios, so enable on your own risk.
+
+      *Warning*: This option will be deprecated in the future.
+    required: false
+    default: "false"
+  rechunk_clear_plan:
+    description: |
+      Disregard previous build's layer plan when rechunking.
+    required: false
+    default: "false"
+  use_cache:
+    description: |
+      Make use of layer cache by pushing the layers to the registry. Input must match the string 'true' for the step to be enabled.
+    required: false
+    default: "false"
+  retry_push_count:
+    description: |
+      The number of times to retry pushing the image.
+    required: false
+    default: "0"
+  squash:
+    description: |
+      Uses buildah to squash the build's layers into a single layer. Use of this option
+      disables cache. Conflicts with adding `--build-driver` or `--squash` to the build opts.
+    required: false
+    default: "false"
+  build_opts:
+    description: |
+      Provide options to the call to the BlueBuild CLI build command. If you use this with
+      the squash input set to true and provide either of the `--build-driver` or `--squash` flags
+      an error will occur and the action will not run.
+    required: false
+    default: " "
+  working_directory:
+    description: |
+      Changes working directory for whole build.
+      For example, setting this to `./abc/` would cause for the recipe to be read from `./abc/recipes/recipe.yml`.
+    required: false
+    default: ./
+  skip_checkout:
+    description: |
+      Set to true to skip doing the actions/checkout step.
+      This allows you to checkout manually before calling bluebuild/github-action
+      and to modify files (such as supplying build information to other scripts) before building.
+    required: false
+    default: "false"
+  verify_install:
+    description: |
+      Set to true verify the cosign signature for the Blue-Build cli
+    required: false
+    default: "false"
+  digestfile:
+    description: |
+      Filesystem path that digests of built images will be written to in JSON format.
+
+      Example file format:
+      `{"ghcr.io/blue-build/base-images/fedora-kinoite:latest": "sha256:abcdef..."}`
+    required: false
+    default: ""
+
+runs:
+  using: "composite"
+  steps:
+    - name: Validate inputs
+      shell: bash
+      env:
+        INPUT_CHUNKAH: ${{ inputs.chunkah }}
+        INPUT_BUILD_CHUNKED_OCI: ${{ inputs.build_chunked_oci }}
+        INPUT_RECHUNK: ${{ inputs.rechunk }}
+        INPUT_RECHUNK_CLEAR_PLAN: ${{ inputs.rechunk_clear_plan }}
+        INPUT_SQUASH: ${{ inputs.squash }}
+        BUILD_OPTS: ${{ inputs.build_opts }}
+        github_action_path: ${{ github.action_path }}
+      run: |
+        "${github_action_path}/build_opts_check.sh"
+
+    # building custom images might take a lot of space,
+    # so it's best to remove unneeded softawre
+    - name: Maximize build space
+      if: ${{ inputs.maximize_build_space == 'true' }}
+      uses: hastd/free-disk-space@68572aeaadb7f76bd408246328e95926323402b5 # v0.1.2
+      with:
+        # skip freeing more disk space if runner already has lots of available space
+        skip-if-available: "80G"
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      if: ${{ inputs.squash != 'true' && inputs.build_chunked_oci != 'true' && inputs.rechunk != 'true' }}
+      with:
+        driver: docker-container
+        cache-binary: ${{ inputs.use_cache }}
+
+    # The Ubuntu runner images do not ship a podman this action can use: 22.04
+    # has none at all, and from 24.04 on the unprivileged_userns AppArmor
+    # profile only lets /usr/bin/podman create a rootless user namespace, so
+    # any podman installed elsewhere fails its first rootless run.
+    #
+    # The distrobox AppImage builds podman from current sources and is
+    # multi-call: named podman, it runs its bundled podman together with conmon
+    # and crun. Installed as /usr/bin/podman it gives every Ubuntu runner the
+    # same current podman, at the one path the AppArmor profile exempts.
+    - name: Setup Podman
+      if: ${{ inputs.squash == 'true' || inputs.build_chunked_oci == 'true' || inputs.rechunk == 'true' }}
+      shell: bash
+      env:
+        AUTH_HEADER: "Authorization: Bearer ${{ github.token }}"
+      run: |
+        set -euo pipefail
+        # other distributions ship a current podman themselves
+        if ! grep -q '^ID=ubuntu$' /etc/os-release; then
+          echo "Not an Ubuntu runner, keeping the podman from the runner image"
+          exit 0
+        fi
+
+        appimage_url=$(curl -fLsS --retry 5 \
+          --variable '%AUTH_HEADER' --expand-header '{{AUTH_HEADER}}' \
+          https://api.github.com/repos/pkgforge-dev/distrobox-AppImage/releases/latest \
+          | jq -r --arg arch "$(uname -m)" '.assets[] | select(.name | endswith("-anylinux-\($arch).AppImage")) | .browser_download_url')
+        if [[ -z "${appimage_url}" ]]; then
+          echo "No distrobox AppImage for $(uname -m) in the latest release"
+          exit 1
+        fi
+
+        curl -fLsS --retry 5 --output "${RUNNER_TEMP}/podman" "${appimage_url}"
+        chmod +x "${RUNNER_TEMP}/podman"
+        sudo install -m 755 "${RUNNER_TEMP}/podman" /usr/bin/podman
+
+        # the AppImage looks for updates on every launch, which a build does not want
+        echo "DISABLE_AUTO_UPDATES=1" >> "${GITHUB_ENV}"
+
+        podman --version
+        podman info > /dev/null
+
+    - uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+      with:
+        install-dir: /usr/bin
+        use-sudo: true
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
+
+    - name: Install the slsa-verifier
+      if: ${{ inputs.verify_install == 'true' }}
+      uses: slsa-framework/slsa-verifier/actions/installer@ea584f4502babc6f60d9bc799dbbb13c1caa9ee6 # v2.7.1
+
+    # clones user's repo
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      if: ${{ inputs.skip_checkout == 'false' }}
+      with:
+        persist-credentials: false
+
+    - name: Set container policy to validate Blue-Build cli signature
+      if: ${{ inputs.verify_install == 'true' }}
+      shell: bash
+      run: |
+        set -euo pipefail
+        POLICY_FILE="/etc/containers/policy.json"
+        CLI_IMAGE_REGISTRY="ghcr.io/blue-build/cli"
+        MODULES_IMAGE_REGISTRY="ghcr.io/blue-build/modules"
+        CLI_IMAGE_PUBKEY="/etc/pki/containers/blue-build-cli.pub"
+        MODULES_IMAGE_PUBKEY="/etc/pki/containers/blue-build-modules.pub"
+        sudo mkdir -p /etc/pki/containers
+        curl -fLsS --retry 5 https://raw.githubusercontent.com/blue-build/cli/refs/heads/main/cosign.pub | sudo tee "${CLI_IMAGE_PUBKEY}" > /dev/null
+        curl -fLsS --retry 5 https://raw.githubusercontent.com/blue-build/modules/refs/heads/main/cosign.pub | sudo tee "${MODULES_IMAGE_PUBKEY}" > /dev/null
+
+        # add public keys for BlueBuild CLI and modules to container policy
+        jq --arg cli_image_registry "${CLI_IMAGE_REGISTRY}" \
+          --arg cli_image_pubkey "${CLI_IMAGE_PUBKEY}" \
+          --arg modules_image_registry "${MODULES_IMAGE_REGISTRY}" \
+          --arg modules_image_pubkey "${MODULES_IMAGE_PUBKEY}" \
+          '.transports.docker += {
+            $cli_image_registry: [
+              {
+                "type": "sigstoreSigned",
+                "keyPath": $cli_image_pubkey,
+                "signedIdentity": {
+                  "type": "matchRepository"
+                }
+              }
+            ],
+            $modules_image_registry: [
+              {
+                "type": "sigstoreSigned",
+                "keyPath": $modules_image_pubkey,
+                "signedIdentity": {
+                  "type": "matchRepository"
+                }
+              }
+            ]
+          }' "${POLICY_FILE}" > POLICY.tmp
+        sudo mv POLICY.tmp "${POLICY_FILE}"
+
+        # enable sigstore attachments for BlueBuild container verification
+        sudo mkdir -p /etc/containers/registries.d
+        cat <<'EOF' | sudo tee /etc/containers/registries.d/blue-build.yaml > /dev/null
+        docker:
+          ghcr.io/blue-build:
+            use-sigstore-attachments: true
+        EOF
+
+    - name: Determine Vars
+      id: build_vars
+      shell: bash
+      env:
+        RECIPE: ${{ inputs.recipe }}
+        USE_UNSTABLE_CLI: ${{ inputs.use_unstable_cli }}
+        CLI_VERSION: ${{ inputs.cli_version }}
+        AUTH_HEADER: "Authorization: Bearer ${{ github.token }}"
+      run: |
+        set -euo pipefail
+        if [[ "${USE_UNSTABLE_CLI}" == "true" && -z "${CLI_VERSION}" ]]; then
+          CLI_VERSION_TAG="main"
+          REPO_TAG="main"
+          VERIFY_FLAG="--source-branch"
+        elif [ -n "${CLI_VERSION}" ]; then
+          CLI_VERSION_TAG="${CLI_VERSION}"
+          REPO_TAG="${CLI_VERSION}"
+          if [[ "${CLI_VERSION}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            VERIFY_FLAG="--source-tag"
+          else
+            VERIFY_FLAG="--source-branch"
+          fi
+        else
+          REPO_TAG=$(curl -fLsS --variable '%AUTH_HEADER' --expand-header '{{AUTH_HEADER}}' --retry 5 https://api.github.com/repos/blue-build/cli/tags | jq -r '.[0].name')
+          CLI_VERSION_TAG="v0.9"
+          VERIFY_FLAG="--source-tag"
+        fi
+        echo "cli_version=${CLI_VERSION_TAG}" >> "${GITHUB_OUTPUT}"
+        echo "repo_tag=${REPO_TAG}" >> "${GITHUB_OUTPUT}"
+        echo "verify_flag=${VERIFY_FLAG}" >> "${GITHUB_OUTPUT}"
+
+        RECIPE_PATH=""
+        if [ -f "./config/${RECIPE}" ]; then
+          RECIPE_PATH="./config/${RECIPE}"
+        else
+          RECIPE_PATH="./recipes/${RECIPE}"
+        fi
+        echo "recipe_path=${RECIPE_PATH}" >> "${GITHUB_OUTPUT}"
+
+    - name: Install BlueBuild
+      shell: bash
+      env:
+        CLI_VERSION_TAG: ${{ steps.build_vars.outputs.cli_version }}
+        REPO_TAG: ${{ steps.build_vars.outputs.repo_tag }}
+        VERIFY_FLAG: ${{ steps.build_vars.outputs.verify_flag }}
+        VERIFY_INSTALL: ${{ inputs.verify_install }}
+      run: |
+        set -euo pipefail
+        CLI_INSTALLER_IMAGE="ghcr.io/blue-build/cli:${CLI_VERSION_TAG}-installer"
+        if [ "$VERIFY_INSTALL" = "true" ]; then
+          docker pull "${CLI_INSTALLER_IMAGE}"
+          CLI_INSTALLER_IMAGE=$(docker inspect --format='{{index .RepoDigests 0}}' "${CLI_INSTALLER_IMAGE}")
+          slsa-verifier verify-image "${CLI_INSTALLER_IMAGE}" \
+              --source-uri github.com/blue-build/cli \
+              "${VERIFY_FLAG}" "${REPO_TAG}"
+        fi
+        sudo docker create \
+          --name blue-build-installer \
+          "${CLI_INSTALLER_IMAGE}"
+        sudo docker cp blue-build-installer:/out/bluebuild /usr/bin/bluebuild
+        sudo docker rm blue-build-installer
+        bluebuild --version
+
+    # blue-build/cli does the heavy lifting
+    - name: Build Image
+      shell: bash
+      working-directory: ${{ inputs.working_directory }}
+      env:
+        COSIGN_PRIVATE_KEY: ${{ inputs.cosign_private_key }}
+        COSIGN_PUBLIC_KEY: ${{ inputs.cosign_public_key }}
+        GH_TOKEN: ${{ inputs.registry_token }}
+        BB_BUILD_PUSH: ${{ inputs.push }}
+        BB_PASSWORD: ${{ inputs.registry_token }}
+        BB_USERNAME: ${{ inputs.registry_username }}
+        BB_REGISTRY: ${{ inputs.registry }}
+        BB_REGISTRY_NAMESPACE: ${{ inputs.registry_namespace }}
+        GH_PR_EVENT_NUMBER: ${{ inputs.pr_event_number }}
+        BB_CACHE_LAYERS: ${{ inputs.use_cache }}
+        BB_RETRY_PUSH_COUNT: ${{ inputs.retry_push_count }}
+        BB_SQUASH: ${{ inputs.squash }}
+        BB_BUILD_CHUNKAH: ${{ inputs.chunkah }}
+        BB_BUILD_CHUNKED_OCI: ${{ inputs.build_chunked_oci }}
+        BB_BUILD_MAX_LAYERS: ${{ inputs.max_layers }}
+        BB_BUILD_REMOVE_BASE_IMAGE: "true"
+        BB_BUILD_RECHUNK: ${{ inputs.rechunk }}
+        BB_BUILD_RECHUNK_CLEAR_PLAN: ${{ inputs.rechunk_clear_plan }}
+        BB_BUILD_DIGESTFILE: ${{ inputs.digestfile }}
+        RECIPE_PATH: ${{ steps.build_vars.outputs.recipe_path }}
+        RUST_LOG_STYLE: always
+        CLICOLOR_FORCE: "1"
+        BUILD_OPTS: ${{ inputs.build_opts }}
+      run: |
+        read -r -a BUILD_OPTS <<< "${BUILD_OPTS}"
+
+        # Create a temporary cosign.pub from the secret if one isn't already present,
+        # a way to avoid committing any type of credential—public or private—directly to the repository
+        if [[ ! -f cosign.pub && -n "${COSIGN_PUBLIC_KEY:-}" ]]; then
+            printf '%s\n' "${COSIGN_PUBLIC_KEY}" > cosign.pub
+        fi
+
+        boolean_variables=(
+          BB_BUILD_PUSH
+          BB_SQUASH
+          BB_BUILD_CHUNKAH
+          BB_BUILD_CHUNKED_OCI
+          BB_BUILD_REMOVE_BASE_IMAGE
+          BB_BUILD_RECHUNK
+          BB_BUILD_RECHUNK_CLEAR_PLAN
+          BB_CACHE_LAYERS
+        )
+        # Normalize boolean values to unset or 'true'. Unsetting falsey values
+        # is necessary due to this issue with clap's parsing:
+        # https://github.com/clap-rs/clap/issues/5591
+        for bool_var in "${boolean_variables[@]}"; do
+          case "${!bool_var,,}" in
+            ''|0|false|no|off)
+              unset "${bool_var}"
+              ;;
+            1|true|yes|on)
+              IFS= read -r "${bool_var}" <<< 'true'
+              ;;
+            *)
+              echo "Invalid value '${!bool_var}' for variable '${bool_var}'"
+              exit 1
+              ;;
+          esac
+        done
+
+        if [[ -z "${BB_BUILD_DIGESTFILE-}" ]]; then
+          unset BB_BUILD_DIGESTFILE
+        fi
+
+        if [[ "${BB_SQUASH-}" == 'true' ]]; then
+          BUILD_OPTS+=("--build-driver" "podman" "--squash")
+        fi
+
+        if [[ -z "${BB_BUILD_CHUNKAH-}" && -z "${BB_BUILD_CHUNKED_OCI-}" ]]; then
+          unset BB_BUILD_MAX_LAYERS
+          unset BB_BUILD_REMOVE_BASE_IMAGE
+        fi
+
+        RUN_SUDO=""
+        if [[ "${BB_BUILD_RECHUNK-}" = 'true' ]]; then
+          RUN_SUDO=1
+        fi
+
+        if [[ "${BB_RETRY_PUSH_COUNT}" != '0' ]]; then
+          BUILD_OPTS+=("--retry-push" "--retry-count" "${BB_RETRY_PUSH_COUNT}")
+        fi
+
+        if [[ -n "${RUN_SUDO}" ]]; then
+          sudo -E bluebuild build -v "${BUILD_OPTS[@]}" "${RECIPE_PATH}"
+        else
+          bluebuild build -v "${BUILD_OPTS[@]}" "${RECIPE_PATH}"
+        fi

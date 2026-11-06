@@ -1,0 +1,40 @@
+name: Test the BlueBuild action with the AppImage podman
+
+on:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  action:
+    name: ${{ matrix.runs-on }}
+    runs-on: ${{ matrix.runs-on }}
+    strategy:
+      fail-fast: false
+      matrix:
+        runs-on: [ubuntu-22.04, ubuntu-24.04, ubuntu-latest]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Show the podman the runner ships
+        run: |
+          grep -E '^(ID|VERSION_ID)=' /etc/os-release
+          podman --version || echo "no podman in the runner image"
+
+      - uses: ./action
+        with:
+          recipe: recipe.yml
+          cosign_private_key: ${{ secrets.TEST_SIGNING_SECRET }}
+          pr_event_number: "0"
+          push: "false"
+          squash: "true"
+          skip_checkout: "true"
+
+      - name: Check the podman the action installed
+        run: |
+          podman --version
+          file /usr/bin/podman
+          echo "DISABLE_AUTO_UPDATES=${DISABLE_AUTO_UPDATES:-unset}"
