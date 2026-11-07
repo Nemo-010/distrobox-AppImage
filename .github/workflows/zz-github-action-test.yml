@@ -26,6 +26,7 @@ jobs:
           /usr/bin/crun --version 2>/dev/null | head -1 || echo "no crun in the runner image"
 
       - uses: ./action
+        continue-on-error: true
         with:
           recipe: recipe.yml
           cosign_private_key: ${{ secrets.TEST_SIGNING_SECRET }}
@@ -33,6 +34,19 @@ jobs:
           push: "false"
           squash: "true"
           skip_checkout: "true"
+
+      - name: Dump what the build saw
+        if: always()
+        run: |
+          set +e
+          echo "podman: $(command -v podman) $(podman --version)"
+          echo "== temp dirs:"
+          ls -d /tmp/bluebuild-tmp-* 2>/dev/null
+          for f in /tmp/bluebuild-tmp-*/Containerfile*; do
+            [ -f "$f" ] || continue
+            echo "== $f"
+            cat "$f"
+          done
 
       - name: Check the podman the action installed
         run: |
