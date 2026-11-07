@@ -1,4 +1,4 @@
-name: Probe old runners
+name: Probe the AppImage on an old glibc
 
 on:
   push:
@@ -7,23 +7,30 @@ permissions:
   contents: read
 
 jobs:
-  versions:
-    name: ${{ matrix.runs-on }}
-    runs-on: ${{ matrix.runs-on }}
-    continue-on-error: true
+  glibc:
+    name: ubuntu:${{ matrix.tag }}
+    runs-on: ubuntu-latest
+    container: ubuntu:${{ matrix.tag }}
     strategy:
       fail-fast: false
       matrix:
-        runs-on: [ubuntu-20.04, ubuntu-22.04, ubuntu-24.04, ubuntu-latest]
+        tag: ["20.04", "22.04"]
     steps:
-      - name: Versions
+      - name: Install curl
         run: |
-          . /etc/os-release
-          echo "os: $PRETTY_NAME"
-          echo "gh: $(gh --version 2>/dev/null | head -1 || echo none)"
-          echo "curl: $(curl --version 2>/dev/null | head -1 || echo none)"
-          echo "jq: $(jq --version 2>/dev/null || echo none)"
-          echo "git: $(git --version 2>/dev/null || echo none)"
-          echo "sysctl knob: $(sysctl -n kernel.apparmor_restrict_unprivileged_userns 2>/dev/null || echo none)"
-          echo "apparmor_parser: $(command -v apparmor_parser || echo none)"
-          echo "libfuse2: $(ls /usr/lib/x86_64-linux-gnu/libfuse.so.2 2>/dev/null || echo none)"
+          apt-get update -qq
+          apt-get install -y -qq curl ca-certificates > /dev/null
+          echo "glibc: $(ldd --version | head -1)"
+          echo "curl: $(curl --version | head -1)"
+
+      - name: Run the AppImage
+        run: |
+          set -euo pipefail
+          mkdir -p /root/bin
+          url=$(curl -fsSL https://api.github.com/repos/pkgforge-dev/distrobox-AppImage/releases/latest \
+            | sed -n 's/.*"browser_download_url": "\([^"]*anylinux-x86_64\.AppImage\)".*/\1/p' | head -1)
+          echo "url: $url"
+          curl -fsSL -o /root/bin/podman "$url"
+          chmod +x /root/bin/podman
+          mkdir -p /root/bin/podman.home /root/bin/podman.share /root/bin/podman.cache /root/bin/podman.config
+          DISABLE_AUTO_UPDATES=1 /root/bin/podman --version
