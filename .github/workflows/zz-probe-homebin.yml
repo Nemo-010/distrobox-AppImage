@@ -56,3 +56,5 @@ jobs:
           EOF
           podman build --platform linux/amd64 --layers -t probe:bb /tmp/ctx2
           echo "bluebuild-style exit: $?"
+          podman build --platform linux/amd64 --squash -t probe:bb2 /tmp/ctx2
+          echo "squash exit: $?"
