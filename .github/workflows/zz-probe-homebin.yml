@@ -54,5 +54,8 @@ jobs:
           EOF
           podman build --layers -t probe:local /tmp/ctx
           echo "build --layers exit: $?"
-          podman build -t probe:local2 /tmp/ctx
-          echo "build exit: $?"
+          podman build --platform linux/amd64 --layers -t probe:local2 /tmp/ctx
+          echo "build --platform --layers exit: $?"
+          echo secret > /tmp/secret.txt
+          podman build --platform linux/amd64 --layers --secret=id=abc,type=file,src=/tmp/secret.txt -t probe:local3 /tmp/ctx
+          echo "build with secret exit: $?"
