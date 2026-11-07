@@ -24,6 +24,7 @@ jobs:
           echo "curl: $(curl --version | head -1)"
 
       - name: Run the AppImage
+        shell: bash
         run: |
           set -euo pipefail
           mkdir -p /root/bin
