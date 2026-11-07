@@ -1,0 +1,1368 @@
+ubuntu-22.04	Set up job	﻿2026-11-07T00:24:26.7540834Z Current runner version: '2.338.2'
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.7571232Z ##[group]Runner Image Provisioner
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.7572485Z Hosted Compute Agent
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.7573375Z Version: 20261028.624
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.7574209Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.7575089Z Build Date: 2026-10-28T21:51:42Z
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.7576081Z Worker ID: {2a9cb402-cc93-43cb-be32-95727140c600}
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.7577006Z Region: eastus2
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.7578753Z Cloud: Azure
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.7579536Z ##[endgroup]
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.7581158Z ##[group]Operating System
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.7582138Z Ubuntu
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.7582980Z 22.04.5
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.7584201Z LTS
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.7584894Z ##[endgroup]
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.7585613Z ##[group]Runner Image
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.7586469Z Image: ubuntu-22.04
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.7587198Z Version: 20261101.347.1
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.7588735Z Included Software: https://github.com/actions/runner-images/blob/ubuntu22/20261101.347/images/ubuntu/Ubuntu2204-Readme.md
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.7591123Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu22%2F20261101.347
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.7592731Z ##[endgroup]
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.7594208Z ##[group]GITHUB_TOKEN Permissions
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.7596707Z Contents: read
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.7597554Z Metadata: read
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.7598348Z ##[endgroup]
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.7601447Z Secret source: Actions
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.7602831Z Cache mode: write
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.7604223Z Prepare workflow directory
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.7987035Z Prepare all required actions
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.8044295Z Getting action download info
+ubuntu-22.04	Set up job	2026-11-07T00:24:26.9615840Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+ubuntu-22.04	Set up job	2026-11-07T00:24:27.1759728Z Complete job name: ubuntu-22.04
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	﻿2026-11-07T00:24:27.2616805Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.2617658Z with:
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.2618062Z   persist-credentials: false
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.2618509Z   repository: Nemo-010/distrobox-AppImage
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.2621644Z   token: ***
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.2622004Z   ssh-strict: true
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.2622501Z   ssh-user: git
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.2622859Z   clean: true
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.2623229Z   sparse-checkout-cone-mode: true
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.2623656Z   fetch-depth: 1
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.2624018Z   fetch-tags: false
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.2624383Z   show-progress: true
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.2624749Z   lfs: false
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.2625088Z   submodules: false
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.2625454Z   set-safe-directory: true
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.2625866Z   allow-unsafe-pr-checkout: false
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.2626441Z ##[endgroup]
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4218530Z Syncing repository: Nemo-010/distrobox-AppImage
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4220367Z ##[group]Getting Git version info
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4221136Z Working directory is '/home/runner/work/distrobox-AppImage/distrobox-AppImage'
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4222128Z [command]/usr/bin/git version
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4265235Z git version 2.56.0
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4281664Z ##[endgroup]
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4291130Z Temporarily overriding HOME='/home/runner/work/_temp/53152ba3-5174-4d30-ace2-49993b1b01e2' before making global git config changes
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4293087Z Adding repository directory to the temporary git global config as a safe directory
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4297529Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/distrobox-AppImage/distrobox-AppImage
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4336156Z Deleting the contents of '/home/runner/work/distrobox-AppImage/distrobox-AppImage'
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4339879Z ##[group]Determining repository object format
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4357334Z ##[endgroup]
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4358974Z ##[group]Initializing the repository
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4360480Z [command]/usr/bin/git init /home/runner/work/distrobox-AppImage/distrobox-AppImage
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4431948Z hint: Using 'master' as the name for the initial branch. This default branch name
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4434116Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4438397Z hint: to use in all of your new repositories, which will suppress this warning,
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4439494Z hint: call:
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4440137Z hint:
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4440949Z hint: 	git config --global init.defaultBranch <name>
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4441868Z hint:
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4442886Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4443964Z hint: 'development'. The just-created branch can be renamed via this command:
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4444687Z hint:
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4445149Z hint: 	git branch -m <name>
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4445655Z hint:
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4446264Z hint: Disable this message with "git config set advice.defaultBranchName false"
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4447777Z Initialized empty Git repository in /home/runner/work/distrobox-AppImage/distrobox-AppImage/.git/
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4450640Z [command]/usr/bin/git remote add origin https://github.com/Nemo-010/distrobox-AppImage
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4479198Z ##[endgroup]
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4480307Z ##[group]Disabling automatic garbage collection
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4482831Z [command]/usr/bin/git config --local gc.auto 0
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4518887Z ##[endgroup]
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4519873Z ##[group]Setting up auth
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4520533Z Removing SSH command configuration
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4524018Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4565519Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4867555Z Removing HTTP extra header
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4874206Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.4920622Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.5149411Z Removing includeIf entries pointing to credentials config files
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.5155125Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.5201432Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.5438663Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-76e103cb-6a56-4b52-9603-eb6f65bf97a4.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.5486209Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/distrobox-AppImage/distrobox-AppImage/.git.path /home/runner/work/_temp/git-credentials-76e103cb-6a56-4b52-9603-eb6f65bf97a4.config
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.5521677Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/distrobox-AppImage/distrobox-AppImage/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-76e103cb-6a56-4b52-9603-eb6f65bf97a4.config
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.5559522Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-76e103cb-6a56-4b52-9603-eb6f65bf97a4.config
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.5595494Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-76e103cb-6a56-4b52-9603-eb6f65bf97a4.config
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.5629063Z ##[endgroup]
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.5629711Z ##[group]Fetching the repository
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.5635579Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +a95bf0d79b72ea99be90350e079e22d05790e0f2:refs/remotes/origin/test/github-action-podman
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.8349533Z From https://github.com/Nemo-010/distrobox-AppImage
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.8351579Z  * [new ref]         a95bf0d79b72ea99be90350e079e22d05790e0f2 -> origin/test/github-action-podman
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.8359086Z [command]/usr/bin/git branch --list --remote origin/test/github-action-podman
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.8396057Z   origin/test/github-action-podman
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.8404840Z [command]/usr/bin/git rev-parse refs/remotes/origin/test/github-action-podman
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.8444409Z a95bf0d79b72ea99be90350e079e22d05790e0f2
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.8447674Z ##[endgroup]
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.8448389Z ##[group]Determining the checkout info
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.8449306Z ##[endgroup]
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.8450340Z [command]/usr/bin/git sparse-checkout disable
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.8584699Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.8625121Z ##[group]Checking out the ref
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.8629710Z [command]/usr/bin/git checkout --progress --force -B test/github-action-podman refs/remotes/origin/test/github-action-podman
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.8696045Z Switched to a new branch 'test/github-action-podman'
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.8697622Z branch 'test/github-action-podman' set up to track 'origin/test/github-action-podman'.
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.8703524Z ##[endgroup]
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.8748775Z [command]/usr/bin/git log -1 --format=%H
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.8780258Z a95bf0d79b72ea99be90350e079e22d05790e0f2
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.8789411Z ##[group]Removing auth
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.8790207Z Removing SSH command configuration
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.8794326Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.8832533Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.9072502Z Removing HTTP extra header
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.9076142Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.9115449Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.9346297Z Removing includeIf entries pointing to credentials config files
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.9347935Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.9379173Z includeif.gitdir:/home/runner/work/distrobox-AppImage/distrobox-AppImage/.git.path
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.9381113Z includeif.gitdir:/home/runner/work/distrobox-AppImage/distrobox-AppImage/.git/worktrees/*.path
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.9382829Z includeif.gitdir:/github/workspace/.git.path
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.9383486Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.9387239Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/distrobox-AppImage/distrobox-AppImage/.git.path
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.9416549Z /home/runner/work/_temp/git-credentials-76e103cb-6a56-4b52-9603-eb6f65bf97a4.config
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.9427478Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/distrobox-AppImage/distrobox-AppImage/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-76e103cb\-6a56\-4b52\-9603\-eb6f65bf97a4\.config
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.9475882Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/distrobox-AppImage/distrobox-AppImage/.git/worktrees/*.path
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.9504735Z /home/runner/work/_temp/git-credentials-76e103cb-6a56-4b52-9603-eb6f65bf97a4.config
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.9514205Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/distrobox-AppImage/distrobox-AppImage/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-76e103cb\-6a56\-4b52\-9603\-eb6f65bf97a4\.config
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.9553398Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.9582878Z /github/runner_temp/git-credentials-76e103cb-6a56-4b52-9603-eb6f65bf97a4.config
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.9589793Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-76e103cb\-6a56\-4b52\-9603\-eb6f65bf97a4\.config
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.9629135Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.9656867Z /github/runner_temp/git-credentials-76e103cb-6a56-4b52-9603-eb6f65bf97a4.config
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.9664606Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-76e103cb\-6a56\-4b52\-9603\-eb6f65bf97a4\.config
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.9703902Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.9935067Z Removing credentials config '/home/runner/work/_temp/git-credentials-76e103cb-6a56-4b52-9603-eb6f65bf97a4.config'
+ubuntu-22.04	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:24:27.9943631Z ##[endgroup]
+ubuntu-22.04	Show the podman the runner ships	﻿2026-11-07T00:24:28.0134197Z ##[group]Run grep -E '^(ID|VERSION_ID)=' /etc/os-release
+ubuntu-22.04	Show the podman the runner ships	2026-11-07T00:24:28.0134991Z ^[[36;1mgrep -E '^(ID|VERSION_ID)=' /etc/os-release^[[0m
+ubuntu-22.04	Show the podman the runner ships	2026-11-07T00:24:28.0135675Z ^[[36;1mpodman --version || echo "no podman in the runner image"^[[0m
+ubuntu-22.04	Show the podman the runner ships	2026-11-07T00:24:28.0136525Z ^[[36;1m/usr/bin/crun --version 2>/dev/null | head -1 || echo "no crun in the runner image"^[[0m
+ubuntu-22.04	Show the podman the runner ships	2026-11-07T00:24:28.0211329Z shell: /usr/bin/bash -e {0}
+ubuntu-22.04	Show the podman the runner ships	2026-11-07T00:24:28.0211946Z ##[endgroup]
+ubuntu-22.04	Show the podman the runner ships	2026-11-07T00:24:28.0327459Z VERSION_ID="22.04"
+ubuntu-22.04	Show the podman the runner ships	2026-11-07T00:24:28.0328123Z ID=ubuntu
+ubuntu-22.04	Show the podman the runner ships	2026-11-07T00:24:28.0536355Z podman version 3.4.4
+ubuntu-22.04	Show the podman the runner ships	2026-11-07T00:24:28.1100549Z crun version 0.17
+ubuntu-22.04	Run ./action	﻿2026-11-07T00:24:28.1495076Z Prepare all required actions
+ubuntu-22.04	Run ./action	2026-11-07T00:24:28.1496037Z Getting action download info
+ubuntu-22.04	Run ./action	2026-11-07T00:24:28.3320200Z Download action repository 'hastd/free-disk-space@68572aeaadb7f76bd408246328e95926323402b5' (SHA:68572aeaadb7f76bd408246328e95926323402b5)
+ubuntu-22.04	Run ./action	2026-11-07T00:24:28.4399986Z Download action repository 'docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069' (SHA:f87e5991a6d7451dcb8d9637bfbc97413f497069)
+ubuntu-22.04	Run ./action	2026-11-07T00:24:28.6204924Z Download action repository 'sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6' (SHA:6f9f17788090df1f26f669e9d70d6ae9567deba6)
+ubuntu-22.04	Run ./action	2026-11-07T00:24:28.7124518Z Download action repository 'docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1' (SHA:99012661954931238ded8c8b007157a8430204e1)
+ubuntu-22.04	Run ./action	2026-11-07T00:24:28.8807712Z Download action repository 'slsa-framework/slsa-verifier@ea584f4502babc6f60d9bc799dbbb13c1caa9ee6' (SHA:ea584f4502babc6f60d9bc799dbbb13c1caa9ee6)
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3647835Z ##[group]Run ./action
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3648183Z with:
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3648398Z   recipe: recipe.yml
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3648632Z   pr_event_number: 0
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3648849Z   push: false
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3649045Z   squash: true
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3649245Z   skip_checkout: true
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3649479Z   registry_username: Nemo-010
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3649712Z   maximize_build_space: true
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3649947Z   use_unstable_cli: false
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3650160Z   registry: ghcr.io
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3650378Z   registry_namespace: Nemo-010
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3650609Z   chunkah: false
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3650809Z   build_chunked_oci: false
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3651025Z   max_layers: 128
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3651293Z   rechunk: false
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3651508Z   rechunk_clear_plan: false
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3651724Z   use_cache: false
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3651927Z   retry_push_count: 0
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3652134Z   build_opts:  
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3652468Z   working_directory: ./
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3652684Z   verify_install: false
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3652902Z ##[endgroup]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3715801Z ##[start-action display=Validate inputs;id=__self.__run]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3745047Z ##[group]Run "${github_action_path}/build_opts_check.sh"
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3745637Z ^[[36;1m"${github_action_path}/build_opts_check.sh"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3802396Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3802803Z env:
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3803030Z   INPUT_CHUNKAH: false
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3803315Z   INPUT_BUILD_CHUNKED_OCI: false
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3803592Z   INPUT_RECHUNK: false
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3803816Z   INPUT_RECHUNK_CLEAR_PLAN: false
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3804057Z   INPUT_SQUASH: true
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3804266Z   BUILD_OPTS:  
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3804599Z   github_action_path: /home/runner/work/distrobox-AppImage/distrobox-AppImage/./action
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.3804982Z ##[endgroup]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4004512Z ##[end-action id=__self.__run;outcome=success;conclusion=success;duration_ms=28]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4007487Z ##[start-action display=Maximize build space;id=__self.__hastd_free-disk-space]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4081422Z ##[group]Run hastd/free-disk-space@68572aeaadb7f76bd408246328e95926323402b5
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4081839Z with:
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4082061Z   skip-if-available: 80G
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4082541Z   swapoff: true
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4082791Z ##[endgroup]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4087831Z ##[start-action display=Run echo 'Disk usage (before):';id=__self.__hastd_free-disk-space.__run]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4106051Z ##[group]Run echo 'Disk usage (before):'
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4106414Z ^[[36;1mecho 'Disk usage (before):'^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4106702Z ^[[36;1mdf -h^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4106915Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4107146Z ^[[36;1mif [[ -n "${skip_if_available}" ]]; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4107446Z ^[[36;1m  pattern='[0-9]+( ?[Gg]i?[Bb]?)?'^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4107753Z ^[[36;1m  if ! [[ "${skip_if_available}" =~ $pattern ]]; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4108147Z ^[[36;1m    echo "Invalid value of input 'skip-if-available': ${skip_if_available}" >&2^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4108713Z ^[[36;1m    exit 1^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4108927Z ^[[36;1m  fi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4109198Z ^[[36;1m  avail_kb=$(df -k --output=avail / | grep -Eo -m1 '[0-9]+')^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4109579Z ^[[36;1m  skip_if_available="${skip_if_available//[^0-9]/}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4109913Z ^[[36;1m  if (( avail_kb >= skip_if_available * 1024 * 1024 )); then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4110324Z ^[[36;1m    echo "At least ${skip_if_available} GiB disk space is already available; exiting."^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4110692Z ^[[36;1m    exit 0^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4110897Z ^[[36;1m  fi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4111091Z ^[[36;1mfi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4111285Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4111500Z ^[[36;1mif [[ "${swapoff}" == 'true' ]]; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4111776Z ^[[36;1m  sudo swapoff -a || true^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4112042Z ^[[36;1m  sudo rm -f /mnt/swapfile^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4112417Z ^[[36;1mfi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4112706Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4112911Z ^[[36;1mpaths_to_remove=(^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4113144Z ^[[36;1m  /etc/skel^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4113360Z ^[[36;1m  /home/packer^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4113612Z ^[[36;1m  /opt/{az,google,microsoft,pipx}^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4113953Z ^[[36;1m  /opt/hostedtoolcache/{CodeQL,PyPy,Python,Ruby,go,node}^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4114332Z ^[[36;1m  /usr/lib/{firefox,google-cloud-sdk,jvm,llvm-*}^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4114691Z ^[[36;1m  /usr/local/{.ghcup,aws-cli,aws-sam-cli,julia1.12.1}^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4115026Z ^[[36;1m  /usr/local/lib/{android,node_modules}^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4115326Z ^[[36;1m  /usr/local/share/{chromium,powershell}^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4115637Z ^[[36;1m  /usr/share/{az_12.5.0,dotnet,miniconda,swift}^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4115910Z ^[[36;1m)^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4116105Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4116318Z ^[[36;1mif [[ -n "${exclude_paths}" ]]; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4116631Z ^[[36;1m  for exclude_path in $exclude_paths; do^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4117754Z ^[[36;1m    path_found=0^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4118088Z ^[[36;1m    for index in "${!paths_to_remove[@]}"; do^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4118633Z ^[[36;1m      if [[ "${paths_to_remove[$index]}" == "${exclude_path}" ]]; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4119377Z ^[[36;1m        unset -v 'paths_to_remove[$index]'^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4119668Z ^[[36;1m        path_found=1^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4119905Z ^[[36;1m        break^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4120117Z ^[[36;1m      fi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4120332Z ^[[36;1m    done^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4120549Z ^[[36;1m    if [[ "${path_found}" == 0 ]]; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4120978Z ^[[36;1m      echo "WARNING: Path '${exclude_path}' was marked to be excluded, but is not on" >&2^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4121417Z ^[[36;1m      echo 'the list of paths to be removed. Possible typo?' >&2^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4121774Z ^[[36;1m    fi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4121982Z ^[[36;1m  done^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4122232Z ^[[36;1m  paths_to_remove=("${paths_to_remove[@]}")^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4122739Z ^[[36;1mfi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4122942Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4123161Z ^[[36;1mpaths_to_remove+=($include_paths)^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4123424Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4123622Z ^[[36;1mecho '-----'^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4123892Z ^[[36;1mecho 'Removing the following files/directories:'^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4124215Z ^[[36;1mprintf '%s\n' "${paths_to_remove[@]}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4124634Z ^[[36;1mprintf '%s\0' "${paths_to_remove[@]}" | sudo xargs -0 -n1 -P"$(nproc)" rm -rf -- || true^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4125003Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4125199Z ^[[36;1mecho '-----'^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4125428Z ^[[36;1mecho 'Disk usage (after):'^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4125675Z ^[[36;1mdf -h^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4181041Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4181403Z env:
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4181615Z   exclude_paths: 
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4181832Z   include_paths: 
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4182458Z   swapoff: true
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4182681Z   skip_if_available: 80G
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4182916Z ##[endgroup]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4259796Z Disk usage (before):
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4357290Z Filesystem       Size  Used Avail Use% Mounted on
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4357971Z /dev/root        146G   59G   87G  41% /
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4358414Z tmpfs            7.9G  172K  7.9G   1% /dev/shm
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4358854Z tmpfs            3.2G 1016K  3.2G   1% /run
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4359287Z tmpfs            5.0M     0  5.0M   0% /run/lock
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4359807Z efivarfs         128M   34K  128M   1% /sys/firmware/efi/efivars
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4360271Z /dev/nvme0n1p15  105M  6.1M   99M   6% /boot/efi
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4360569Z tmpfs            1.6G   12K  1.6G   1% /run/user/1001
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4381501Z At least 80 GiB disk space is already available; exiting.
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4390021Z ##[end-action id=__self.__hastd_free-disk-space.__run;outcome=success;conclusion=success;duration_ms=30]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4402972Z ##[end-action id=__self.__hastd_free-disk-space;outcome=success;conclusion=success;duration_ms=39]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4405702Z ##[start-action display=Set up Docker Buildx;id=__self.__docker_setup-buildx-action]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4415470Z ##[end-action id=__self.__docker_setup-buildx-action;outcome=skipped;conclusion=skipped;duration_ms=0]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4418465Z ##[start-action display=Setup Podman;id=__self.__run_2]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4445980Z ##[group]Run set -euo pipefail
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4446333Z ^[[36;1mset -euo pipefail^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4446584Z ^[[36;1mmkdir -p "$HOME/bin"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4446907Z ^[[36;1mgh release download --repo pkgforge-dev/distrobox-AppImage \^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4447286Z ^[[36;1m  --pattern "*anylinux-$(uname -m).AppImage" \^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4447585Z ^[[36;1m  --output "$HOME/bin/podman"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4447847Z ^[[36;1mchmod +x "$HOME/bin/podman"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4448183Z ^[[36;1m# portable folders, so podman keeps its state next to the AppImage^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4448620Z ^[[36;1m# instead of in the runner's home, where an older podman may have left^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4449010Z ^[[36;1m# a BoltDB database that podman 6 refuses to start with^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4449542Z ^[[36;1mmkdir -p "$HOME/bin/podman.home" "$HOME/bin/podman.share" \^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4449898Z ^[[36;1m  "$HOME/bin/podman.cache" "$HOME/bin/podman.config"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4450212Z ^[[36;1mecho "$HOME/bin" >> "${GITHUB_PATH}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4450514Z ^[[36;1mecho "DISABLE_AUTO_UPDATES=1" >> "${GITHUB_ENV}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4450826Z ^[[36;1mexport PATH="$HOME/bin:$PATH"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4451075Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4451333Z ^[[36;1m# from 24.04 on, only a binary with its own profile may create a^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4451719Z ^[[36;1m# rootless user namespace, and $HOME/bin/podman is not one of them^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4452177Z ^[[36;1mif [ "$(sysctl -n kernel.apparmor_restrict_unprivileged_userns 2>/dev/null)" = 1 ]; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4452969Z ^[[36;1m  printf 'abi <abi/4.0>,\ninclude <tunables/global>\n\nprofile podman "%s" flags=(unconfined) {\n  userns,\n}\n' \^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4453499Z ^[[36;1m    "$HOME/bin/podman" | sudo tee /etc/apparmor.d/podman-home > /dev/null^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4453898Z ^[[36;1m  sudo apparmor_parser -r /etc/apparmor.d/podman-home^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4454192Z ^[[36;1mfi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4454383Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4454582Z ^[[36;1mpodman --version^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4454815Z ^[[36;1mpodman info > /dev/null^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4510028Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4510396Z env:
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4512857Z   GH_TOKEN: ***
+ubuntu-22.04	Run ./action	2026-11-07T00:24:34.4513085Z ##[endgroup]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:35.0523252Z Setting $XDG_DATA_HOME to "/home/runner/bin/podman.share"
+ubuntu-22.04	Run ./action	2026-11-07T00:24:35.0523876Z Setting $XDG_CONFIG_HOME to "/home/runner/bin/podman.config"
+ubuntu-22.04	Run ./action	2026-11-07T00:24:35.0524759Z Setting $XDG_CACHE_HOME to "/home/runner/bin/podman.cache"
+ubuntu-22.04	Run ./action	2026-11-07T00:24:35.0525085Z Setting $HOME to "/home/runner/bin/podman.home"
+ubuntu-22.04	Run ./action	2026-11-07T00:24:35.2432790Z podman version 6.1.4
+ubuntu-22.04	Run ./action	2026-11-07T00:24:35.2492632Z Setting $XDG_DATA_HOME to "/home/runner/bin/podman.share"
+ubuntu-22.04	Run ./action	2026-11-07T00:24:35.2493345Z Setting $XDG_CONFIG_HOME to "/home/runner/bin/podman.config"
+ubuntu-22.04	Run ./action	2026-11-07T00:24:35.2493951Z Setting $XDG_CACHE_HOME to "/home/runner/bin/podman.cache"
+ubuntu-22.04	Run ./action	2026-11-07T00:24:35.2494469Z Setting $HOME to "/home/runner/bin/podman.home"
+ubuntu-22.04	Run ./action	2026-11-07T00:24:40.2655892Z ^[[1;31m Cannot find suitable binary to perform operation!^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1357602Z ##[end-action id=__self.__run_2;outcome=success;conclusion=success;duration_ms=8693]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1360542Z ##[start-action display=Run sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6;id=__self.__sigstore_cosign-installer]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1458623Z ##[group]Run sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1458982Z with:
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1459144Z   install-dir: /usr/bin
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1459326Z   use-sudo: true
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1459494Z   cosign-release: v3.0.6
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1459681Z env:
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1459852Z   DISABLE_AUTO_UPDATES: 1
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1460035Z ##[endgroup]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1465160Z ##[start-action display=Run #!/bin/bash;id=__self.__sigstore_cosign-installer.__run]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1479375Z ##[group]Run #!/bin/bash
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1480128Z ^[[36;1m#!/bin/bash^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1480372Z ^[[36;1m# Substitute environment variables in install-dir input^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1480701Z ^[[36;1minstall_dir=$(envsubst <<<"${input_install_dir}")^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1480961Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1481128Z ^[[36;1m# cosign install script^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1481342Z ^[[36;1mshopt -s expand_aliases^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1481544Z ^[[36;1mif [ -z "$NO_COLOR" ]; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1481793Z ^[[36;1m  alias log_info="echo -e \"\033[1;32mINFO\033[0m:\""^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1482106Z ^[[36;1m  alias log_error="echo -e \"\033[1;31mERROR\033[0m:\""^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1482539Z ^[[36;1melse^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1482719Z ^[[36;1m  alias log_info="echo \"INFO:\""^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1483125Z ^[[36;1m  alias log_error="echo \"ERROR:\""^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1483335Z ^[[36;1mfi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1483488Z ^[[36;1mset -e^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1483647Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1483807Z ^[[36;1mCURL_RETRIES=3^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1483980Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1484156Z ^[[36;1m# This function helps compare versions.^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1484438Z ^[[36;1m# Returns 0 if version1 >= version2, 1 otherwise.^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1484712Z ^[[36;1m# Usage: is_version_ge "3.0.0" "$version_num"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1484950Z ^[[36;1mis_version_ge() {^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1485186Z ^[[36;1m    [ "$(printf '%s\n' "$1" "$2" | sort -V | head -n1)" == "$1" ]^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1485441Z ^[[36;1m}^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1485590Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1485807Z ^[[36;1m# Check for unsupported old versions (anything below v2.0.0)^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1486121Z ^[[36;1mif [[ "${input_cosign_release}" != "main" ]]; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1486430Z ^[[36;1m  # Extract version without 'v' prefix for comparison^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1486711Z ^[[36;1m  version_num="${input_cosign_release}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1486955Z ^[[36;1m  version_num="${version_num#v}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1487158Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1487339Z ^[[36;1m  # Check if version is less than v2.0.0^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1487604Z ^[[36;1m  if ! is_version_ge "2.0.0" "$version_num"; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1487931Z ^[[36;1m    log_error "cosign versions below v2.0.0 are no longer supported."^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1488276Z ^[[36;1m    log_error "Requested version: ${input_cosign_release}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1488580Z ^[[36;1m    log_error "Please use cosign v2.6.0 or later."^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1488976Z ^[[36;1m    log_error "See https://github.com/sigstore/cosign/releases for available versions."^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1489477Z ^[[36;1m    exit 1^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1489649Z ^[[36;1m  fi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1489801Z ^[[36;1mfi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1489956Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1490120Z ^[[36;1mmkdir -p "${install_dir}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1490320Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1490510Z ^[[36;1mif [[ "${input_cosign_release}" == "main" ]]; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1490844Z ^[[36;1m  log_info "installing cosign via 'go install' from its main version"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1491159Z ^[[36;1m  GOBIN=$(go env GOPATH)/bin^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1491424Z ^[[36;1m  go install github.com/sigstore/cosign/v3/cmd/cosign@main^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1491728Z ^[[36;1m  ln -s "$GOBIN/cosign" "${install_dir}/cosign"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1491965Z ^[[36;1m  exit 0^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1492122Z ^[[36;1mfi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1492610Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1492888Z ^[[36;1mshaprog() {^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1493218Z ^[[36;1m  case ${runner_os} in^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1493638Z ^[[36;1m    Linux|linux)^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1493971Z ^[[36;1m      sha256sum "$1" | cut -d' ' -f1^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1494328Z ^[[36;1m      ;;^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1494637Z ^[[36;1m    macOS|macos)^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1494995Z ^[[36;1m      shasum -a256 "$1" | cut -d' ' -f1^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1495391Z ^[[36;1m      ;;^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1495667Z ^[[36;1m    Windows|windows)^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1521222Z ^[[36;1m      powershell -command "(Get-FileHash $1 -Algorithm SHA256 | Select-Object -ExpandProperty Hash).ToLower()"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1521833Z ^[[36;1m      ;;^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1522037Z ^[[36;1m    *)^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1522237Z ^[[36;1m      log_error "unsupported OS ${runner_os}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1522628Z ^[[36;1m      exit 1^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1522805Z ^[[36;1m      ;;^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1522971Z ^[[36;1m  esac^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1523125Z ^[[36;1m}^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1523281Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1523620Z ^[[36;1m## curl -sL https://github.com/sigstore/cosign/releases/download/v3.0.6/cosign_checksums.txt |\^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1524213Z ^[[36;1m##   gawk 'match($2,/^cosign-([[:alnum:]]+)-([[:alnum:]]+)(\.[[:alnum:]]+)?$/,a){printf "bootstrap_%s_%s_sha=\"%s\"\n",a[1],a[2],$1}' |\^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1524847Z ^[[36;1m##   LANG=C sort^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1525051Z ^[[36;1mbootstrap_version='v3.0.6'^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1525433Z ^[[36;1mbootstrap_darwin_amd64_sha="4c3e7af8372d3ca3296e62fa56f23fcbb5721cc6ac1827900d398f110d7cd280"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1525952Z ^[[36;1mbootstrap_darwin_arm64_sha="5fadd012ae6381a6a29ff86a7d39aa873878852f1073fc90b15995961ecfb084"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1526459Z ^[[36;1mbootstrap_linux_amd64_sha="c956e5dfcac53d52bcf058360d579472f0c1d2d9b69f55209e256fe7783f4c74"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1526965Z ^[[36;1mbootstrap_linux_arm64_sha="bedac92e8c3729864e13d4a17048007cfafa79d5deca993a43a90ffe018ef2b8"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1527471Z ^[[36;1mbootstrap_linux_arm_sha="67bd25d32daff5664caf51208c95defcb2ad7ac1296f394fa677bb8bacee62f5"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1527991Z ^[[36;1mbootstrap_linux_ppc64le_sha="08c3e5e0a09c440f49e9a69d8639d37fbec522ec8c5c0ac805243b098e6ea512"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1528503Z ^[[36;1mbootstrap_linux_riscv64_sha="e25952e798958b0f9168d044153ccc353f5469ca4b71a1707dffad0534d27017"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1529009Z ^[[36;1mbootstrap_linux_s390x_sha="3cf4b769258ed9cc3c2a93268c0d5c1cc3fbd094af8df21035cbac8fb0d7c088"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1529529Z ^[[36;1mbootstrap_windows_amd64_sha="9b85a88ebff2d9dd30ff4984a6f61f2cedc232dd87d81fa7f2ff3c0ed96c241c"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1529896Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1530065Z ^[[36;1mcosign_executable_name=cosign^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1530305Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1530467Z ^[[36;1mtrap "popd >/dev/null" EXIT^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1530668Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1530832Z ^[[36;1mpushd "${install_dir}" > /dev/null^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1531044Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1531337Z ^[[36;1mcase ${runner_os} in^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1531534Z ^[[36;1m  Linux|linux)^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1531719Z ^[[36;1m    case ${runner_arch} in^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1531919Z ^[[36;1m      X64|amd64)^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1532147Z ^[[36;1m        bootstrap_filename='cosign-linux-amd64'^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1532568Z ^[[36;1m        bootstrap_sha=${bootstrap_linux_amd64_sha}^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1532857Z ^[[36;1m        desired_cosign_filename='cosign-linux-amd64'^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1533097Z ^[[36;1m        ;;^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1533254Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1533401Z ^[[36;1m      ARM|arm)^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1533612Z ^[[36;1m        bootstrap_filename='cosign-linux-arm'^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1533874Z ^[[36;1m        bootstrap_sha=${bootstrap_linux_arm_sha}^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1534150Z ^[[36;1m        desired_cosign_filename='cosign-linux-arm'^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1534381Z ^[[36;1m        ;;^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1534538Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1534697Z ^[[36;1m      ARM64|arm64)^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1534903Z ^[[36;1m        bootstrap_filename='cosign-linux-arm64'^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1535162Z ^[[36;1m        bootstrap_sha=${bootstrap_linux_arm64_sha}^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1535439Z ^[[36;1m        desired_cosign_filename='cosign-linux-arm64'^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1535688Z ^[[36;1m        ;;^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1535849Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1535993Z ^[[36;1m      *)^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1536211Z ^[[36;1m        log_error "unsupported architecture ${runner_arch}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1536464Z ^[[36;1m        exit 1^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1536627Z ^[[36;1m        ;;^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1536780Z ^[[36;1m    esac^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1536934Z ^[[36;1m    ;;^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1537089Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1537234Z ^[[36;1m  macOS|macos)^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1537461Z ^[[36;1m    case ${runner_arch} in^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1537661Z ^[[36;1m      X64|amd64)^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1537868Z ^[[36;1m        bootstrap_filename='cosign-darwin-amd64'^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1538153Z ^[[36;1m        bootstrap_sha=${bootstrap_darwin_amd64_sha}^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1538453Z ^[[36;1m        desired_cosign_filename='cosign-darwin-amd64'^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1538847Z ^[[36;1m        ;;^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1539004Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1539156Z ^[[36;1m      ARM64|arm64)^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1539367Z ^[[36;1m        bootstrap_filename='cosign-darwin-arm64'^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1539630Z ^[[36;1m        bootstrap_sha=${bootstrap_darwin_arm64_sha}^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1539909Z ^[[36;1m        desired_cosign_filename='cosign-darwin-arm64'^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1540144Z ^[[36;1m        ;;^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1540294Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1540432Z ^[[36;1m      *)^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1540646Z ^[[36;1m        log_error "unsupported architecture ${runner_arch}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1540897Z ^[[36;1m        exit 1^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1541059Z ^[[36;1m        ;;^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1541222Z ^[[36;1m    esac^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1541374Z ^[[36;1m    ;;^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1541522Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1541669Z ^[[36;1m  Windows|windows)^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1541855Z ^[[36;1m    case ${runner_arch} in^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1542055Z ^[[36;1m      X64|amd64)^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1542428Z ^[[36;1m        bootstrap_filename='cosign-windows-amd64.exe'^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1542732Z ^[[36;1m        bootstrap_sha=${bootstrap_windows_amd64_sha}^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1543026Z ^[[36;1m        desired_cosign_filename='cosign-windows-amd64.exe'^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1543309Z ^[[36;1m        cosign_executable_name=cosign.exe^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1543523Z ^[[36;1m        ;;^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1543675Z ^[[36;1m      *)^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1543872Z ^[[36;1m        log_error "unsupported architecture ${runner_arch}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1544118Z ^[[36;1m        exit 1^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1544279Z ^[[36;1m        ;;^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1544430Z ^[[36;1m    esac^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1544704Z ^[[36;1m    ;;^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1544854Z ^[[36;1m  *)^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1545038Z ^[[36;1m    log_error "unsupported os ${runner_os}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1545267Z ^[[36;1m    exit 1^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1545433Z ^[[36;1m    ;;^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1545581Z ^[[36;1mesac^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1545728Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1545871Z ^[[36;1mSUDO=^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1546114Z ^[[36;1mif [[ "${input_use_sudo}" == "true" ]] && command -v sudo >/dev/null; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1546399Z ^[[36;1m  SUDO=sudo^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1546570Z ^[[36;1mfi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1546721Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1546929Z ^[[36;1mexpected_bootstrap_version_digest=${bootstrap_sha}^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1547648Z ^[[36;1mlog_info "Downloading bootstrap version '${bootstrap_version}' of cosign to verify version to be installed...\n      https://github.com/sigstore/cosign/releases/download/${bootstrap_version}/${bootstrap_filename}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1548642Z ^[[36;1m$SUDO curl --retry "${CURL_RETRIES}" -fsSL "https://github.com/sigstore/cosign/releases/download/${bootstrap_version}/${bootstrap_filename}" -o "${cosign_executable_name}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1549235Z ^[[36;1mshaBootstrap=$(shaprog "${cosign_executable_name}")^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1549589Z ^[[36;1mif [[ "$shaBootstrap" != "${expected_bootstrap_version_digest}" ]]; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1549987Z ^[[36;1m  log_error "Unable to validate cosign version: '${input_cosign_release}'"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1550287Z ^[[36;1m  exit 1^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1550450Z ^[[36;1mfi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1550646Z ^[[36;1m$SUDO chmod +x "${cosign_executable_name}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1550877Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1551140Z ^[[36;1m# If the bootstrap and specified `cosign` releases are the same, we're done.^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1551521Z ^[[36;1mif [[ "${input_cosign_release}" == "${bootstrap_version}" ]]; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1551975Z ^[[36;1m  log_info "bootstrap version successfully verified and matches requested version so nothing else to do"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1552518Z ^[[36;1m  exit 0^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1552681Z ^[[36;1mfi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1552830Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1553146Z ^[[36;1msemver='^v([0-9]+\.){0,2}(\*|[0-9]+)(-?r?c?)(\.[0-9]+)$'^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1553440Z ^[[36;1mif [[ "${input_cosign_release}" =~ $semver ]]; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1553767Z ^[[36;1m  log_info "Custom cosign version '${input_cosign_release}' requested"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1554049Z ^[[36;1melse^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1554324Z ^[[36;1m  log_error "Unable to validate requested cosign version: '${input_cosign_release}'"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1554648Z ^[[36;1m  exit 1^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1554805Z ^[[36;1mfi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1554949Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1555108Z ^[[36;1m# Download custom cosign^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1555727Z ^[[36;1mlog_info "Downloading platform-specific version '${input_cosign_release}' of cosign...\n      https://github.com/sigstore/cosign/releases/download/${input_cosign_release}/${desired_cosign_filename}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1556690Z ^[[36;1m$SUDO curl --retry "${CURL_RETRIES}" -fsSL "https://github.com/sigstore/cosign/releases/download/${input_cosign_release}/${desired_cosign_filename}" -o "cosign_${input_cosign_release}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1557312Z ^[[36;1mshaCustom=$(shaprog "cosign_${input_cosign_release}");^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1557573Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1557745Z ^[[36;1m# same hash means it is the same release^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1558004Z ^[[36;1mif [[ "$shaCustom" != "$shaBootstrap" ]]; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1558602Z ^[[36;1m  log_info "Downloading cosign public key '${input_cosign_release}' of cosign...\n    https://raw.githubusercontent.com/sigstore/cosign/${input_cosign_release}/release/release-cosign.pub"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1559389Z ^[[36;1m  RELEASE_COSIGN_PUB_KEY=https://raw.githubusercontent.com/sigstore/cosign/${input_cosign_release}/release/release-cosign.pub^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1560106Z ^[[36;1m  RELEASE_COSIGN_PUB_KEY_SHA='f4cea466e5e887a45da5031757fa1d32655d83420639dc1758749b744179f126'^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1560450Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1560654Z ^[[36;1m  log_info "Verifying public key matches expected value"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1561015Z ^[[36;1m  $SUDO curl --retry "${CURL_RETRIES}" -fsSL "$RELEASE_COSIGN_PUB_KEY" -o public.key^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1561345Z ^[[36;1m  sha_fetched_key=$(shaprog public.key)^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1561629Z ^[[36;1m  if [[ "$sha_fetched_key" != "$RELEASE_COSIGN_PUB_KEY_SHA" ]]; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1561997Z ^[[36;1m    log_error "Fetched public key does not match expected digest, exiting"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1562437Z ^[[36;1m    exit 1^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1562604Z ^[[36;1m  fi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1562757Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1562942Z ^[[36;1m  if is_version_ge "3.0.1" "$version_num"; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1563247Z ^[[36;1m    # we're trying to get something greater than or equal to v3.0.1^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1563603Z ^[[36;1m    keyless_signature_file=${desired_cosign_filename}.sigstore.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1564346Z ^[[36;1m    log_info "Downloading keyless verification bundle for platform-specific '${input_cosign_release}' of cosign...\n      https://github.com/sigstore/cosign/releases/download/${input_cosign_release}/${keyless_signature_file}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1565333Z ^[[36;1m    $SUDO curl --retry "${CURL_RETRIES}" -fsSLO "https://github.com/sigstore/cosign/releases/download/${input_cosign_release}/${keyless_signature_file}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1565827Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1566124Z ^[[36;1m    log_info "Using bootstrap cosign to verify keyless signature of desired cosign version"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1567017Z ^[[36;1m    "./${cosign_executable_name}" verify-blob --certificate-identity=keyless@projectsigstore.iam.gserviceaccount.com --certificate-oidc-issuer=https://accounts.google.com --bundle "${keyless_signature_file}" "cosign_${input_cosign_release}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1567746Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1567934Z ^[[36;1m    if is_version_ge "3.0.3" "$version_num"; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1568252Z ^[[36;1m      # we're trying to get something greater than or equal to v3.0.3^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1568811Z ^[[36;1m      kms_signature_file=${desired_cosign_filename}-kms.sigstore.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1569542Z ^[[36;1m      log_info "Downloading KMS verification bundle for platform-specific '${input_cosign_release}' of cosign...\n      https://github.com/sigstore/cosign/releases/download/${input_cosign_release}/${kms_signature_file}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1570442Z ^[[36;1m      $SUDO curl --retry "${CURL_RETRIES}" -fsSLO "https://github.com/sigstore/cosign/releases/download/${input_cosign_release}/${kms_signature_file}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1570901Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1571166Z ^[[36;1m      log_info "Using bootstrap cosign to verify signature of desired cosign version"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1571706Z ^[[36;1m      "./${cosign_executable_name}" verify-blob --key public.key --bundle "${kms_signature_file}" "cosign_${input_cosign_release}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1572120Z ^[[36;1m    fi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1572412Z ^[[36;1m  else^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1572628Z ^[[36;1m    signature_file=${desired_cosign_filename}.sig^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1573272Z ^[[36;1m    log_info "Downloading detached signature for platform-specific '${input_cosign_release}' of cosign...\n      https://github.com/sigstore/cosign/releases/download/${input_cosign_release}/${signature_file}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1574131Z ^[[36;1m    $SUDO curl --retry "${CURL_RETRIES}" -fsSLO "https://github.com/sigstore/cosign/releases/download/${input_cosign_release}/${signature_file}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1574584Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1574840Z ^[[36;1m    log_info "Using bootstrap cosign to verify signature of desired cosign version"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1575367Z ^[[36;1m    "./${cosign_executable_name}" verify-blob --key public.key --signature "${signature_file}" "cosign_${input_cosign_release}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1575900Z ^[[36;1m  fi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1576048Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1576217Z ^[[36;1m  $SUDO rm "${cosign_executable_name}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1576521Z ^[[36;1m  $SUDO mv "cosign_${input_cosign_release}" "${cosign_executable_name}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1576844Z ^[[36;1m  $SUDO chmod +x "${cosign_executable_name}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1577092Z ^[[36;1m  log_info "Installation complete!"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1577303Z ^[[36;1mfi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1635540Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1635836Z env:
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1636006Z   DISABLE_AUTO_UPDATES: 1
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1636203Z   input_cosign_release: v3.0.6
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1636409Z   input_install_dir: /usr/bin
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1636595Z   input_use_sudo: true
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1636766Z   runner_arch: X64
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1636930Z   runner_os: Linux
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1637090Z ##[endgroup]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1761240Z ^[[1;32mINFO^[[0m: Downloading bootstrap version 'v3.0.6' of cosign to verify version to be installed...
+ubuntu-22.04	Run ./action	2026-11-07T00:24:43.1762020Z       https://github.com/sigstore/cosign/releases/download/v3.0.6/cosign-linux-amd64
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.5833914Z ^[[1;32mINFO^[[0m: bootstrap version successfully verified and matches requested version so nothing else to do
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.5841055Z ##[end-action id=__self.__sigstore_cosign-installer.__run;outcome=success;conclusion=success;duration_ms=1437]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.5845236Z ##[start-action display=Run envsubst <<<"${input_install_dir}" >> "$GITHUB_PATH";id=__self.__sigstore_cosign-installer.__run_2]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.5864042Z ##[group]Run envsubst <<<"${input_install_dir}" >> "$GITHUB_PATH"
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.5864405Z ^[[36;1menvsubst <<<"${input_install_dir}" >> "$GITHUB_PATH"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.5918757Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.5919037Z env:
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.5919200Z   DISABLE_AUTO_UPDATES: 1
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.5919409Z   input_install_dir: /usr/bin
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.5919600Z ##[endgroup]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.6010711Z ##[end-action id=__self.__sigstore_cosign-installer.__run_2;outcome=success;conclusion=success;duration_ms=16]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.6014701Z ##[start-action display=Run $install_dir = $ExecutionContext.InvokeCommand.ExpandString("${env:input_install_dir}");id=__self.__sigstore_cosign-installer.__run_3]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.6018067Z ##[end-action id=__self.__sigstore_cosign-installer.__run_3;outcome=skipped;conclusion=skipped;duration_ms=0]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.6022144Z ##[end-action id=__self.__sigstore_cosign-installer;outcome=success;conclusion=success;duration_ms=1466]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.6024113Z ##[start-action display=Set up QEMU;id=__self.__docker_setup-qemu-action]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.6051394Z ##[group]Run docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.6051705Z with:
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.6051881Z   image: docker.io/tonistiigi/binfmt:latest
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.6052117Z   platforms: all
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.6052443Z   reset: false
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.6052673Z   cache-image: true
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.6052997Z env:
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.6053159Z   DISABLE_AUTO_UPDATES: 1
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.6053354Z ##[endgroup]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7239703Z ##[group]Docker info
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7273057Z [command]/usr/bin/docker version
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7841125Z Client: Docker Engine - Community
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7841659Z  Version:           28.0.4
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7841972Z  API version:       1.48
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7878407Z  Go version:        go1.23.7
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7878823Z  Git commit:        b8034c0
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7879214Z  Built:             Tue Mar 25 15:07:11 2025
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7879580Z  OS/Arch:           linux/amd64
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7879914Z  Context:           default
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7880093Z 
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7880233Z Server: Docker Engine - Community
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7880539Z  Engine:
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7880780Z   Version:          28.0.4
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7881586Z   API version:      1.48 (minimum version 1.24)
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7881951Z   Go version:       go1.23.7
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7882245Z   Git commit:       6430e49
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7882686Z   Built:            Tue Mar 25 15:07:11 2025
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7883032Z   OS/Arch:          linux/amd64
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7883334Z   Experimental:     false
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7883612Z  containerd:
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7883861Z   Version:          v2.4.2
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7884214Z   GitCommit:        b7a25261e029d68978bbf290df0a62fc819b3c51
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7884607Z  runc:
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7884839Z   Version:          1.5.2
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7885127Z   GitCommit:        v1.5.2-0-g29dd3dc2
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7885452Z  docker-init:
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7885703Z   Version:          0.19.0
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7885987Z   GitCommit:        de40ad0
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.7886902Z [command]/usr/bin/docker info
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9675966Z Client: Docker Engine - Community
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9676431Z  Version:    28.0.4
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9677000Z  Context:    default
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9677534Z  Debug Mode: false
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9678095Z  Plugins:
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9678756Z   buildx: Docker Buildx (Docker Inc.)
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9679118Z     Version:  v0.38.1
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9679787Z     Path:     /usr/libexec/docker/cli-plugins/docker-buildx
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9680227Z   compose: Docker Compose (Docker Inc.)
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9680744Z     Version:  v2.38.2
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9681411Z     Path:     /usr/libexec/docker/cli-plugins/docker-compose
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9681734Z 
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9681946Z Server:
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9682114Z  Containers: 0
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9682555Z   Running: 0
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9682846Z   Paused: 0
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9683473Z   Stopped: 0
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9684014Z  Images: 0
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9684575Z  Server Version: 28.0.4
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9685129Z  Storage Driver: overlay2
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9685665Z   Backing Filesystem: extfs
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9686205Z   Supports d_type: true
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9686745Z   Using metacopy: false
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9687323Z   Native Overlay Diff: false
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9687868Z   userxattr: false
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9688714Z  Logging Driver: json-file
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9689277Z  Cgroup Driver: systemd
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9689801Z  Cgroup Version: 2
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9690352Z  Plugins:
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9690892Z   Volume: local
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9691490Z   Network: bridge host ipvlan macvlan null overlay
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9692385Z   Log: awslogs fluentd gcplogs gelf journald json-file local splunk syslog
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9692873Z  Swarm: inactive
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9693494Z  Runtimes: io.containerd.runc.v2 runc
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9694069Z  Default Runtime: runc
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9694637Z  Init Binary: docker-init
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9695285Z  containerd version: b7a25261e029d68978bbf290df0a62fc819b3c51
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9695711Z  runc version: v1.5.2-0-g29dd3dc2
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9696390Z  init version: de40ad0
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9696916Z  Security Options:
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9697462Z   apparmor
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9697701Z   seccomp
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9697899Z    Profile: builtin
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9698132Z   cgroupns
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9698428Z  Kernel Version: 6.8.0-1070-azure
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9698752Z  Operating System: Ubuntu 22.04.5 LTS
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9699121Z  OSType: linux
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9699409Z  Architecture: x86_64
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9699651Z  CPUs: 4
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9699851Z  Total Memory: 15.61GiB
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9700030Z  Name: runnervmlby3q
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9700213Z  ID: 1c1a97d5-8d27-49af-947a-2152273a8369
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9700433Z  Docker Root Dir: /var/lib/docker
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9700624Z  Debug Mode: false
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9700823Z  Username: githubactions
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9701004Z  Experimental: false
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9701174Z  Insecure Registries:
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9705812Z   ::1/128
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9706224Z   127.0.0.0/8
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9706412Z  Live Restore Enabled: false
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9706554Z 
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9707134Z ##[endgroup]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:44.9707651Z ##[group]Pulling binfmt Docker image
+ubuntu-22.04	Run ./action	2026-11-07T00:24:45.0850448Z Cache hit for: docker.io--tonistiigi--binfmt-latest-linux-x64
+ubuntu-22.04	Run ./action	2026-11-07T00:24:45.4318155Z Received 32594737 of 32594737 (100.0%), 110.6 MBs/sec
+ubuntu-22.04	Run ./action	2026-11-07T00:24:45.4318672Z Cache Size: ~31 MB (32594737 B)
+ubuntu-22.04	Run ./action	2026-11-07T00:24:45.4336689Z [command]/usr/bin/tar -xf /home/runner/work/_temp/24a413ac-1dd3-48d1-a9b2-0779e9cf6de5/cache.tzst -P -C /home/runner/work/distrobox-AppImage/distrobox-AppImage --use-compress-program unzstd
+ubuntu-22.04	Run ./action	2026-11-07T00:24:45.6042851Z Cache restored successfully
+ubuntu-22.04	Run ./action	2026-11-07T00:24:45.6103337Z Restored docker.io--tonistiigi--binfmt-latest-linux-x64 from GitHub Actions cache
+ubuntu-22.04	Run ./action	2026-11-07T00:24:45.9866061Z Cached to hosted tool cache /opt/hostedtoolcache/docker.io--tonistiigi--binfmt/latest/linux-x64
+ubuntu-22.04	Run ./action	2026-11-07T00:24:45.9867046Z Image found from cache in /home/runner/.docker/.cache/images/docker.io--tonistiigi--binfmt/latest/linux-x64/image.tar
+ubuntu-22.04	Run ./action	2026-11-07T00:24:45.9877424Z [command]/usr/bin/docker load -i /home/runner/.docker/.cache/images/docker.io--tonistiigi--binfmt/latest/linux-x64/image.tar
+ubuntu-22.04	Run ./action	2026-11-07T00:24:48.5445587Z Loaded image: tonistiigi/binfmt:latest
+ubuntu-22.04	Run ./action	2026-11-07T00:24:48.5633578Z [command]/usr/bin/docker pull docker.io/tonistiigi/binfmt:latest
+ubuntu-22.04	Run ./action	2026-11-07T00:24:48.9506638Z latest: Pulling from tonistiigi/binfmt
+ubuntu-22.04	Run ./action	2026-11-07T00:24:49.0329712Z Digest: sha256:400a4873b838d1b89194d982c45e5fb3cda4593fbfd7e08a02e76b03b21166f0
+ubuntu-22.04	Run ./action	2026-11-07T00:24:49.0335563Z Status: Image is up to date for tonistiigi/binfmt:latest
+ubuntu-22.04	Run ./action	2026-11-07T00:24:49.0342950Z docker.io/tonistiigi/binfmt:latest
+ubuntu-22.04	Run ./action	2026-11-07T00:24:49.0374576Z [command]/usr/bin/docker save -o /home/runner/work/_temp/docker-actions-toolkit-GYx15p/749e64100d3fa0c09bdbc8a02e4fb9cb3ee64266f7f661c98371040689abacb3.tar docker.io/tonistiigi/binfmt:latest
+ubuntu-22.04	Run ./action	2026-11-07T00:24:49.8197864Z Copying /home/runner/work/_temp/docker-actions-toolkit-GYx15p/749e64100d3fa0c09bdbc8a02e4fb9cb3ee64266f7f661c98371040689abacb3.tar to /home/runner/.docker/.cache/images/docker.io--tonistiigi--binfmt/latest/linux-x64/image.tar
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5338639Z Image cached to /home/runner/.docker/.cache/images/docker.io--tonistiigi--binfmt/latest/linux-x64/image.tar
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5339910Z ##[endgroup]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5340222Z ##[group]Image info
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5353185Z [command]/usr/bin/docker image inspect docker.io/tonistiigi/binfmt:latest
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5519892Z [
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5520161Z     {
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5520502Z         "Id": "sha256:15935d0512bf0a8e5afa1df990d971cf97a619ede08fa60f2d5966a62de6d6b7",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5520917Z         "RepoTags": [
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5521120Z             "tonistiigi/binfmt:latest"
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5521331Z         ],
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5521492Z         "RepoDigests": [
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5521843Z             "tonistiigi/binfmt@sha256:400a4873b838d1b89194d982c45e5fb3cda4593fbfd7e08a02e76b03b21166f0"
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5522234Z         ],
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5522564Z         "Parent": "",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5522763Z         "Comment": "buildkit.dockerfile.v0",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5523029Z         "Created": "2026-06-05T19:12:02.167333037Z",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5523263Z         "DockerVersion": "",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5523462Z         "Author": "",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5523633Z         "Config": {
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5523810Z             "Hostname": "",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5524014Z             "Domainname": "",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5524203Z             "User": "",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5524385Z             "AttachStdin": false,
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5524595Z             "AttachStdout": false,
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5524808Z             "AttachStderr": false,
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5525000Z             "Tty": false,
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5525203Z             "OpenStdin": false,
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5525409Z             "StdinOnce": false,
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5525596Z             "Env": [
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5526254Z                 "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5526572Z                 "QEMU_PRESERVE_ARGV0=1"
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5526779Z             ],
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5526947Z             "Cmd": null,
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5527132Z             "Image": "",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5527306Z             "Volumes": {
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5527480Z                 "/tmp": {}
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5527911Z             },
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5528178Z             "WorkingDir": "/",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5528519Z             "Entrypoint": [
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5528882Z                 "/usr/bin/binfmt"
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5529298Z             ],
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5529525Z             "OnBuild": null,
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5529797Z             "Labels": null
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5530040Z         },
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5530271Z         "Architecture": "amd64",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5530557Z         "Os": "linux",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5530822Z         "Size": 85304497,
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5531131Z         "GraphDriver": {
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5531377Z             "Data": {
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5531965Z                 "LowerDir": "/var/lib/docker/overlay2/eae383d61c375f18d2202400f05514f57470643b6c85c347806ee0d9b510513b/diff",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5533073Z                 "MergedDir": "/var/lib/docker/overlay2/2ce8b64254ba505d1373b163e349443656d22499bda6ec97983e0dc7e7c530ea/merged",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5533670Z                 "UpperDir": "/var/lib/docker/overlay2/2ce8b64254ba505d1373b163e349443656d22499bda6ec97983e0dc7e7c530ea/diff",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5534260Z                 "WorkDir": "/var/lib/docker/overlay2/2ce8b64254ba505d1373b163e349443656d22499bda6ec97983e0dc7e7c530ea/work"
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5534654Z             },
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5534824Z             "Name": "overlay2"
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5535014Z         },
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5535166Z         "RootFS": {
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5535340Z             "Type": "layers",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5535538Z             "Layers": [
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5535823Z                 "sha256:c747b796d990a647df062f87e24f1ef5e4a90a312cd9c4ae8b7d09667d57befb",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5536390Z                 "sha256:6d831b0f477d9df7afe18e5a65c97e8084fef8fe10c2930b65f728ab68d0bb5b"
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5536919Z             ]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5537077Z         },
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5537237Z         "Metadata": {
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5537427Z             "LastTagTime": "0001-01-01T00:00:00Z"
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5537648Z         }
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5537797Z     }
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5537944Z ]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5538578Z ##[endgroup]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5538993Z ##[group]Binfmt version
+ubuntu-22.04	Run ./action	2026-11-07T00:24:50.5551440Z [command]/usr/bin/docker run --rm --privileged docker.io/tonistiigi/binfmt:latest --version
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.1126996Z binfmt/e29e7d7 qemu/v10.2.3 go/1.26.4
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.1961965Z ##[endgroup]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.1962595Z ##[group]Installing QEMU static binaries
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.1976213Z [command]/usr/bin/docker run --rm --privileged docker.io/tonistiigi/binfmt:latest --install all
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3550946Z installing: arm64 OK
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3575317Z installing: arm OK
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3575701Z installing: s390x OK
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3576039Z installing: mips64 OK
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3576319Z installing: loong64 OK
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3576614Z installing: ppc64le OK
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3576900Z installing: riscv64 OK
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3577171Z installing: mips64le OK
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3834765Z {
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3839281Z   "supported": [
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3839686Z     "linux/amd64",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3839967Z     "linux/amd64/v2",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3840249Z     "linux/amd64/v3",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3840530Z     "linux/amd64/v4",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3840796Z     "linux/arm64",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3841050Z     "linux/riscv64",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3851083Z     "linux/ppc64le",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3851440Z     "linux/s390x",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3851705Z     "linux/386",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3852460Z     "linux/mips64le",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3852726Z     "linux/mips64",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3852905Z     "linux/loong64",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3853083Z     "linux/arm/v7",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3853341Z     "linux/arm/v6"
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3853516Z   ],
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3853679Z   "emulators": [
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3853845Z     "cli",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3854096Z     "llvm-13-runtime.binfmt",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3854307Z     "llvm-14-runtime.binfmt",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3854497Z     "llvm-15-runtime.binfmt",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3854705Z     "python3.10",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3854973Z     "qemu-aarch64",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3855146Z     "qemu-arm",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3855317Z     "qemu-loongarch64",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3855534Z     "qemu-mips64",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3855765Z     "qemu-mips64el",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3855941Z     "qemu-ppc64le",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3856106Z     "qemu-riscv64",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3856268Z     "qemu-s390x"
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3856523Z   ]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.3856682Z }
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.4650117Z ##[endgroup]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.4650677Z ##[group]Extracting available platforms
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8672226Z linux/amd64,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4,linux/arm64,linux/riscv64,linux/ppc64le,linux/s390x,linux/386,linux/mips64le,linux/mips64,linux/loong64,linux/arm/v7,linux/arm/v6
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8673800Z ##[endgroup]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8860692Z ##[end-action id=__self.__docker_setup-qemu-action;outcome=success;conclusion=success;duration_ms=7283]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8863783Z ##[start-action display=Install the slsa-verifier;id=__self.__slsa-framework_slsa-verifier]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8868605Z ##[end-action id=__self.__slsa-framework_slsa-verifier;outcome=skipped;conclusion=skipped;duration_ms=0]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8870569Z ##[start-action display=Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1;id=__self.__actions_checkout]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8873850Z ##[end-action id=__self.__actions_checkout;outcome=skipped;conclusion=skipped;duration_ms=0]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8875550Z ##[start-action display=Set container policy to validate Blue-Build cli signature;id=__self.__run_3]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8878292Z ##[end-action id=__self.__run_3;outcome=skipped;conclusion=skipped;duration_ms=0]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8880649Z ##[start-action display=Determine Vars;id=__self.build_vars]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8897664Z ##[group]Run set -euo pipefail
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8897944Z ^[[36;1mset -euo pipefail^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8898223Z ^[[36;1mif [[ "${USE_UNSTABLE_CLI}" == "true" && -z "${CLI_VERSION}" ]]; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8898526Z ^[[36;1m  CLI_VERSION_TAG="main"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8898739Z ^[[36;1m  REPO_TAG="main"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8898957Z ^[[36;1m  VERIFY_FLAG="--source-branch"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8899207Z ^[[36;1melif [ -n "${CLI_VERSION}" ]; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8899444Z ^[[36;1m  CLI_VERSION_TAG="${CLI_VERSION}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8899670Z ^[[36;1m  REPO_TAG="${CLI_VERSION}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8899932Z ^[[36;1m  if [[ "${CLI_VERSION}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8900222Z ^[[36;1m    VERIFY_FLAG="--source-tag"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8900435Z ^[[36;1m  else^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8900620Z ^[[36;1m    VERIFY_FLAG="--source-branch"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8900845Z ^[[36;1m  fi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8901013Z ^[[36;1melse^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8901268Z ^[[36;1m  # -H rather than --expand-header, which needs curl 8.3 and the 22.04^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8901574Z ^[[36;1m  # runner image has 7.81^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8902798Z ^[[36;1m  REPO_TAG=$(curl -fLsS -H "Authorization: ***" --retry 5 https://api.github.com/repos/blue-build/cli/tags | jq -r '.[0].name')^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8903263Z ^[[36;1m  CLI_VERSION_TAG="v0.9"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8903489Z ^[[36;1m  VERIFY_FLAG="--source-tag"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8903705Z ^[[36;1mfi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8903936Z ^[[36;1mecho "cli_version=${CLI_VERSION_TAG}" >> "${GITHUB_OUTPUT}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8904256Z ^[[36;1mecho "repo_tag=${REPO_TAG}" >> "${GITHUB_OUTPUT}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8904782Z ^[[36;1mecho "verify_flag=${VERIFY_FLAG}" >> "${GITHUB_OUTPUT}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8905059Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8905224Z ^[[36;1mRECIPE_PATH=""^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8905443Z ^[[36;1mif [ -f "./config/${RECIPE}" ]; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8905688Z ^[[36;1m  RECIPE_PATH="./config/${RECIPE}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8905905Z ^[[36;1melse^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8906085Z ^[[36;1m  RECIPE_PATH="./recipes/${RECIPE}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8906311Z ^[[36;1mfi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8906523Z ^[[36;1mecho "recipe_path=${RECIPE_PATH}" >> "${GITHUB_OUTPUT}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8947043Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8947346Z env:
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8947517Z   DISABLE_AUTO_UPDATES: 1
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8947720Z   RECIPE: recipe.yml
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8947919Z   USE_UNSTABLE_CLI: false
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8948098Z   CLI_VERSION: 
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8950155Z   GH_TOKEN: ***
+ubuntu-22.04	Run ./action	2026-11-07T00:24:51.8950357Z ##[endgroup]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.1239405Z ##[end-action id=__self.build_vars;outcome=success;conclusion=success;duration_ms=235]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.1245612Z ##[start-action display=Install BlueBuild;id=__self.__run_4]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.1261183Z ##[group]Run set -euo pipefail
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.1261455Z ^[[36;1mset -euo pipefail^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.1261785Z ^[[36;1mCLI_INSTALLER_IMAGE="ghcr.io/blue-build/cli:${CLI_VERSION_TAG}-installer"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.1262163Z ^[[36;1mif [ "$VERIFY_INSTALL" = "true" ]; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.1262632Z ^[[36;1m  docker pull "${CLI_INSTALLER_IMAGE}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.1263063Z ^[[36;1m  CLI_INSTALLER_IMAGE=$(docker inspect --format='{{index .RepoDigests 0}}' "${CLI_INSTALLER_IMAGE}")^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.1263520Z ^[[36;1m  slsa-verifier verify-image "${CLI_INSTALLER_IMAGE}" \^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.1263842Z ^[[36;1m      --source-uri github.com/blue-build/cli \^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.1264111Z ^[[36;1m      "${VERIFY_FLAG}" "${REPO_TAG}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.1264351Z ^[[36;1mfi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.1264537Z ^[[36;1msudo docker create \^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.1264757Z ^[[36;1m  --name blue-build-installer \^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.1264991Z ^[[36;1m  "${CLI_INSTALLER_IMAGE}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.1265488Z ^[[36;1msudo docker cp blue-build-installer:/out/bluebuild /usr/bin/bluebuild^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.1265833Z ^[[36;1msudo docker rm blue-build-installer^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.1266072Z ^[[36;1mbluebuild --version^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.1307410Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.1307740Z env:
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.1307912Z   DISABLE_AUTO_UPDATES: 1
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.1308115Z   CLI_VERSION_TAG: v0.9
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.1308310Z   REPO_TAG: v0.9.41
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.1308499Z   VERIFY_FLAG: --source-tag
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.1308705Z   VERIFY_INSTALL: false
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.1308885Z ##[endgroup]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.1571818Z Unable to find image 'ghcr.io/blue-build/cli:v0.9-installer' locally
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.5581922Z v0.9-installer: Pulling from blue-build/cli
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.6229597Z 55afa1ecc21d: Pulling fs layer
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.6230290Z e1da2de48983: Pulling fs layer
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.6230601Z 0e4c259461f9: Pulling fs layer
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.6230841Z d22b1b5f186f: Pulling fs layer
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.6231040Z 4777bb86a9f3: Pulling fs layer
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.6231228Z 4f4fb700ef54: Pulling fs layer
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.6231422Z 4777bb86a9f3: Waiting
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.6231628Z d22b1b5f186f: Waiting
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.6231829Z 4f4fb700ef54: Waiting
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.6976382Z e1da2de48983: Verifying Checksum
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.6976874Z e1da2de48983: Download complete
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.7342000Z 55afa1ecc21d: Verifying Checksum
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.7344723Z 55afa1ecc21d: Download complete
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.7704670Z 0e4c259461f9: Verifying Checksum
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.7705331Z 0e4c259461f9: Download complete
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.7792795Z d22b1b5f186f: Verifying Checksum
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.7795113Z d22b1b5f186f: Download complete
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.8138300Z 4777bb86a9f3: Verifying Checksum
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.8138658Z 4777bb86a9f3: Download complete
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.8512195Z 4f4fb700ef54: Verifying Checksum
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.8512932Z 4f4fb700ef54: Download complete
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.8525976Z 55afa1ecc21d: Pull complete
+ubuntu-22.04	Run ./action	2026-11-07T00:24:52.9577297Z e1da2de48983: Pull complete
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.1849374Z 0e4c259461f9: Pull complete
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.1962681Z d22b1b5f186f: Pull complete
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.2093137Z 4777bb86a9f3: Pull complete
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.2165529Z 4f4fb700ef54: Pull complete
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.2214496Z Digest: sha256:b4e664939285f4a11b7b09e101ecaa089cfecd3887317a93c0c3aeacb3eeece1
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.2227149Z Status: Downloaded newer image for ghcr.io/blue-build/cli:v0.9-installer
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.2359444Z 620705a3b1c08310277dbca409c7dad672d08747744692d3b074844616c0f9a7
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5095155Z blue-build-installer
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5142234Z BlueBuild 0.9.40
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5142847Z tag:v0.9.40
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5143094Z commit_hash:ed31079e
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5143328Z build_time:2026-11-02 15:01:42 +00:00
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5143612Z build_env:rustc 1.99.1 (58cf8f9c3 2026-10-13),
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5150027Z ##[end-action id=__self.__run_4;outcome=success;conclusion=success;duration_ms=1390]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5155614Z ##[start-action display=Build Image;id=__self.__run_5]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5174044Z ##[group]Run read -r -a BUILD_OPTS <<< "${BUILD_OPTS}"
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5174444Z ^[[36;1mread -r -a BUILD_OPTS <<< "${BUILD_OPTS}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5174712Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5175015Z ^[[36;1m# Create a temporary cosign.pub from the secret if one isn't already present,^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5175580Z ^[[36;1m# a way to avoid committing any type of credential—public or private—directly to the repository^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5176140Z ^[[36;1mif [[ ! -f cosign.pub && -n "${COSIGN_PUBLIC_KEY:-}" ]]; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5176497Z ^[[36;1m    printf '%s\n' "${COSIGN_PUBLIC_KEY}" > cosign.pub^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5176798Z ^[[36;1mfi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5176985Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5177174Z ^[[36;1mboolean_variables=(^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5177590Z ^[[36;1m  BB_BUILD_PUSH^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5177818Z ^[[36;1m  BB_SQUASH^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5178005Z ^[[36;1m  BB_BUILD_CHUNKAH^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5178224Z ^[[36;1m  BB_BUILD_CHUNKED_OCI^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5178440Z ^[[36;1m  BB_BUILD_REMOVE_BASE_IMAGE^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5178659Z ^[[36;1m  BB_BUILD_RECHUNK^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5178860Z ^[[36;1m  BB_BUILD_RECHUNK_CLEAR_PLAN^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5179098Z ^[[36;1m  BB_CACHE_LAYERS^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5179286Z ^[[36;1m)^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5179555Z ^[[36;1m# Normalize boolean values to unset or 'true'. Unsetting falsey values^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5179926Z ^[[36;1m# is necessary due to this issue with clap's parsing:^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5180263Z ^[[36;1m# https://github.com/clap-rs/clap/issues/5591^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5180582Z ^[[36;1mfor bool_var in "${boolean_variables[@]}"; do^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5180840Z ^[[36;1m  case "${!bool_var,,}" in^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5181055Z ^[[36;1m    ''|0|false|no|off)^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5181269Z ^[[36;1m      unset "${bool_var}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5181472Z ^[[36;1m      ;;^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5181659Z ^[[36;1m    1|true|yes|on)^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5181887Z ^[[36;1m      IFS= read -r "${bool_var}" <<< 'true'^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5182120Z ^[[36;1m      ;;^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5182463Z ^[[36;1m    *)^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5182719Z ^[[36;1m      echo "Invalid value '${!bool_var}' for variable '${bool_var}'"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5183018Z ^[[36;1m      exit 1^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5183196Z ^[[36;1m      ;;^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5183359Z ^[[36;1m  esac^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5183525Z ^[[36;1mdone^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5183689Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5183884Z ^[[36;1mif [[ -z "${BB_BUILD_DIGESTFILE-}" ]]; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5184331Z ^[[36;1m  unset BB_BUILD_DIGESTFILE^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5184541Z ^[[36;1mfi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5184705Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5184882Z ^[[36;1mif [[ "${BB_SQUASH-}" == 'true' ]]; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5185177Z ^[[36;1m  BUILD_OPTS+=("--build-driver" "podman" "--squash")^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5185433Z ^[[36;1mfi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5185595Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5185838Z ^[[36;1mif [[ -z "${BB_BUILD_CHUNKAH-}" && -z "${BB_BUILD_CHUNKED_OCI-}" ]]; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5186142Z ^[[36;1m  unset BB_BUILD_MAX_LAYERS^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5186375Z ^[[36;1m  unset BB_BUILD_REMOVE_BASE_IMAGE^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5186605Z ^[[36;1mfi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5186754Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5186910Z ^[[36;1mRUN_SUDO=""^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5187124Z ^[[36;1mif [[ "${BB_BUILD_RECHUNK-}" = 'true' ]]; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5187375Z ^[[36;1m  RUN_SUDO=1^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5187548Z ^[[36;1mfi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5187698Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5187882Z ^[[36;1mif [[ "${BB_RETRY_PUSH_COUNT}" != '0' ]]; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5188218Z ^[[36;1m  BUILD_OPTS+=("--retry-push" "--retry-count" "${BB_RETRY_PUSH_COUNT}")^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5188513Z ^[[36;1mfi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5188673Z ^[[36;1m^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5188836Z ^[[36;1mif [[ -n "${RUN_SUDO}" ]]; then^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5189131Z ^[[36;1m  sudo -E bluebuild build -v "${BUILD_OPTS[@]}" "${RECIPE_PATH}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5189418Z ^[[36;1melse^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5189647Z ^[[36;1m  bluebuild build -v "${BUILD_OPTS[@]}" "${RECIPE_PATH}"^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5189914Z ^[[36;1mfi^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5232172Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5232765Z env:
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5232944Z   DISABLE_AUTO_UPDATES: 1
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5233149Z   COSIGN_PRIVATE_KEY: 
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5233336Z   COSIGN_PUBLIC_KEY: 
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5233518Z   GH_TOKEN: 
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5233692Z   BB_BUILD_PUSH: false
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5233894Z   BB_PASSWORD: 
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5234066Z   BB_USERNAME: Nemo-010
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5234252Z   BB_REGISTRY: ghcr.io
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5234453Z   BB_REGISTRY_NAMESPACE: Nemo-010
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5234867Z   GH_PR_EVENT_NUMBER: 0
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5235055Z   BB_CACHE_LAYERS: false
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5235240Z   BB_RETRY_PUSH_COUNT: 0
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5235422Z   BB_SQUASH: true
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5235603Z   BB_BUILD_CHUNKAH: false
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5235798Z   BB_BUILD_CHUNKED_OCI: false
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5235998Z   BB_BUILD_MAX_LAYERS: 128
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5236198Z   BB_BUILD_REMOVE_BASE_IMAGE: true
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5236419Z   BB_BUILD_RECHUNK: false
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5236611Z   BB_BUILD_RECHUNK_CLEAR_PLAN: false
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5236828Z   BB_BUILD_DIGESTFILE: 
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5237022Z   RECIPE_PATH: ./recipes/recipe.yml
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5237237Z   RUST_LOG_STYLE: always
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5237423Z   CLICOLOR_FORCE: 1
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5237595Z   BUILD_OPTS:  
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.5237771Z ##[endgroup]
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.7969363Z [00:24:53 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/copy-latest.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.7981831Z [00:24:53 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/stage-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.8070038Z [00:24:53 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/module-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.8916540Z [00:24:53 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/import-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.9918326Z [00:24:53 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/gnome-extensions-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.9919753Z [00:24:53 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/default-flatpaks-latest.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.9959570Z [00:24:53 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/akmods-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:53.9982678Z [00:24:53 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/justfiles-latest.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.0874024Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/files-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.1070792Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/apt-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.1084875Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/pacman-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.1376732Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/gnome-extensions-latest.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.1807081Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/script-latest.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.2369862Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/zypper-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.2684531Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/initramfs-latest.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.2843609Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/gschema-overrides-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.2847389Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/apk-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.3409932Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/soar-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.3778949Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/kargs-latest.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.3862069Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/zypper-latest.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.4024545Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/yafti-latest.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.4485238Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/pacman-latest.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.5111924Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/soar-latest.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.5164234Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/rpm-ostree-latest.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.5429785Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/yafti-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.5507168Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/brew-latest.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.6132950Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/bling-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.6412654Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/os-release-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.6452537Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/module-custom-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.7363202Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/default-flatpaks-v2.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.7456053Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/justfiles-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.7461130Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/containerfile-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.7853641Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/fonts-latest.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.8255577Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/script-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.9218446Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/bling-latest.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.9559096Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/initramfs-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.9560740Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/copy-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:54.9596435Z [00:24:54 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/files-latest.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:55.0450209Z [00:24:55 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/script-v2.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:55.0520161Z [00:24:55 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/systemd-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:55.0548894Z [00:24:55 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/os-release-latest.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:55.0735206Z [00:24:55 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/signing-latest.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:55.1638004Z [00:24:55 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/systemd-latest.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:55.2061007Z [00:24:55 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/chezmoi-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:55.2837532Z [00:24:55 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/apk-latest.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:55.2847006Z [00:24:55 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/default-flatpaks-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:55.3339307Z [00:24:55 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/gschema-overrides-latest.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:55.4159178Z [00:24:55 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/brew-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:55.4263714Z [00:24:55 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/signing-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:55.4272131Z [00:24:55 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/rpm-ostree-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:55.5263460Z [00:24:55 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/dnf-latest.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:55.5508706Z [00:24:55 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/apt-latest.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:55.6399713Z [00:24:55 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/akmods-latest.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:55.6624564Z [00:24:55 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/chezmoi-latest.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:55.6627625Z [00:24:55 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/kargs-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:55.7347210Z [00:24:55 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/fonts-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:55.7607362Z [00:24:55 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/containerfile-latest.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:55.8372502Z [00:24:55 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieving schema from ^[[1;3mhttps://schema.blue-build.org/modules/dnf-v1.json^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.0754393Z [00:24:56 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Validating recipe ^[[1;3m./recipes/recipe.yml^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.1214311Z [00:24:56 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Validating modules for recipe ^[[1;3m./recipes/recipe.yml^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.1215655Z [00:24:56 ^[[32m INFO^[[0m] ^[[1m=>^[[0m Recipe ^[[1;3m./recipes/recipe.yml^[[0m is valid
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.1451275Z [00:24:56 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Deserializing recipe
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.1451994Z [00:24:56 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Recipe contents: ---
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.1452745Z # yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.1453293Z name: test/github-action-podman
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.1453788Z description: Minimal image for testing the podman setup of the BlueBuild action
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.1454364Z base-image: quay.io/fedora/fedora-bootc
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.1454717Z image-version: latest
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.1454983Z modules: []
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.1455123Z 
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.1455391Z [00:24:56 ^[[32m INFO^[[0m] ^[[1m=>^[[0m Templating for recipe at ./recipes/recipe.yml
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.2000801Z [00:24:56 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m No auth
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.3899686Z [00:24:56 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Found OciManifest for quay.io/fedora/fedora-bootc:latest
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.3900324Z [00:24:56 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Found image index for quay.io/fedora/fedora-bootc:latest
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.4289014Z [00:24:56 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Pulled image manifest for quay.io/fedora/fedora-bootc@sha256:075254d107db8a09657b8ce9222c3bb1dc208769259edaf862dcb56c37d9dff0
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.5618102Z [00:24:56 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Pulled image manifest for quay.io/fedora/fedora-bootc@sha256:ace8df056627d640cd13b419d650525452430bb3475d977bdfc74b6446c6df85
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.6438852Z [00:24:56 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Pulled image manifest for quay.io/fedora/fedora-bootc@sha256:f9b0d7011cab930f5dac7401d0c2848aeda69491d38208d8d6097c6de275a775
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.7821980Z [00:24:56 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Pulled image manifest for quay.io/fedora/fedora-bootc@sha256:fbae4ecf187d75eab38420882bee89ca395972346fcb9b6c89caa7c618e59b61
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.8207475Z [00:24:56 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Retrieved configs for quay.io/fedora/fedora-bootc:latest
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.8216076Z [00:24:56 ^[[32m INFO^[[0m] ^[[1m=>^[[0m Retrieving OS version from quay.io/fedora/fedora-bootc:latest
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.8217042Z [00:24:56 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Templating to file /tmp/bluebuild-tmp-DLQc7i2LLm/Containerfile.oBsr0_wkZgo
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.8217777Z [00:24:56 ^[[32m INFO^[[0m] ^[[1m=>^[[0m Retrieving OS version from quay.io/fedora/fedora-bootc:latest
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.8218372Z [00:24:56 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Event {
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.8218678Z     repository: EventRepository {
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.8218902Z         default_branch: "main",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.8219113Z         owner: EventRepositoryOwner {
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.8219338Z             login: "Nemo-010",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.8219529Z         },
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.8219781Z         html_url: "https://github.com/Nemo-010/distrobox-AppImage",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.8220049Z     },
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.8220210Z     head: None,
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.8220391Z     pull_request: None,
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.8220578Z     commit_ref: Some(
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.8220772Z         "refs/heads/test/github-action-podman",
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.8220999Z     ),
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.8221150Z }
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.8250304Z [00:24:56 ^[[32m INFO^[[0m] ^[[1m=>^[[0m Building image ghcr.io/nemo-010/test/github-action-podman:br-test_github-action-podman-45_linux_amd64
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.8251325Z [00:24:56 ^[[34mDEBUG^[[0m] ^[[1m=>^[[0m Pulling image quay.io/fedora/fedora-bootc@sha256:c3cccbe8c7263cfc610ca9697cf4e0a34bb5b590b394f413f1c159ef63fb15ac
+ubuntu-22.04	Run ./action	2026-11-07T00:24:56.8252574Z [00:24:56 ^[[32m INFO^[[0m] ^[[1m=>^[[0m Pulling image quay.io/fedora/fedora-bootc@sha256:c3cccbe8c7263cfc610ca9697cf4e0a34bb5b590b394f413f1c159ef63fb15ac...
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.2362732Z [00:25:26 ^[[32m INFO^[[0m] ^[[1m=>^[[0m Successfully pulled image ^[[1;32mquay.io/fedora/fedora-bootc@sha256:c3cccbe8c7263cfc610ca9697cf4e0a34bb5b590b394f413f1c159ef63fb15ac^[[0m
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.2881325Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m time="2026-11-07T00:25:26Z" level=warning msg="missing \"TARGETARCH\" build argument. Try adding \"--build-arg TARGETARCH=<VALUE>\" to the command line"
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.2884759Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m [1/5] STEP 1/1: FROM quay.io/fedora/fedora-bootc@sha256:c3cccbe8c7263cfc610ca9697cf4e0a34bb5b590b394f413f1c159ef63fb15ac AS test-github-action-podman
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.2973036Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Trying to pull quay.io/fedora/fedora-bootc@sha256:c3cccbe8c7263cfc610ca9697cf4e0a34bb5b590b394f413f1c159ef63fb15ac...
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7284149Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Getting image source signatures
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7295971Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:817e1cbf66cf0fb9c7da4d1f7ef7e9836e220f7e581f3364ea194393536cada8
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7298508Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:3512c8da9e960b5d3375f2b2593d8f9d020cba6a70be5095ece41e9a7e3d186c
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7310540Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:39c614795ad757ec25394b40d71f0460d27d38228262f628c75da522121cda16
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7315111Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:ff7d21bec22dd284908527ad7a6e5be348610485f1ad1c93c3f3fd4b069cadc0
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7317222Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:9cf87d1e079ab2726f26002df91b556d50f8cab9947fc80a709e0f6aac8a015d
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7319130Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:cf7c9352663b1029d7f10ae12b6508d8d7a6ec20ad43f1496b5c76962590137d
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7321621Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:8bc4096df8764b089910e12d1fdd1daa5ebe1635084bf95ade565ec4e8d42ad8
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7323731Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:a886106e1486553d07201d3addbb10308aa3ec699e4b5092bf6d0535ea625a13
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7325529Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:1aa1285502169fb9cb73768614f3df2ae06d3f1e8fb5219564287601340c90a5
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7327294Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:35378c7938df7919db54bf451318d85a8387d940bbddb6eef22415c4eb8b35cf
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7329090Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:f16157c41fb7345912d6769dabf187698c2ef43726be4bb0d3f7389a3316d29e
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7330890Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:d9f8d83e98c1418a4527c6d8fc52786e0a5f5ce0ef8ea46f9524559adcfbfbab
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7332860Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:d97ad11d6b0744cb071e91f5bf4fa91a905747e2db29b0377eda1d19db8772cc
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7334790Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:ce437a4dbffce3cbba417fad7d697426c023b3b90995ec37015157caec3f5b64
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7336969Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:d8d9a61a0338b7f4e4ba81271d25787944811e1f66deb3a6c43db52ee39e7796
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7338539Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:2d01efdcd6fdc3d570df49adacd2419b35caa621f1969f1f870032594b18c6f3
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7340207Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:969193005d8e6a4fbf1c1336a09980d27aa5c2dd810757bad41039446dfab8a0
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7341899Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:5b58cd1576ff3c4865bc63c6a3b07cb71c7ba5677ae29d8b217b8fc1d28f8673
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7343711Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:81cf0f887d7965617edd61f6114fff675a9a0da847c8929d4a6b99713637e0f5
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7344969Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:4b9e722c8431e061d282cd3d2b3012700c2bae3a6625ae449851a7acadfefd5f
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7346018Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:73e6b9640fc3c89ccd22742ed41939df0ac6277f76d0e660557fcdfbd3e99182
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7347064Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:c2603ffd36e90822c56c3c8968c6645958e055085a37afbf8218074f9dda896f
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7348082Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:cfdfdf77f8544f7846736b73c715ffc049ec3c870f126e5bec2d031140159272
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7349111Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:b807365c6bd0baecbc9c88deef463f8019cde6e119bd6620d10f2860a736f18e
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7350160Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:df18dff1bc75d53c635d3ed532dc0c2bca2288af719bc11b5b00d49433a5883b
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7364048Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:49a5a306304a6be4044c27c7a120486313f271307f7b073bacfea9a8b273affd
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7365737Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:914b800edf868cd9fa4e8bc94b46fe085b949ed7e420a2c41b301a8e291fa898
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7380257Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:03e770957ddbff868b69eb7ffb3d6d74030c5cb853b1074b41cecff8e8d3c639
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7381985Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:4125edfcdd1c6f8bbcaf4e13b51b317f583929c499c556dd39cf5655ed3c2398
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7383887Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:9b6a43b6b30c848bff649625554e5e82f5759cce3230bac54a40e943dac6dc1b
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7385587Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:41e1a48d89c4e8f9ac16c4bd912dd4725094c4c5f387b93a08236f60c5bb9812
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7387263Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:9380bfa18e035452ce4d2edf971c88890eef750f615a7de5b64ad5e8a0b04466
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7388934Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:4cbcb44ea7a4a010344b48072d189f126fd027d52bd2323b1fcc7fc9d5d719b0
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7390743Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:ac5c9ccc24ac43ddd7f36345ac72585a54a92ef1a732c2121126f4d2a71ae7e0
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7393163Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:96a2749fe52bf9c38cab24a113122c8f55b2c7e7023ba71f0ef0089eeb15b287
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7394582Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:1c20d849293f399f84083d8e471b494ca96fc9a0f25e2cd634cdfd2aec95323c
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7395682Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:41a2f983e0fe4b300b0fee9b874e54d34a96a87206ec7852fa35328a348aba2e
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7396861Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:55d3c82ff6356dbe28459249c2e4c41065fd99767628946427be51d433362222
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7398096Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:ac6ce67119c48f5d9870c5b96944c7600c71d946ef9de025bce415ffa48f427b
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7399129Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:41ec3ef7b3315b2910cc53bc2c566b1bfc809691ffbf6bef7fc1572efa9d5912
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7400306Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:750f7b37fde056eb62b2b0b5c26ce44722122eb2aa4a5666901f966c70cc5a8f
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7401319Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:42ae5bf98cdd727d0536bdba693f292cef11966c8f8b353c9f08e7ce5c0c5486
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7402801Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:72c12e73009ceba2b8acad20195529e6b38422a20faab0eb46ccaf8ea1974dd0
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7404726Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:e1f69f94740d21f5e303493cc17c9d78a2d83f1eb33bb6797494ba3d1cc03cdf
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7406401Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:ec7954e9a8f2348ceb7f31b6eff1070a037d6313609de2083432b4a3fbb5ae70
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7408066Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:45615d8dec9ee28871279cafb42859587d43f1dfe01d474c913ebc64051c9d06
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7409742Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:7a4a8309a3de45a390a318858be28079c94484a58fb4bfbdca2ecdc8d30575b8
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7411423Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:fd7dc1fb36adb4fd39c8a3b96d5b4cac5373a8b0e26631bf92aca68403bfb81e
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7413251Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:75c910ffa83cc14446c63f99f377fbc4ff578095b6ba651d585e5f6a09f57294
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7414931Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:154fa424beda05865ccdd3822f357776c18752fa94933ab8fe62d24c05d73bc1
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7416606Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:e95f79b403134055b9516719066a4dee6997b1ca91b55b21dec1361aa76ff3a1
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7418471Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:17b6ddf3c078a1adf7cc0e5a363f93915ca3b04c73db61cee5351d1e37150679
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7420181Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:471d86deb7a50d5880580178fd28ee5cc7abd20ed5961116f6a326bd85e3b80a
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7421709Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:3d1f572f1cdf75419111e5a350e42daba05f1ee47d11e12704210fce2da703ae
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7423063Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:d483635e66ceb8b7cb7346007c8fe54f73d47ace884f8135e6b5bec127026b74
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7424488Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:6afd2f7583004b6fff9132c2d6877a37ea23779e0cf4d7855a86e6764df8092e
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7425493Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:7490cf6ff9968ede193a51466834d207d7b024c5f37932aba9b1141eb6ee2bba
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7426630Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:98515b2428fe2c1a352cb9e5e1f212e427c9c1807b81a1dc4eefe50cb7e36d85
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7427869Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:207397df6defc132192f2863159c1af742451decd44fb5a6d0a729461c629ed0
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7443835Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:8d1225925c13cadd6a8e3c15b3bf271553a001f0516a97061bbda40c0f3d7d75
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7445197Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:e34a21923f0e956a481a739056821a0e1b8edcd1defa0aab5e249f619c534bf8
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7446535Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:7b1449ffa8d4927d192c1e956bb3c868e0e6a834996785abd41f98b81e46de73
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7447598Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:aec82c34b9bf135f065cd7ed82083b10bf2db663b0d06fd6e8443119cf1d2021
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7448616Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:9dad063a624b62064bf25dbbc2e802e472d636056f661f2a0be73efd8a4da98b
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7449630Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:94e048aba675e1e19d37b04ef732affcc1b20a48164ca409ca35005787badd93
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7450658Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying config sha256:802848df942c5cd5fa41211fd0c10066163c82464b8238da2b9dae805f36c78d
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7452531Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Writing manifest to image destination
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7458715Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Storing signatures
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7940020Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m --> 802848df942
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.7940947Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m [2/5] STEP 1/2: FROM scratch AS stage-files
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.8005226Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m [2/5] STEP 2/2: WORKDIR /files
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.8242182Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m [3/5] STEP 1/3: FROM scratch AS stage-bins
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.8292616Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m [3/5] STEP 2/3: COPY --from=ghcr.io/sigstore/cosign/cosign:v3.1.4   /ko-app/cosign /bins/cosign
+ubuntu-22.04	Run ./action	2026-11-07T00:25:26.8294457Z [00:25:26 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Trying to pull ghcr.io/sigstore/cosign/cosign:v3.1.4...
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.0926471Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Getting image source signatures
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.0935013Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:2780920e5dbfbe103d03a583ed75345306e572ec5a48cb10361f046767d9f29a
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.0942500Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:c172f21841dff4c8cf45cde46589c1c2616cefe7e819965e92e6d3475c428aa0
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.0943974Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:2cc7ee286bf3a9e6af5f71756d7fc8e22e23ce65fec9047d774511ffcef79fa8
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.0945493Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:f6069939f718601b38d25ec5ed5631ed047e4da24acec2e252f8f29d251be718
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.0946587Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:218cf840d0d95a86231eb9d33d26ac8a520a4299c6096cb70a0c2fb2a87c9e0a
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.0947629Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:d6b1b89eccacc15c2420b2776d72c1dae334a00805ed9af54bf2f71e4d536f28
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.1702190Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:218cf840d0d95a86231eb9d33d26ac8a520a4299c6096cb70a0c2fb2a87c9e0a
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.1709282Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:2cc7ee286bf3a9e6af5f71756d7fc8e22e23ce65fec9047d774511ffcef79fa8
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.1729919Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:f6069939f718601b38d25ec5ed5631ed047e4da24acec2e252f8f29d251be718
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.1753900Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:2780920e5dbfbe103d03a583ed75345306e572ec5a48cb10361f046767d9f29a
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.1755332Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:d6b1b89eccacc15c2420b2776d72c1dae334a00805ed9af54bf2f71e4d536f28
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.1845749Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:c172f21841dff4c8cf45cde46589c1c2616cefe7e819965e92e6d3475c428aa0
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.1869705Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:7c12895b777bcaa8ccae0605b4de635b68fc32d60fa08f421dc3818bf55ee212
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.2719166Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:3214acf345c0cc6bbdb56b698a41ccdefc624a09d6beb0d38b5de0b2303ecaf4
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.2721218Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:52630fc75a18675c530ed9eba5f55eca09b03e91bd5bc15307918bbc1a7e7296
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.2844927Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:7c12895b777bcaa8ccae0605b4de635b68fc32d60fa08f421dc3818bf55ee212
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.3065890Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:dd64bf2dd177757451a98fcdc999a339c35dee5d9872d8f4dc69c8f3c4dd0112
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.3067798Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:b839dfae01f66e15c6a8b63520557ed315bdfe036342fa7a0c537259f10d7a9a
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.3464532Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:52630fc75a18675c530ed9eba5f55eca09b03e91bd5bc15307918bbc1a7e7296
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.3540842Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:3214acf345c0cc6bbdb56b698a41ccdefc624a09d6beb0d38b5de0b2303ecaf4
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.3769011Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:b839dfae01f66e15c6a8b63520557ed315bdfe036342fa7a0c537259f10d7a9a
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.3819934Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:dd64bf2dd177757451a98fcdc999a339c35dee5d9872d8f4dc69c8f3c4dd0112
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.3847101Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:ebddc55facdc6b1f7e0f30816a5fc7cc62f38abdf76c0a8b0a0ce52085754795
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.4598603Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:ebddc55facdc6b1f7e0f30816a5fc7cc62f38abdf76c0a8b0a0ce52085754795
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.4692534Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:a0921f9d8de9decce942bd69e8ef8d6767504afbabfb639a74917884cf1a5942
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.4694573Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:250c06f7c38e52dc77e5c7586c3e40280dc7ff9bb9007c396e06d96736cf8542
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.4695697Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:39bda24bc0a936d1f63f29c6e28bb978f2852b0c6266150fb65b79dcf200d758
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.5406494Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:a0921f9d8de9decce942bd69e8ef8d6767504afbabfb639a74917884cf1a5942
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.5457855Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:39bda24bc0a936d1f63f29c6e28bb978f2852b0c6266150fb65b79dcf200d758
+ubuntu-22.04	Run ./action	2026-11-07T00:25:27.5515880Z [00:25:27 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:250c06f7c38e52dc77e5c7586c3e40280dc7ff9bb9007c396e06d96736cf8542
+ubuntu-22.04	Run ./action	2026-11-07T00:25:29.0336367Z [00:25:29 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying config sha256:19fc3f59100544899fc9a69409746ddfc2dcc0dfc661519b2b605e8af361e6e8
+ubuntu-22.04	Run ./action	2026-11-07T00:25:29.0344341Z [00:25:29 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Writing manifest to image destination
+ubuntu-22.04	Run ./action	2026-11-07T00:25:29.0345812Z [00:25:29 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Storing signatures
+ubuntu-22.04	Run ./action	2026-11-07T00:25:29.7141734Z [00:25:29 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m [3/5] STEP 3/3: COPY --from=ghcr.io/blue-build/cli:latest-installer   /out/bluebuild /bins/bluebuild
+ubuntu-22.04	Run ./action	2026-11-07T00:25:29.7144225Z [00:25:29 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Trying to pull ghcr.io/blue-build/cli:latest-installer...
+ubuntu-22.04	Run ./action	2026-11-07T00:25:29.9714402Z [00:25:29 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Getting image source signatures
+ubuntu-22.04	Run ./action	2026-11-07T00:25:29.9720800Z [00:25:29 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1
+ubuntu-22.04	Run ./action	2026-11-07T00:25:29.9723464Z [00:25:29 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:e1da2de489834d1931774b1409896c98fdb710c230b73c6851691ade74378e1b
+ubuntu-22.04	Run ./action	2026-11-07T00:25:29.9725103Z [00:25:29 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:55afa1ecc21d2bb5e5045f32dafee56272ffd89860bac26f6c32123439af26a4
+ubuntu-22.04	Run ./action	2026-11-07T00:25:29.9728554Z [00:25:29 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:d22b1b5f186fb97ae4e5cb38adb4aaf0aea4c84a69dc18fc3cf37e9280c03cb8
+ubuntu-22.04	Run ./action	2026-11-07T00:25:29.9729892Z [00:25:29 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:0e4c259461f932706fbbf97e9c77292e25ce077ca9b00ae9c40544370fbe7b1e
+ubuntu-22.04	Run ./action	2026-11-07T00:25:29.9731329Z [00:25:29 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:4777bb86a9f3bc87829fb10443bd220c7841cb7b7d0a0121f497e10a033db500
+ubuntu-22.04	Run ./action	2026-11-07T00:25:30.0381856Z [00:25:30 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1
+ubuntu-22.04	Run ./action	2026-11-07T00:25:30.0390938Z [00:25:30 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:55afa1ecc21d2bb5e5045f32dafee56272ffd89860bac26f6c32123439af26a4
+ubuntu-22.04	Run ./action	2026-11-07T00:25:30.0412598Z [00:25:30 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:4777bb86a9f3bc87829fb10443bd220c7841cb7b7d0a0121f497e10a033db500
+ubuntu-22.04	Run ./action	2026-11-07T00:25:30.0427842Z [00:25:30 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:e1da2de489834d1931774b1409896c98fdb710c230b73c6851691ade74378e1b
+ubuntu-22.04	Run ./action	2026-11-07T00:25:30.0444161Z [00:25:30 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:0e4c259461f932706fbbf97e9c77292e25ce077ca9b00ae9c40544370fbe7b1e
+ubuntu-22.04	Run ./action	2026-11-07T00:25:30.0468397Z [00:25:30 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:d22b1b5f186fb97ae4e5cb38adb4aaf0aea4c84a69dc18fc3cf37e9280c03cb8
+ubuntu-22.04	Run ./action	2026-11-07T00:25:30.7697713Z [00:25:30 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying config sha256:de77357d1257bea9404a8c73a5dbe68b5bd153282abbe30ae8488b0dc7ee9362
+ubuntu-22.04	Run ./action	2026-11-07T00:25:30.7707731Z [00:25:30 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Writing manifest to image destination
+ubuntu-22.04	Run ./action	2026-11-07T00:25:30.7708986Z [00:25:30 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Storing signatures
+ubuntu-22.04	Run ./action	2026-11-07T00:25:31.0387436Z [00:25:31 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m [4/5] STEP 1/1: FROM scratch AS stage-keys
+ubuntu-22.04	Run ./action	2026-11-07T00:25:31.0653309Z [00:25:31 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Getting image source signatures
+ubuntu-22.04	Run ./action	2026-11-07T00:25:31.0950899Z [00:25:31 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying blob sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef
+ubuntu-22.04	Run ./action	2026-11-07T00:25:31.0952888Z [00:25:31 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Copying config sha256:fe30e8b655883afd26f73ece77f9e6228cd4e04b5505d6af089e4d440397dfd3
+ubuntu-22.04	Run ./action	2026-11-07T00:25:31.0960243Z [00:25:31 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Writing manifest to image destination
+ubuntu-22.04	Run ./action	2026-11-07T00:25:31.0961158Z [00:25:31 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Storing signatures
+ubuntu-22.04	Run ./action	2026-11-07T00:25:31.1026862Z [00:25:31 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m --> fe30e8b6558
+ubuntu-22.04	Run ./action	2026-11-07T00:25:31.1027915Z [00:25:31 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m [5/5] STEP 1/24: FROM 802848df942c5cd5fa41211fd0c10066163c82464b8238da2b9dae805f36c78d
+ubuntu-22.04	Run ./action	2026-11-07T00:25:31.1365224Z [00:25:31 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m [5/5] STEP 2/24: ARG TARGETARCH
+ubuntu-22.04	Run ./action	2026-11-07T00:25:31.1366399Z [00:25:31 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m [5/5] STEP 3/24: ARG RECIPE=./recipes/recipe.yml
+ubuntu-22.04	Run ./action	2026-11-07T00:25:31.1367284Z [00:25:31 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m [5/5] STEP 4/24: ARG IMAGE_REGISTRY=ghcr.io/Nemo-010
+ubuntu-22.04	Run ./action	2026-11-07T00:25:31.1368114Z [00:25:31 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m [5/5] STEP 5/24: ARG BB_BUILD_FEATURES=""
+ubuntu-22.04	Run ./action	2026-11-07T00:25:31.1368914Z [00:25:31 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m [5/5] STEP 6/24: ARG CONFIG_DIRECTORY="/tmp/files"
+ubuntu-22.04	Run ./action	2026-11-07T00:25:31.1369745Z [00:25:31 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m [5/5] STEP 7/24: ARG MODULE_DIRECTORY="/tmp/modules"
+ubuntu-22.04	Run ./action	2026-11-07T00:25:31.1370864Z [00:25:31 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m [5/5] STEP 8/24: ARG IMAGE_NAME="test/github-action-podman"
+ubuntu-22.04	Run ./action	2026-11-07T00:25:31.1371779Z [00:25:31 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m [5/5] STEP 9/24: ARG BASE_IMAGE="quay.io/fedora/fedora-bootc"
+ubuntu-22.04	Run ./action	2026-11-07T00:25:31.1373077Z [00:25:31 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m [5/5] STEP 10/24: ARG FORCE_COLOR=1
+ubuntu-22.04	Run ./action	2026-11-07T00:25:31.1374013Z [00:25:31 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m [5/5] STEP 11/24: ARG CLICOLOR_FORCE=1
+ubuntu-22.04	Run ./action	2026-11-07T00:25:31.1374797Z [00:25:31 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m [5/5] STEP 12/24: ARG RUST_LOG_STYLE=always
+ubuntu-22.04	Run ./action	2026-11-07T00:25:31.1375847Z [00:25:31 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m [5/5] STEP 13/24: RUN --mount=type=bind,from=stage-bins,src=/bins,dst=/tmp/bins   mkdir -p /usr/bin/   && cp /tmp/bins/* /usr/bin/
+ubuntu-22.04	Run ./action	2026-11-07T00:25:49.5701840Z [00:25:49 ^[[38;5;97mg.i/n/t/github-action-podman:br-test_github-action-podman-45_linux_amd64^[[0m] ^[[1m=>^[[0m Error: error building at STEP "RUN --mount=type=bind,from=stage-bins,src=/bins,dst=/tmp/bins mkdir -p /usr/bin/   && cp /tmp/bins/* /usr/bin/": error resolving mountpoints for container "3f07a94545d209f576d72e13868d25f75e872ffe8b52f1fbe3fbaf6fcdc4c801": invalid mount type "bind"
+ubuntu-22.04	Run ./action	2026-11-07T00:25:49.5739735Z [00:25:49 ^[[31mERROR^[[0m] ^[[1m=>^[[0m Failed:
+ubuntu-22.04	Run ./action	2026-11-07T00:25:49.5740614Z   ^[[31m×^[[0m Failed to build ghcr.io/nemo-010/test/github-action-podman:br-test_github-action-podman-45_linux_amd64
+ubuntu-22.04	Run ./action	2026-11-07T00:25:49.5741415Z 
+ubuntu-22.04	Run ./action	2026-11-07T00:25:49.5741782Z   Try running with `^[[93m-vv^[[0m` for trace logging.
+ubuntu-22.04	Run ./action	2026-11-07T00:25:49.5742217Z   You can also open an issue at https://github.com/blue-build/cli/issues
+ubuntu-22.04	Run ./action	2026-11-07T00:25:49.5742658Z 
+ubuntu-22.04	Run ./action	2026-11-07T00:25:49.5820711Z ##[error]Process completed with exit code 1.
+ubuntu-22.04	Run ./action	2026-11-07T00:25:49.5828269Z ##[end-action id=__self.__run_5;outcome=failure;conclusion=failure;duration_ms=56067]
+ubuntu-22.04	Dump what the build saw	﻿2026-11-07T00:25:49.5872602Z ##[group]Run set +e
+ubuntu-22.04	Dump what the build saw	2026-11-07T00:25:49.5872864Z ^[[36;1mset +e^[[0m
+ubuntu-22.04	Dump what the build saw	2026-11-07T00:25:49.5873042Z ^[[36;1mecho "PATH=$PATH"^[[0m
+ubuntu-22.04	Dump what the build saw	2026-11-07T00:25:49.5873318Z ^[[36;1mecho "podman: $(command -v podman) $(podman --version)"^[[0m
+ubuntu-22.04	Dump what the build saw	2026-11-07T00:25:49.5873608Z ^[[36;1mls -la "$HOME/bin" | head -3^[[0m
+ubuntu-22.04	Dump what the build saw	2026-11-07T00:25:49.5873841Z ^[[36;1mecho "== temp dirs:"^[[0m
+ubuntu-22.04	Dump what the build saw	2026-11-07T00:25:49.5874070Z ^[[36;1mls -d /tmp/bluebuild-tmp-* 2>/dev/null^[[0m
+ubuntu-22.04	Dump what the build saw	2026-11-07T00:25:49.5874359Z ^[[36;1mfor f in /tmp/bluebuild-tmp-*/Containerfile*; do^[[0m
+ubuntu-22.04	Dump what the build saw	2026-11-07T00:25:49.5874618Z ^[[36;1m  [ -f "$f" ] || continue^[[0m
+ubuntu-22.04	Dump what the build saw	2026-11-07T00:25:49.5874831Z ^[[36;1m  echo "== $f"^[[0m
+ubuntu-22.04	Dump what the build saw	2026-11-07T00:25:49.5875013Z ^[[36;1m  cat "$f"^[[0m
+ubuntu-22.04	Dump what the build saw	2026-11-07T00:25:49.5875188Z ^[[36;1mdone^[[0m
+ubuntu-22.04	Dump what the build saw	2026-11-07T00:25:49.5914577Z shell: /usr/bin/bash -e {0}
+ubuntu-22.04	Dump what the build saw	2026-11-07T00:25:49.5914798Z env:
+ubuntu-22.04	Dump what the build saw	2026-11-07T00:25:49.5914968Z   DISABLE_AUTO_UPDATES: 1
+ubuntu-22.04	Dump what the build saw	2026-11-07T00:25:49.5915174Z ##[endgroup]
+ubuntu-22.04	Dump what the build saw	2026-11-07T00:25:49.5977077Z PATH=/usr/bin:/home/runner/bin:/snap/bin:/home/runner/.local/bin:/opt/pipx_bin:/home/runner/.cargo/bin:/home/runner/.config/composer/vendor/bin:/usr/local/.ghcup/bin:/home/runner/.dotnet/tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+ubuntu-22.04	Dump what the build saw	2026-11-07T00:25:49.6201766Z podman: /usr/bin/podman podman version 3.4.4
+ubuntu-22.04	Dump what the build saw	2026-11-07T00:25:49.6217929Z total 26460
+ubuntu-22.04	Dump what the build saw	2026-11-07T00:25:49.6218387Z drwxr-xr-x  6 runner runner     4096 Nov  7 00:24 .
+ubuntu-22.04	Dump what the build saw	2026-11-07T00:25:49.6218783Z drwxr-x--- 14 runner runner     4096 Nov  7 00:24 ..
+ubuntu-22.04	Dump what the build saw	2026-11-07T00:25:49.6221377Z == temp dirs:
+ubuntu-22.04	Check the podman the action installed	﻿2026-11-07T00:25:49.6260926Z ##[group]Run podman --version
+ubuntu-22.04	Check the podman the action installed	2026-11-07T00:25:49.6261197Z ^[[36;1mpodman --version^[[0m
+ubuntu-22.04	Check the podman the action installed	2026-11-07T00:25:49.6261465Z ^[[36;1mecho "DISABLE_AUTO_UPDATES=${DISABLE_AUTO_UPDATES:-unset}"^[[0m
+ubuntu-22.04	Check the podman the action installed	2026-11-07T00:25:49.6262000Z ^[[36;1mls -la /usr/bin/crun* 2>/dev/null || echo "no crun in /usr/bin"^[[0m
+ubuntu-22.04	Check the podman the action installed	2026-11-07T00:25:49.6301841Z shell: /usr/bin/bash -e {0}
+ubuntu-22.04	Check the podman the action installed	2026-11-07T00:25:49.6302066Z env:
+ubuntu-22.04	Check the podman the action installed	2026-11-07T00:25:49.6302235Z   DISABLE_AUTO_UPDATES: 1
+ubuntu-22.04	Check the podman the action installed	2026-11-07T00:25:49.6302571Z ##[endgroup]
+ubuntu-22.04	Check the podman the action installed	2026-11-07T00:25:49.6556493Z podman version 3.4.4
+ubuntu-22.04	Check the podman the action installed	2026-11-07T00:25:49.6575639Z DISABLE_AUTO_UPDATES=1
+ubuntu-22.04	Check the podman the action installed	2026-11-07T00:25:49.6600235Z -rwxr-xr-x 1 root root 307464 Mar  7  2024 /usr/bin/crun
+ubuntu-22.04	Post Run ./action	﻿2026-11-07T00:25:49.6800706Z Post job cleanup.
+ubuntu-22.04	Post Run ./action	2026-11-07T00:25:49.6804938Z ##[start-action display=Set up QEMU;id=__bdf0964c-f578-4b73-aa7b-d749b016174d.__docker_setup-qemu-action]
+ubuntu-22.04	Post Run ./action	2026-11-07T00:25:49.6829842Z Post job cleanup.
+ubuntu-22.04	Post Run ./action	2026-11-07T00:25:49.8081275Z ##[group]Post cache
+ubuntu-22.04	Post Run ./action	2026-11-07T00:25:49.8083319Z Caching docker.io--tonistiigi--binfmt-latest-linux-x64 to GitHub Actions cache
+ubuntu-22.04	Post Run ./action	2026-11-07T00:25:49.8261004Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/distrobox-AppImage/distrobox-AppImage --files-from manifest.txt --use-compress-program zstdmt
+ubuntu-22.04	Post Run ./action	2026-11-07T00:25:50.1554680Z Failed to save: Unable to reserve cache with key docker.io--tonistiigi--binfmt-latest-linux-x64, another job may be creating this cache.
+ubuntu-22.04	Post Run ./action	2026-11-07T00:25:50.1631326Z ##[endgroup]
+ubuntu-22.04	Post Run ./action	2026-11-07T00:25:50.1730554Z ##[end-action id=__bdf0964c-f578-4b73-aa7b-d749b016174d.__docker_setup-qemu-action;outcome=success;conclusion=success;duration_ms=492]
+ubuntu-22.04	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	﻿2026-11-07T00:25:50.1802680Z Post job cleanup.
+ubuntu-22.04	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:25:50.2583892Z [command]/usr/bin/git version
+ubuntu-22.04	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:25:50.2624032Z git version 2.56.0
+ubuntu-22.04	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:25:50.2653207Z Temporarily overriding HOME='/home/runner/work/_temp/545215d6-d566-4bbe-8d91-9ba83bb43ff4' before making global git config changes
+ubuntu-22.04	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:25:50.2654237Z Adding repository directory to the temporary git global config as a safe directory
+ubuntu-22.04	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:25:50.2658500Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/distrobox-AppImage/distrobox-AppImage
+ubuntu-22.04	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:25:50.2693599Z Removing SSH command configuration
+ubuntu-22.04	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:25:50.2700052Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+ubuntu-22.04	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:25:50.2737368Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+ubuntu-22.04	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:25:50.3029067Z Removing HTTP extra header
+ubuntu-22.04	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:25:50.3035677Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+ubuntu-22.04	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:25:50.3086173Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+ubuntu-22.04	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:25:50.3369061Z Removing includeIf entries pointing to credentials config files
+ubuntu-22.04	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:25:50.3377007Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+ubuntu-22.04	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-07T00:25:50.3422715Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+ubuntu-22.04	Complete job	﻿2026-11-07T00:25:50.3812637Z Cleaning up orphan processes
