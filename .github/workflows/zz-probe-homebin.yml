@@ -52,5 +52,7 @@ jobs:
           FROM docker.io/library/busybox:latest
           RUN --mount=type=bind,from=stage,src=/bins,dst=/tmp/bins cp /tmp/bins/f /f
           EOF
-          podman build -t probe:local /tmp/ctx
+          podman build --layers -t probe:local /tmp/ctx
+          echo "build --layers exit: $?"
+          podman build -t probe:local2 /tmp/ctx
           echo "build exit: $?"
