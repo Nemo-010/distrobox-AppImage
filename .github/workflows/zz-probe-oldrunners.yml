@@ -1,0 +1,29 @@
+name: Probe old runners
+
+on:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  versions:
+    name: ${{ matrix.runs-on }}
+    runs-on: ${{ matrix.runs-on }}
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        runs-on: [ubuntu-20.04, ubuntu-22.04, ubuntu-24.04, ubuntu-latest]
+    steps:
+      - name: Versions
+        run: |
+          . /etc/os-release
+          echo "os: $PRETTY_NAME"
+          echo "gh: $(gh --version 2>/dev/null | head -1 || echo none)"
+          echo "curl: $(curl --version 2>/dev/null | head -1 || echo none)"
+          echo "jq: $(jq --version 2>/dev/null || echo none)"
+          echo "git: $(git --version 2>/dev/null || echo none)"
+          echo "sysctl knob: $(sysctl -n kernel.apparmor_restrict_unprivileged_userns 2>/dev/null || echo none)"
+          echo "apparmor_parser: $(command -v apparmor_parser || echo none)"
+          echo "libfuse2: $(ls /usr/lib/x86_64-linux-gnu/libfuse.so.2 2>/dev/null || echo none)"
