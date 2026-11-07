@@ -42,20 +42,17 @@ jobs:
           podman info --format 'runroot: {{.Store.RunRoot}}'
           df -T "$HOME/bin" | tail -1
 
-      - name: Build with a bind mount from a stage
+      - name: Build like bluebuild does
         run: |
           set +e
-          mkdir -p /tmp/ctx
-          cat > /tmp/ctx/Containerfile <<'EOF'
-          FROM docker.io/library/busybox:latest AS stage
-          RUN mkdir -p /bins && echo hi > /bins/f
+          mkdir -p /tmp/ctx2
+          cat > /tmp/ctx2/Containerfile <<'EOF'
+          FROM scratch AS stage-bins
+          COPY --from=docker.io/library/busybox:latest /bin/busybox /bins/busybox
           FROM docker.io/library/busybox:latest
-          RUN --mount=type=bind,from=stage,src=/bins,dst=/tmp/bins cp /tmp/bins/f /f
+          RUN --mount=type=bind,from=stage-bins,src=/bins,dst=/tmp/bins \
+            mkdir -p /usr/bin/ \
+            && cp /tmp/bins/* /usr/bin/
           EOF
-          podman build --layers -t probe:local /tmp/ctx
-          echo "build --layers exit: $?"
-          podman build --platform linux/amd64 --layers -t probe:local2 /tmp/ctx
-          echo "build --platform --layers exit: $?"
-          echo secret > /tmp/secret.txt
-          podman build --platform linux/amd64 --layers --secret=id=abc,type=file,src=/tmp/secret.txt -t probe:local3 /tmp/ctx
-          echo "build with secret exit: $?"
+          podman build --platform linux/amd64 --layers -t probe:bb /tmp/ctx2
+          echo "bluebuild-style exit: $?"
