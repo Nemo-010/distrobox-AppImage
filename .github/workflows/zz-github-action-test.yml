@@ -39,7 +39,9 @@ jobs:
         if: always()
         run: |
           set +e
+          echo "PATH=$PATH"
           echo "podman: $(command -v podman) $(podman --version)"
+          ls -la "$HOME/bin" | head -3
           echo "== temp dirs:"
           ls -d /tmp/bluebuild-tmp-* 2>/dev/null
           for f in /tmp/bluebuild-tmp-*/Containerfile*; do
